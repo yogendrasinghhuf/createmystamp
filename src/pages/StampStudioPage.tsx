@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import PageShell from '../components/layout/PageShell'
+import { BRAND } from '../config/brand'
 import EditorTopBar from '../components/editor/EditorTopBar'
 import Toolbar from '../components/editor/Toolbar'
 import StampCanvas from '../components/editor/StampCanvas'
@@ -47,7 +48,7 @@ export default function StampStudioPage() {
 
   return (
     <PageShell
-      title="Stamp Studio — MarkForge"
+      title={`Stamp Studio — ${BRAND.name}`}
       description="Design your custom stamp: choose a shape, add text and curved text, customize colors, preview the ink effect, and export as PNG or SVG."
     >
       <div className="flex h-[calc(100vh-65px)] min-h-0 flex-col overflow-hidden">

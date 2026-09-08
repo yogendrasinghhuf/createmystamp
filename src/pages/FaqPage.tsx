@@ -16,7 +16,7 @@ export default function FaqPage() {
   return (
     <PageShell
       title={`FAQ — ${BRAND.name}`}
-      description="Answers to common questions about designing, exporting, and saving custom stamps with MarkForge."
+      description={`Answers to common questions about designing, exporting, and saving custom stamps with ${BRAND.name}.`}
     >
       <div className="mx-auto max-w-3xl px-6 py-16">
         <h1 className="text-3xl font-semibold">Frequently Asked Questions</h1>

@@ -7,6 +7,7 @@ import { TEMPLATE_CATEGORIES } from '../data/templateCategories'
 import { useStampStore } from '../store/useStampStore'
 import { uid } from '../lib/id'
 import Button from '../components/ui/Button'
+import { BRAND } from '../config/brand'
 
 export default function TemplatesPage() {
   const [activeCategory, setActiveCategory] = useState<string>('All')
@@ -23,7 +24,7 @@ export default function TemplatesPage() {
 
   return (
     <PageShell
-      title="Templates — MarkForge"
+      title={`Templates — ${BRAND.name}`}
       description="Browse original stamp templates for business, address, packaging, personal, creative, teacher, monogram, and date stamps."
     >
       <div className="mx-auto max-w-6xl px-6 py-16">
