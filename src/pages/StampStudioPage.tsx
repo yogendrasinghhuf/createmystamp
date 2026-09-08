@@ -1,10 +1,12 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import PageShell from '../components/layout/PageShell'
 import EditorTopBar from '../components/editor/EditorTopBar'
 import Toolbar from '../components/editor/Toolbar'
 import StampCanvas from '../components/editor/StampCanvas'
 import PropertiesPanel from '../components/editor/PropertiesPanel'
 import ExportPanel from '../components/editor/ExportPanel'
+import MobileToolbar from '../components/editor/MobileToolbar'
+import MobileBottomSheet from '../components/editor/MobileBottomSheet'
 import { useEditorKeyboardShortcuts } from '../lib/useEditorKeyboardShortcuts'
 import { useProject, useSelectedIds, useStampStore } from '../store/useStampStore'
 import { saveProject, loadProject as loadFromStorage } from '../lib/persistence'
@@ -14,6 +16,7 @@ export default function StampStudioPage() {
   const selectedIds = useSelectedIds()
   const removeElement = useStampStore((s) => s.removeElement)
   const loadProject = useStampStore((s) => s.loadProject)
+  const [mobileSheet, setMobileSheet] = useState<'none' | 'add' | 'properties' | 'export'>('none')
 
   useEditorKeyboardShortcuts()
 
@@ -67,11 +70,25 @@ export default function StampStudioPage() {
           </aside>
         </div>
         <div className="flex min-h-0 flex-1 flex-col md:hidden">
-          <div className="flex flex-1 items-center justify-center bg-line/20 p-4">
-            <p className="text-center text-sm text-ink/60">
-              The full mobile editor is coming soon. Please use a wider screen for now.
-            </p>
+          <div className="flex flex-1 items-center justify-center overflow-hidden bg-line/20 p-4">
+            <div className="aspect-square w-full max-w-sm">
+              <StampCanvas />
+            </div>
           </div>
+          <MobileToolbar
+            onOpenAdd={() => setMobileSheet('add')}
+            onOpenProperties={() => setMobileSheet('properties')}
+            onOpenExport={() => setMobileSheet('export')}
+          />
+          <MobileBottomSheet title="Add element" open={mobileSheet === 'add'} onClose={() => setMobileSheet('none')}>
+            <Toolbar />
+          </MobileBottomSheet>
+          <MobileBottomSheet title="Properties" open={mobileSheet === 'properties'} onClose={() => setMobileSheet('none')}>
+            <PropertiesPanel />
+          </MobileBottomSheet>
+          <MobileBottomSheet title="Export" open={mobileSheet === 'export'} onClose={() => setMobileSheet('none')}>
+            <ExportPanel />
+          </MobileBottomSheet>
         </div>
       </div>
     </PageShell>
