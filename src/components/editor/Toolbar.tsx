@@ -1,9 +1,22 @@
-import { useRef } from 'react'
-import { Type, TextCursorInput, Circle, Square, RectangleHorizontal, Minus, Image as ImageIcon } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import {
+  Type,
+  TextCursorInput,
+  Circle,
+  Square,
+  RectangleHorizontal,
+  Minus,
+  Image as ImageIcon,
+  ArrowUpToLine,
+  ArrowDownToLine,
+  Sparkle,
+} from 'lucide-react'
 import { useStampStore, useProject } from '../../store/useStampStore'
 import { uid } from '../../lib/id'
 import { sanitizeSvgString } from '../../lib/sanitizeSvg'
+import { STAMP_ICONS, iconToSvgDataUrl } from '../../lib/icons'
 import IconButton from '../ui/IconButton'
+import IconPickerPopover from './IconPickerPopover'
 import type { StampElement } from '../../types/stamp'
 
 export default function Toolbar() {
@@ -11,6 +24,20 @@ export default function Toolbar() {
   const addElement = useStampStore((s) => s.addElement)
   const select = useStampStore((s) => s.select)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const [iconPickerOpen, setIconPickerOpen] = useState(false)
+  const iconPickerContainerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!iconPickerOpen) return
+    function handlePointerDown(e: PointerEvent) {
+      if (!iconPickerContainerRef.current) return
+      if (!iconPickerContainerRef.current.contains(e.target as Node)) {
+        setIconPickerOpen(false)
+      }
+    }
+    document.addEventListener('pointerdown', handlePointerDown, true)
+    return () => document.removeEventListener('pointerdown', handlePointerDown, true)
+  }, [iconPickerOpen])
 
   function nextZIndex(): number {
     return project.elements.length === 0 ? 1 : Math.max(...project.elements.map((el) => el.zIndex)) + 1
@@ -59,6 +86,70 @@ export default function Toolbar() {
       radius: Math.min(project.dimensions.width, project.dimensions.height) / 2 - 6,
       startAngle: 0,
       direction: 'clockwise',
+    })
+  }
+
+  function handleAddTopText() {
+    const radius = Math.min(project.dimensions.width, project.dimensions.height) / 2 - 6
+    addAndSelect({
+      id: uid(),
+      type: 'curvedText',
+      x: 0,
+      y: 0,
+      rotation: 0,
+      scale: 1,
+      zIndex: nextZIndex(),
+      text: 'TOP TEXT',
+      fontFamily: 'Arial, Helvetica, sans-serif',
+      fontSize: 5,
+      fontWeight: 600,
+      letterSpacing: 1,
+      color: '#2B2A28',
+      radius,
+      startAngle: 300,
+      direction: 'clockwise',
+    })
+  }
+
+  function handleAddBottomText() {
+    const radius = Math.min(project.dimensions.width, project.dimensions.height) / 2 - 6
+    addAndSelect({
+      id: uid(),
+      type: 'curvedText',
+      x: 0,
+      y: 0,
+      rotation: 0,
+      scale: 1,
+      zIndex: nextZIndex(),
+      text: 'BOTTOM TEXT',
+      fontFamily: 'Arial, Helvetica, sans-serif',
+      fontSize: 5,
+      fontWeight: 600,
+      letterSpacing: 1,
+      color: '#2B2A28',
+      radius,
+      startAngle: 75,
+      direction: 'clockwise',
+    })
+  }
+
+  function handleSelectIcon(iconName: string) {
+    const option = STAMP_ICONS.find((i) => i.name === iconName)
+    if (!option) return
+    const dataUrl = iconToSvgDataUrl(option.Icon, '#2B2A28')
+    if (!dataUrl) return
+    addAndSelect({
+      id: uid(),
+      type: 'image',
+      x: 0,
+      y: 0,
+      rotation: 0,
+      scale: 1,
+      zIndex: nextZIndex(),
+      src: dataUrl,
+      width: 12,
+      height: 12,
+      isSvg: true,
     })
   }
 
@@ -133,6 +224,16 @@ export default function Toolbar() {
     <div className="flex flex-col gap-2 p-3">
       <IconButton icon={<Type size={18} />} label="Add text" onClick={handleAddText} />
       <IconButton icon={<TextCursorInput size={18} />} label="Add curved text" onClick={handleAddCurvedText} />
+      <IconButton icon={<ArrowUpToLine size={18} />} label="Add top text" onClick={handleAddTopText} />
+      <IconButton icon={<ArrowDownToLine size={18} />} label="Add bottom text" onClick={handleAddBottomText} />
+      <div className="relative" ref={iconPickerContainerRef}>
+        <IconButton icon={<Sparkle size={18} />} label="Add icon" onClick={() => setIconPickerOpen((v) => !v)} />
+        <IconPickerPopover
+          open={iconPickerOpen}
+          onClose={() => setIconPickerOpen(false)}
+          onSelect={handleSelectIcon}
+        />
+      </div>
       <IconButton icon={<Circle size={18} />} label="Add circle" onClick={() => handleAddShape('circle')} />
       <IconButton icon={<RectangleHorizontal size={18} />} label="Add rectangle" onClick={() => handleAddShape('rectangle')} />
       <IconButton icon={<Square size={18} />} label="Add rounded rectangle" onClick={() => handleAddShape('roundedRectangle')} />
