@@ -141,15 +141,37 @@ export default function StampCanvas() {
       onWheel={handleWheel}
       style={{ touchAction: 'none' }}
     >
-      <StampOutline shape={project.shape} width={project.dimensions.width} height={project.dimensions.height} />
-      {sorted.map((element) => (
-        <CanvasElementView
-          key={element.id}
-          element={element}
-          isSelected={selectedIds.includes(element.id)}
-          onPointerDownSelect={handleElementPointerDown}
-        />
-      ))}
+      <defs>
+        <filter id="ink-distress-filter" x="-20%" y="-20%" width="140%" height="140%">
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency={0.9}
+            numOctaves={2}
+            seed={3}
+            result="noise"
+          />
+          <feDisplacementMap
+            in="SourceGraphic"
+            in2="noise"
+            scale={project.ink.distress * 6}
+          />
+        </filter>
+      </defs>
+      <g
+        filter={project.ink.mode === 'ink' ? 'url(#ink-distress-filter)' : undefined}
+        opacity={project.ink.mode === 'ink' ? project.ink.opacity : 1}
+        style={project.ink.mode === 'ink' ? { color: project.ink.color } : undefined}
+      >
+        <StampOutline shape={project.shape} width={project.dimensions.width} height={project.dimensions.height} />
+        {sorted.map((element) => (
+          <CanvasElementView
+            key={element.id}
+            element={element}
+            isSelected={selectedIds.includes(element.id)}
+            onPointerDownSelect={handleElementPointerDown}
+          />
+        ))}
+      </g>
       {selectedElement && (
         <SelectionOverlay
           element={selectedElement}
