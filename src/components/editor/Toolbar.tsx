@@ -1,0 +1,150 @@
+import { useRef } from 'react'
+import { Type, TextCursorInput, Circle, Square, RectangleHorizontal, Minus, Image as ImageIcon } from 'lucide-react'
+import { useStampStore, useProject } from '../../store/useStampStore'
+import { uid } from '../../lib/id'
+import { sanitizeSvgString } from '../../lib/sanitizeSvg'
+import IconButton from '../ui/IconButton'
+import type { StampElement } from '../../types/stamp'
+
+export default function Toolbar() {
+  const project = useProject()
+  const addElement = useStampStore((s) => s.addElement)
+  const select = useStampStore((s) => s.select)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  function nextZIndex(): number {
+    return project.elements.length === 0 ? 1 : Math.max(...project.elements.map((el) => el.zIndex)) + 1
+  }
+
+  function addAndSelect(element: StampElement) {
+    addElement(element)
+    select([element.id])
+  }
+
+  function handleAddText() {
+    addAndSelect({
+      id: uid(),
+      type: 'text',
+      x: 0,
+      y: 0,
+      rotation: 0,
+      scale: 1,
+      zIndex: nextZIndex(),
+      text: 'YOUR TEXT',
+      fontFamily: 'Arial, Helvetica, sans-serif',
+      fontSize: 6,
+      fontWeight: 600,
+      letterSpacing: 0,
+      align: 'center',
+      color: '#2B2A28',
+      multiline: false,
+    })
+  }
+
+  function handleAddCurvedText() {
+    addAndSelect({
+      id: uid(),
+      type: 'curvedText',
+      x: 0,
+      y: 0,
+      rotation: 0,
+      scale: 1,
+      zIndex: nextZIndex(),
+      text: 'CURVED TEXT HERE',
+      fontFamily: 'Arial, Helvetica, sans-serif',
+      fontSize: 5,
+      fontWeight: 600,
+      letterSpacing: 1,
+      color: '#2B2A28',
+      radius: Math.min(project.dimensions.width, project.dimensions.height) / 2 - 6,
+      startAngle: 0,
+      direction: 'clockwise',
+    })
+  }
+
+  function handleAddShape(shape: 'circle' | 'rectangle' | 'roundedRectangle' | 'line') {
+    addAndSelect({
+      id: uid(),
+      type: 'shape',
+      x: 0,
+      y: 0,
+      rotation: 0,
+      scale: 1,
+      zIndex: nextZIndex(),
+      shape,
+      width: shape === 'line' ? 20 : 16,
+      height: shape === 'line' ? 0.5 : 16,
+      strokeColor: '#2B2A28',
+      strokeWidth: 1,
+      fillColor: '#2B2A28',
+      filled: false,
+      cornerRadius: shape === 'roundedRectangle' ? 3 : undefined,
+    })
+  }
+
+  function handleFileChosen(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    const reader = new FileReader()
+
+    if (file.type === 'image/svg+xml') {
+      reader.onload = () => {
+        const raw = reader.result as string
+        const cleaned = sanitizeSvgString(raw)
+        if (!cleaned) return
+        const dataUrl = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(cleaned)))}`
+        addAndSelect({
+          id: uid(),
+          type: 'image',
+          x: 0,
+          y: 0,
+          rotation: 0,
+          scale: 1,
+          zIndex: nextZIndex(),
+          src: dataUrl,
+          width: 20,
+          height: 20,
+          isSvg: true,
+        })
+      }
+      reader.readAsText(file)
+    } else {
+      reader.onload = () => {
+        addAndSelect({
+          id: uid(),
+          type: 'image',
+          x: 0,
+          y: 0,
+          rotation: 0,
+          scale: 1,
+          zIndex: nextZIndex(),
+          src: reader.result as string,
+          width: 20,
+          height: 20,
+          isSvg: false,
+        })
+      }
+      reader.readAsDataURL(file)
+    }
+    e.target.value = ''
+  }
+
+  return (
+    <div className="flex flex-col gap-2 p-3">
+      <IconButton icon={<Type size={18} />} label="Add text" onClick={handleAddText} />
+      <IconButton icon={<TextCursorInput size={18} />} label="Add curved text" onClick={handleAddCurvedText} />
+      <IconButton icon={<Circle size={18} />} label="Add circle" onClick={() => handleAddShape('circle')} />
+      <IconButton icon={<RectangleHorizontal size={18} />} label="Add rectangle" onClick={() => handleAddShape('rectangle')} />
+      <IconButton icon={<Square size={18} />} label="Add rounded rectangle" onClick={() => handleAddShape('roundedRectangle')} />
+      <IconButton icon={<Minus size={18} />} label="Add line" onClick={() => handleAddShape('line')} />
+      <IconButton icon={<ImageIcon size={18} />} label="Upload image" onClick={() => fileInputRef.current?.click()} />
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/png,image/jpeg,image/svg+xml"
+        className="hidden"
+        onChange={handleFileChosen}
+      />
+    </div>
+  )
+}
