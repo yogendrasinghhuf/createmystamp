@@ -22,7 +22,7 @@ export default function SelectionOverlay({ element, onResizeStart, onRotateStart
   const halfH = (height * element.scale) / 2
 
   return (
-    <g transform={`translate(${element.x} ${element.y}) rotate(${element.rotation})`}>
+    <g data-selection-ui="true" transform={`translate(${element.x} ${element.y}) rotate(${element.rotation})`}>
       <rect
         x={-halfW}
         y={-halfH}
