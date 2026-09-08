@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import type { StampProject, StampElement, StampShapeKind, StampDimensions, InkSettings } from '../types/stamp'
 import { uid } from '../lib/id'
 import { pushHistory, undoHistory, redoHistory, type HistoryState } from '../lib/history'
+import { SHAPE_DEFAULT_DIMENSIONS } from '../data/shapeDefaults'
 
 export function createDefaultProject(): StampProject {
   return {
@@ -58,7 +59,13 @@ export const useStampStore = create<StampStore & StampStoreState>((set) => ({
   transientBaseline: null,
 
   setShape: (shape) =>
-    set((state) => withUpdatedProject(state, (p) => ({ ...p, shape }))),
+    set((state) =>
+      withUpdatedProject(state, (p) => ({
+        ...p,
+        shape,
+        dimensions: SHAPE_DEFAULT_DIMENSIONS[shape],
+      })),
+    ),
 
   setDimensions: (dimensions) =>
     set((state) => withUpdatedProject(state, (p) => ({ ...p, dimensions }))),
