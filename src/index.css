@@ -9,3 +9,7 @@ html, body, #root {
 body {
   @apply bg-paper text-ink antialiased;
 }
+
+h1, h2, h3 {
+  @apply tracking-tight;
+}
