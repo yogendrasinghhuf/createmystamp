@@ -39,7 +39,8 @@ export default function StampCanvas() {
   const project = useProject()
   const selectedIds = useSelectedIds()
   const select = useStampStore((s) => s.select)
-  const updateElement = useStampStore((s) => s.updateElement)
+  const updateElementTransient = useStampStore((s) => s.updateElementTransient)
+  const commitTransientUpdate = useStampStore((s) => s.commitTransientUpdate)
 
   const svgRef = useRef<SVGSVGElement>(null)
   const [zoom, setZoom] = useState(1)
@@ -80,12 +81,14 @@ export default function StampCanvas() {
     const p = toSvgPoint(e.clientX, e.clientY)
     const dist = Math.hypot(p.x - el.x, p.y - el.y)
     drag.current = { kind: 'resize', id, originScale: el.scale, centerX: el.x, centerY: el.y, startDist: dist || 1 }
+    ;(e.target as Element).setPointerCapture(e.pointerId)
   }
 
-  function handleRotateStart(id: string, _e: React.PointerEvent) {
+  function handleRotateStart(id: string, e: React.PointerEvent) {
     const el = project.elements.find((it) => it.id === id)
     if (!el) return
     drag.current = { kind: 'rotate', id, centerX: el.x, centerY: el.y }
+    ;(e.target as Element).setPointerCapture(e.pointerId)
   }
 
   function handlePointerMove(e: React.PointerEvent) {
@@ -94,15 +97,15 @@ export default function StampCanvas() {
     const p = toSvgPoint(e.clientX, e.clientY)
 
     if (d.kind === 'move') {
-      updateElement(d.id, { x: d.originX + (p.x - d.startX), y: d.originY + (p.y - d.startY) } as never)
+      updateElementTransient(d.id, { x: d.originX + (p.x - d.startX), y: d.originY + (p.y - d.startY) } as never)
     } else if (d.kind === 'resize') {
       const dist = Math.hypot(p.x - d.centerX, p.y - d.centerY)
       const nextScale = clamp((dist / d.startDist) * d.originScale, 0.2, 6)
-      updateElement(d.id, { scale: nextScale } as never)
+      updateElementTransient(d.id, { scale: nextScale } as never)
     } else if (d.kind === 'rotate') {
       const angleRad = Math.atan2(p.y - d.centerY, p.x - d.centerX)
       const angleDeg = (angleRad * 180) / Math.PI + 90
-      updateElement(d.id, { rotation: angleDeg } as never)
+      updateElementTransient(d.id, { rotation: angleDeg } as never)
     } else if (d.kind === 'pan') {
       setPan({
         x: d.originPanX + (e.clientX - d.startClientX),
@@ -112,6 +115,10 @@ export default function StampCanvas() {
   }
 
   function handlePointerUp() {
+    if (drag.current && drag.current.kind !== 'pan') {
+      // Commit the whole gesture (move/resize/rotate) as exactly one history entry.
+      commitTransientUpdate()
+    }
     drag.current = null
   }
 

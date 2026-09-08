@@ -18,6 +18,11 @@ export function createDefaultProject(): StampProject {
 interface StampStoreState {
   history: HistoryState<StampProject>
   selectedIds: string[]
+  // Snapshot of `history.present` taken right before the first transient update
+  // of an in-progress gesture (drag/resize/rotate). Used by `commitTransientUpdate`
+  // to push exactly ONE history entry for the whole gesture instead of one per
+  // pointermove. Null when no transient gesture is in progress.
+  transientBaseline: StampProject | null
 }
 
 export interface StampStore {
@@ -27,6 +32,8 @@ export interface StampStore {
   setInk: (ink: Partial<InkSettings>) => void
   addElement: (element: StampElement) => void
   updateElement: (id: string, patch: Partial<StampElement>) => void
+  updateElementTransient: (id: string, patch: Partial<StampElement>) => void
+  commitTransientUpdate: () => void
   removeElement: (id: string) => void
   duplicateElement: (id: string) => void
   reorderElement: (id: string, direction: 'up' | 'down') => void
@@ -48,6 +55,7 @@ function withUpdatedProject(
 export const useStampStore = create<StampStore & StampStoreState>((set) => ({
   history: { past: [], present: createDefaultProject(), future: [] },
   selectedIds: [],
+  transientBaseline: null,
 
   setShape: (shape) =>
     set((state) => withUpdatedProject(state, (p) => ({ ...p, shape }))),
@@ -74,6 +82,42 @@ export const useStampStore = create<StampStore & StampStoreState>((set) => ({
         ),
       })),
     ),
+
+  // Applies a patch to the live project WITHOUT pushing a new history entry.
+  // Used for high-frequency, in-progress updates (e.g. every pointermove during
+  // a drag/resize/rotate gesture) so a single gesture doesn't flood undo history.
+  // The first call of a gesture snapshots the pre-gesture state into
+  // `transientBaseline`; call `commitTransientUpdate` once on pointerup to turn
+  // that snapshot + the final live values into exactly one history entry.
+  updateElementTransient: (id, patch) =>
+    set((state) => ({
+      transientBaseline: state.transientBaseline ?? state.history.present,
+      history: {
+        ...state.history,
+        present: {
+          ...state.history.present,
+          elements: state.history.present.elements.map((el) =>
+            el.id === id ? ({ ...el, ...patch } as StampElement) : el,
+          ),
+          updatedAt: Date.now(),
+        },
+      },
+    })),
+
+  // Commits the in-progress transient gesture as a single history entry: the
+  // pre-gesture snapshot becomes the new `past` entry, and the current (final)
+  // live project becomes `present`. No-op if no transient gesture is in progress.
+  commitTransientUpdate: () =>
+    set((state) => {
+      if (!state.transientBaseline) return state
+      return {
+        transientBaseline: null,
+        history: pushHistory(
+          { ...state.history, present: state.transientBaseline },
+          state.history.present,
+        ),
+      }
+    }),
 
   removeElement: (id) =>
     set((state) => ({
@@ -124,16 +168,31 @@ export const useStampStore = create<StampStore & StampStoreState>((set) => ({
 
   select: (ids) => set({ selectedIds: ids }),
 
-  undo: () => set((state) => ({ history: undoHistory(state.history), selectedIds: [] })),
-  redo: () => set((state) => ({ history: redoHistory(state.history), selectedIds: [] })),
+  undo: () =>
+    set((state) => {
+      const history = undoHistory(state.history)
+      const liveIds = new Set(history.present.elements.map((el) => el.id))
+      return { history, selectedIds: state.selectedIds.filter((id) => liveIds.has(id)), transientBaseline: null }
+    }),
+  redo: () =>
+    set((state) => {
+      const history = redoHistory(state.history)
+      const liveIds = new Set(history.present.elements.map((el) => el.id))
+      return { history, selectedIds: state.selectedIds.filter((id) => liveIds.has(id)), transientBaseline: null }
+    }),
 
   loadProject: (project) =>
-    set(() => ({ history: { past: [], present: project, future: [] }, selectedIds: [] })),
+    set(() => ({
+      history: { past: [], present: project, future: [] },
+      selectedIds: [],
+      transientBaseline: null,
+    })),
 
   resetProject: () =>
     set(() => ({
       history: { past: [], present: createDefaultProject(), future: [] },
       selectedIds: [],
+      transientBaseline: null,
     })),
 }))
 

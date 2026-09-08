@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import PageShell from '../components/layout/PageShell'
 import { BRAND } from '../config/brand'
 import EditorTopBar from '../components/editor/EditorTopBar'
@@ -18,10 +19,13 @@ export default function StampStudioPage() {
   const removeElement = useStampStore((s) => s.removeElement)
   const loadProject = useStampStore((s) => s.loadProject)
   const [mobileSheet, setMobileSheet] = useState<'none' | 'add' | 'properties' | 'export'>('none')
+  const location = useLocation()
+  const skipAutoRestore = Boolean((location.state as { skipAutoRestore?: boolean } | null)?.skipAutoRestore)
 
   useEditorKeyboardShortcuts()
 
   useEffect(() => {
+    if (skipAutoRestore) return
     const saved = loadFromStorage()
     if (saved) loadProject(saved)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -53,16 +57,16 @@ export default function StampStudioPage() {
     >
       <div className="flex h-[calc(100vh-65px)] min-h-0 flex-col overflow-hidden">
         <EditorTopBar />
-        <div className="hidden min-h-0 flex-1 md:grid md:grid-cols-[72px_1fr_320px]">
-          <aside className="min-h-0 overflow-y-auto border-r border-line">
+        <div className="flex min-h-0 flex-1 flex-col md:grid md:grid-cols-[72px_1fr_320px]">
+          <aside className="hidden min-h-0 overflow-y-auto border-r border-line md:block">
             <Toolbar />
           </aside>
-          <div className="flex min-h-0 items-center justify-center overflow-hidden bg-line/20 p-8">
-            <div className="aspect-square w-full max-w-xl">
+          <div className="flex min-h-0 flex-1 items-center justify-center overflow-hidden bg-line/20 p-4 md:p-8">
+            <div className="aspect-square w-full max-w-sm md:max-w-xl">
               <StampCanvas />
             </div>
           </div>
-          <aside className="min-h-0 overflow-y-auto border-l border-line">
+          <aside className="hidden min-h-0 overflow-y-auto border-l border-line md:block">
             <PropertiesPanel />
             <div className="border-t border-line p-4">
               <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-ink/50">Export</h3>
@@ -70,27 +74,20 @@ export default function StampStudioPage() {
             </div>
           </aside>
         </div>
-        <div className="flex min-h-0 flex-1 flex-col md:hidden">
-          <div className="flex flex-1 items-center justify-center overflow-hidden bg-line/20 p-4">
-            <div className="aspect-square w-full max-w-sm">
-              <StampCanvas />
-            </div>
-          </div>
-          <MobileToolbar
-            onOpenAdd={() => setMobileSheet('add')}
-            onOpenProperties={() => setMobileSheet('properties')}
-            onOpenExport={() => setMobileSheet('export')}
-          />
-          <MobileBottomSheet title="Add element" open={mobileSheet === 'add'} onClose={() => setMobileSheet('none')}>
-            <Toolbar />
-          </MobileBottomSheet>
-          <MobileBottomSheet title="Properties" open={mobileSheet === 'properties'} onClose={() => setMobileSheet('none')}>
-            <PropertiesPanel />
-          </MobileBottomSheet>
-          <MobileBottomSheet title="Export" open={mobileSheet === 'export'} onClose={() => setMobileSheet('none')}>
-            <ExportPanel />
-          </MobileBottomSheet>
-        </div>
+        <MobileToolbar
+          onOpenAdd={() => setMobileSheet('add')}
+          onOpenProperties={() => setMobileSheet('properties')}
+          onOpenExport={() => setMobileSheet('export')}
+        />
+        <MobileBottomSheet title="Add element" open={mobileSheet === 'add'} onClose={() => setMobileSheet('none')}>
+          <Toolbar />
+        </MobileBottomSheet>
+        <MobileBottomSheet title="Properties" open={mobileSheet === 'properties'} onClose={() => setMobileSheet('none')}>
+          <PropertiesPanel />
+        </MobileBottomSheet>
+        <MobileBottomSheet title="Export" open={mobileSheet === 'export'} onClose={() => setMobileSheet('none')}>
+          <ExportPanel />
+        </MobileBottomSheet>
       </div>
     </PageShell>
   )

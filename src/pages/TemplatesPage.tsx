@@ -19,7 +19,7 @@ export default function TemplatesPage() {
 
   function handleUse(template: StampTemplate) {
     loadProject({ ...template.project, id: uid(), updatedAt: Date.now() })
-    navigate('/studio')
+    navigate('/studio', { state: { skipAutoRestore: true } })
   }
 
   return (
