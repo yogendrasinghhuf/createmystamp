@@ -1,15 +1,28 @@
 import PageShell from '../components/layout/PageShell'
 import { BRAND } from '../config/brand'
+import Hero from '../components/home/Hero'
+import HowItWorksSection from '../components/home/HowItWorksSection'
+import FeaturesSection from '../components/home/FeaturesSection'
+import TemplatesPreviewSection from '../components/home/TemplatesPreviewSection'
+import ExportSection from '../components/home/ExportSection'
+import UseCasesSection from '../components/home/UseCasesSection'
+import FaqPreviewSection from '../components/home/FaqPreviewSection'
+import FinalCtaSection from '../components/home/FinalCtaSection'
 
 export default function HomePage() {
   return (
     <PageShell
-      title={`${BRAND.name} — ${BRAND.tagline}`}
-      description={BRAND.supportingCopy}
+      title={`${BRAND.name} — Online Stamp Maker`}
+      description="Design a custom stamp online: choose a shape, add text and curved text, preview the ink effect, and export as PNG or SVG. No login required."
     >
-      <div className="mx-auto max-w-3xl px-6 py-16">
-        <h1 className="text-3xl font-semibold">Home</h1>
-      </div>
+      <Hero />
+      <HowItWorksSection />
+      <FeaturesSection />
+      <TemplatesPreviewSection />
+      <ExportSection />
+      <UseCasesSection />
+      <FaqPreviewSection />
+      <FinalCtaSection />
     </PageShell>
   )
 }
