@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import {
   Type,
   TextCursorInput,
@@ -25,19 +25,6 @@ export default function Toolbar() {
   const select = useStampStore((s) => s.select)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [iconPickerOpen, setIconPickerOpen] = useState(false)
-  const iconPickerContainerRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    if (!iconPickerOpen) return
-    function handlePointerDown(e: PointerEvent) {
-      if (!iconPickerContainerRef.current) return
-      if (!iconPickerContainerRef.current.contains(e.target as Node)) {
-        setIconPickerOpen(false)
-      }
-    }
-    document.addEventListener('pointerdown', handlePointerDown, true)
-    return () => document.removeEventListener('pointerdown', handlePointerDown, true)
-  }, [iconPickerOpen])
 
   function nextZIndex(): number {
     return project.elements.length === 0 ? 1 : Math.max(...project.elements.map((el) => el.zIndex)) + 1
@@ -136,7 +123,7 @@ export default function Toolbar() {
   function handleSelectIcon(iconName: string) {
     const option = STAMP_ICONS.find((i) => i.name === iconName)
     if (!option) return
-    const dataUrl = iconToSvgDataUrl(option.Icon, '#2B2A28')
+    const dataUrl = iconToSvgDataUrl(option.innerMarkup, '#2B2A28')
     if (!dataUrl) return
     addAndSelect({
       id: uid(),
@@ -226,14 +213,12 @@ export default function Toolbar() {
       <IconButton icon={<TextCursorInput size={18} />} label="Add curved text" onClick={handleAddCurvedText} />
       <IconButton icon={<ArrowUpToLine size={18} />} label="Add top text" onClick={handleAddTopText} />
       <IconButton icon={<ArrowDownToLine size={18} />} label="Add bottom text" onClick={handleAddBottomText} />
-      <div className="relative" ref={iconPickerContainerRef}>
-        <IconButton icon={<Sparkle size={18} />} label="Add icon" onClick={() => setIconPickerOpen((v) => !v)} />
-        <IconPickerPopover
-          open={iconPickerOpen}
-          onClose={() => setIconPickerOpen(false)}
-          onSelect={handleSelectIcon}
-        />
-      </div>
+      <IconButton icon={<Sparkle size={18} />} label="Add icon" onClick={() => setIconPickerOpen((v) => !v)} />
+      <IconPickerPopover
+        open={iconPickerOpen}
+        onClose={() => setIconPickerOpen(false)}
+        onSelect={handleSelectIcon}
+      />
       <IconButton icon={<Circle size={18} />} label="Add circle" onClick={() => handleAddShape('circle')} />
       <IconButton icon={<RectangleHorizontal size={18} />} label="Add rectangle" onClick={() => handleAddShape('rectangle')} />
       <IconButton icon={<Square size={18} />} label="Add rounded rectangle" onClick={() => handleAddShape('roundedRectangle')} />
