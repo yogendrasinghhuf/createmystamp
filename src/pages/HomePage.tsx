@@ -1,6 +1,6 @@
 import PageShell from '../components/layout/PageShell'
 import { BRAND } from '../config/brand'
-import Hero from '../components/home/Hero'
+import EditorHeroHeader from '../components/home/EditorHeroHeader'
 import StampStudioSection from '../components/home/StampStudioSection'
 import TemplatesSection from '../components/home/TemplatesSection'
 import HowItWorksSection from '../components/home/HowItWorksSection'
@@ -16,7 +16,7 @@ export default function HomePage() {
       title={`${BRAND.name} — Online Stamp Maker`}
       description="Design a custom stamp online: choose a shape, add text and curved text, preview the ink effect, and export as PNG or SVG. No login required."
     >
-      <Hero />
+      <EditorHeroHeader />
       <StampStudioSection />
       <TemplatesSection />
       <HowItWorksSection />
