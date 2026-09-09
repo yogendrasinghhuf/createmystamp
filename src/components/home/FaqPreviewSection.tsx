@@ -17,7 +17,7 @@ export default function FaqPreviewSection() {
         <h2 className="text-2xl font-semibold">Frequently asked questions</h2>
         <div className="mt-8 flex flex-col gap-4">
           {faqs.map((faq) => (
-            <div key={faq.q} className="rounded-xl2 border border-line p-5">
+            <div key={faq.q} className="rounded-xl2 border border-line bg-paper p-5 shadow-card">
               <p className="font-medium">{faq.q}</p>
               <p className="mt-1 text-sm text-ink/60">{faq.a}</p>
             </div>

@@ -13,7 +13,7 @@ export default function UseCasesSection() {
         <h2 className="text-2xl font-semibold">Use cases</h2>
         <ul className="mt-8 grid gap-3 sm:grid-cols-2">
           {useCases.map((useCase) => (
-            <li key={useCase} className="rounded-lg border border-line px-4 py-3 text-sm text-ink/70">
+            <li key={useCase} className="rounded-xl2 border border-line bg-paper px-4 py-3 text-sm text-ink/70 shadow-card transition-shadow hover:shadow-soft">
               {useCase}
             </li>
           ))}

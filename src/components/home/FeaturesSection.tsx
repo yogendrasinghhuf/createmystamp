@@ -12,7 +12,7 @@ export default function FeaturesSection() {
         <h2 className="text-2xl font-semibold">Editor features</h2>
         <div className="mt-10 grid gap-6 sm:grid-cols-2">
           {features.map((feature) => (
-            <div key={feature.title} className="rounded-xl2 border border-line p-6">
+            <div key={feature.title} className="rounded-xl2 border border-line bg-paper p-6 shadow-card transition-shadow hover:shadow-soft">
               <h3 className="text-lg font-semibold">{feature.title}</h3>
               <p className="mt-2 text-sm text-ink/60">{feature.body}</p>
             </div>
