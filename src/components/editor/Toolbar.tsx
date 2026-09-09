@@ -209,37 +209,37 @@ export default function Toolbar() {
   }
 
   return (
-    <div className="flex flex-col gap-1 p-1.5">
+    <div className="flex flex-col gap-2 p-3 md:gap-1 md:p-1.5">
       <IconButton
         icon={<Type size={18} />}
         label="Add text"
         onClick={handleAddText}
-        className="min-h-8 min-w-8 border-sky-200 bg-sky-100 text-sky-700 hover:border-sky-400"
+        className="min-h-11 min-w-11 md:min-h-8 md:min-w-8 border-sky-200 bg-sky-100 text-sky-700 hover:border-sky-400"
       />
       <IconButton
         icon={<TextCursorInput size={18} />}
         label="Add curved text"
         onClick={handleAddCurvedText}
-        className="min-h-8 min-w-8 border-sky-200 bg-sky-100 text-sky-700 hover:border-sky-400"
+        className="min-h-11 min-w-11 md:min-h-8 md:min-w-8 border-sky-200 bg-sky-100 text-sky-700 hover:border-sky-400"
       />
       <IconButton
         icon={<ArrowUpToLine size={18} />}
         label="Add top text"
         onClick={handleAddTopText}
-        className="min-h-8 min-w-8 border-sky-200 bg-sky-100 text-sky-700 hover:border-sky-400"
+        className="min-h-11 min-w-11 md:min-h-8 md:min-w-8 border-sky-200 bg-sky-100 text-sky-700 hover:border-sky-400"
       />
       <IconButton
         icon={<ArrowDownToLine size={18} />}
         label="Add bottom text"
         onClick={handleAddBottomText}
-        className="min-h-8 min-w-8 border-sky-200 bg-sky-100 text-sky-700 hover:border-sky-400"
+        className="min-h-11 min-w-11 md:min-h-8 md:min-w-8 border-sky-200 bg-sky-100 text-sky-700 hover:border-sky-400"
       />
       <IconButton
         ref={iconTriggerRef}
         icon={<Sparkle size={18} />}
         label="Add icon"
         onClick={() => setIconPickerOpen((v) => !v)}
-        className="min-h-8 min-w-8 border-amber-200 bg-amber-100 text-amber-700 hover:border-amber-400"
+        className="min-h-11 min-w-11 md:min-h-8 md:min-w-8 border-amber-200 bg-amber-100 text-amber-700 hover:border-amber-400"
       />
       <IconPickerPopover
         open={iconPickerOpen}
@@ -251,31 +251,31 @@ export default function Toolbar() {
         icon={<Circle size={18} />}
         label="Add circle"
         onClick={() => handleAddShape('circle')}
-        className="min-h-8 min-w-8 border-violet-200 bg-violet-100 text-violet-700 hover:border-violet-400"
+        className="min-h-11 min-w-11 md:min-h-8 md:min-w-8 border-violet-200 bg-violet-100 text-violet-700 hover:border-violet-400"
       />
       <IconButton
         icon={<RectangleHorizontal size={18} />}
         label="Add rectangle"
         onClick={() => handleAddShape('rectangle')}
-        className="min-h-8 min-w-8 border-violet-200 bg-violet-100 text-violet-700 hover:border-violet-400"
+        className="min-h-11 min-w-11 md:min-h-8 md:min-w-8 border-violet-200 bg-violet-100 text-violet-700 hover:border-violet-400"
       />
       <IconButton
         icon={<Square size={18} />}
         label="Add rounded rectangle"
         onClick={() => handleAddShape('roundedRectangle')}
-        className="min-h-8 min-w-8 border-violet-200 bg-violet-100 text-violet-700 hover:border-violet-400"
+        className="min-h-11 min-w-11 md:min-h-8 md:min-w-8 border-violet-200 bg-violet-100 text-violet-700 hover:border-violet-400"
       />
       <IconButton
         icon={<Minus size={18} />}
         label="Add line"
         onClick={() => handleAddShape('line')}
-        className="min-h-8 min-w-8 border-violet-200 bg-violet-100 text-violet-700 hover:border-violet-400"
+        className="min-h-11 min-w-11 md:min-h-8 md:min-w-8 border-violet-200 bg-violet-100 text-violet-700 hover:border-violet-400"
       />
       <IconButton
         icon={<ImageIcon size={18} />}
         label="Upload image"
         onClick={() => fileInputRef.current?.click()}
-        className="min-h-8 min-w-8 border-emerald-200 bg-emerald-100 text-emerald-700 hover:border-emerald-400"
+        className="min-h-11 min-w-11 md:min-h-8 md:min-w-8 border-emerald-200 bg-emerald-100 text-emerald-700 hover:border-emerald-400"
       />
       <input
         ref={fileInputRef}
