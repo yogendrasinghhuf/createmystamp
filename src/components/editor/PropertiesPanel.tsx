@@ -13,10 +13,10 @@ export default function PropertiesPanel() {
   const selected = project.elements.find((el) => el.id === selectedIds[0])
 
   return (
-    <div className="flex flex-col gap-6 p-4">
+    <div className="flex flex-col gap-4 p-3">
       {selected ? (
         <div>
-          <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-ink/50">
+          <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-ink/50">
             Element properties
           </h3>
           {selected.type === 'text' && <TextProperties element={selected} />}
@@ -26,16 +26,16 @@ export default function PropertiesPanel() {
         </div>
       ) : (
         <div>
-          <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-ink/50">Stamp settings</h3>
+          <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-ink/50">Stamp settings</h3>
           <StampSettingsPanel />
         </div>
       )}
       <div>
-        <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-ink/50">Ink preview</h3>
+        <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-ink/50">Ink preview</h3>
         <InkPreviewControls />
       </div>
       <div>
-        <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-ink/50">Layers</h3>
+        <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-ink/50">Layers</h3>
         <LayerList />
       </div>
     </div>

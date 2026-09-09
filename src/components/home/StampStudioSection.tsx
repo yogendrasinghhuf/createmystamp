@@ -57,14 +57,14 @@ export default function StampStudioSection() {
               <Toolbar />
             </aside>
             <div className="flex min-h-0 flex-1 items-center justify-center overflow-hidden bg-line/20 p-4 md:p-8">
-              <div className="aspect-square w-full max-w-sm md:max-w-2xl">
+              <div className="aspect-square h-full max-h-full w-full max-w-sm md:max-w-2xl">
                 <StampCanvas />
               </div>
             </div>
             <aside className="hidden min-h-0 overflow-y-auto border-l border-line md:block">
               <PropertiesPanel />
-              <div className="border-t border-line p-4">
-                <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-ink/50">Export</h3>
+              <div className="border-t border-line p-3">
+                <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-ink/50">Export</h3>
                 <ExportPanel />
               </div>
             </aside>
