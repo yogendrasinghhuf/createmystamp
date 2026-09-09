@@ -1,22 +1,28 @@
 import { useEffect, useRef } from 'react'
+import type { RefObject } from 'react'
 import { STAMP_ICONS } from '../../lib/icons'
 
 interface IconPickerPopoverProps {
   open: boolean
   onClose: () => void
   onSelect: (iconName: string) => void
+  triggerRef?: RefObject<HTMLElement | null>
 }
 
-export default function IconPickerPopover({ open, onClose, onSelect }: IconPickerPopoverProps) {
+export default function IconPickerPopover({ open, onClose, onSelect, triggerRef }: IconPickerPopoverProps) {
   const panelRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!open) return
     function handlePointerDown(e: PointerEvent) {
       if (!panelRef.current) return
-      if (!panelRef.current.contains(e.target as Node)) {
-        onClose()
-      }
+      const target = e.target as Node
+      if (panelRef.current.contains(target)) return
+      // Ignore clicks on the trigger button itself: it has its own onClick toggle handler,
+      // so treating it as an "outside" click here would close the popover and then have the
+      // trigger's toggle immediately reopen it (a flicker), instead of just closing it.
+      if (triggerRef?.current && triggerRef.current.contains(target)) return
+      onClose()
     }
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === 'Escape') onClose()
@@ -27,7 +33,7 @@ export default function IconPickerPopover({ open, onClose, onSelect }: IconPicke
       document.removeEventListener('pointerdown', handlePointerDown, true)
       document.removeEventListener('keydown', handleKeyDown)
     }
-  }, [open, onClose])
+  }, [open, onClose, triggerRef])
 
   if (!open) return null
 

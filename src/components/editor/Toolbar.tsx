@@ -24,6 +24,7 @@ export default function Toolbar() {
   const addElement = useStampStore((s) => s.addElement)
   const select = useStampStore((s) => s.select)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const iconTriggerRef = useRef<HTMLButtonElement>(null)
   const [iconPickerOpen, setIconPickerOpen] = useState(false)
 
   function nextZIndex(): number {
@@ -213,11 +214,17 @@ export default function Toolbar() {
       <IconButton icon={<TextCursorInput size={18} />} label="Add curved text" onClick={handleAddCurvedText} />
       <IconButton icon={<ArrowUpToLine size={18} />} label="Add top text" onClick={handleAddTopText} />
       <IconButton icon={<ArrowDownToLine size={18} />} label="Add bottom text" onClick={handleAddBottomText} />
-      <IconButton icon={<Sparkle size={18} />} label="Add icon" onClick={() => setIconPickerOpen((v) => !v)} />
+      <IconButton
+        ref={iconTriggerRef}
+        icon={<Sparkle size={18} />}
+        label="Add icon"
+        onClick={() => setIconPickerOpen((v) => !v)}
+      />
       <IconPickerPopover
         open={iconPickerOpen}
         onClose={() => setIconPickerOpen(false)}
         onSelect={handleSelectIcon}
+        triggerRef={iconTriggerRef}
       />
       <IconButton icon={<Circle size={18} />} label="Add circle" onClick={() => handleAddShape('circle')} />
       <IconButton icon={<RectangleHorizontal size={18} />} label="Add rectangle" onClick={() => handleAddShape('rectangle')} />
