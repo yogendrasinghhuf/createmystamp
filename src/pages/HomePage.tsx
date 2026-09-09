@@ -1,9 +1,10 @@
 import PageShell from '../components/layout/PageShell'
 import { BRAND } from '../config/brand'
 import Hero from '../components/home/Hero'
+import StampStudioSection from '../components/home/StampStudioSection'
+import TemplatesSection from '../components/home/TemplatesSection'
 import HowItWorksSection from '../components/home/HowItWorksSection'
 import FeaturesSection from '../components/home/FeaturesSection'
-import TemplatesPreviewSection from '../components/home/TemplatesPreviewSection'
 import ExportSection from '../components/home/ExportSection'
 import UseCasesSection from '../components/home/UseCasesSection'
 import FaqPreviewSection from '../components/home/FaqPreviewSection'
@@ -16,9 +17,10 @@ export default function HomePage() {
       description="Design a custom stamp online: choose a shape, add text and curved text, preview the ink effect, and export as PNG or SVG. No login required."
     >
       <Hero />
+      <StampStudioSection />
+      <TemplatesSection />
       <HowItWorksSection />
       <FeaturesSection />
-      <TemplatesPreviewSection />
       <ExportSection />
       <UseCasesSection />
       <FaqPreviewSection />

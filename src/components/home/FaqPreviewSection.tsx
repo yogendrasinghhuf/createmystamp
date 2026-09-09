@@ -1,14 +1,18 @@
-import { Link } from 'react-router-dom'
+import { BRAND } from '../../config/brand'
 
 const faqs = [
-  { q: 'Do I need an account?', a: 'No. Stamp Studio works entirely in your browser, and your project is saved locally on your device.' },
-  { q: 'Can I use my own artwork?', a: 'Yes, upload a PNG, JPG, or SVG and position it anywhere on your stamp.' },
-  { q: 'What file formats can I export?', a: 'PNG at multiple resolutions, and SVG for scalable vector use.' },
+  { q: 'Do I need to create an account?', a: 'No. Every feature works without signing up, and your in-progress design is saved locally in your browser.' },
+  { q: 'Is my design uploaded anywhere?', a: `${BRAND.name} runs entirely in your browser. Nothing about your design is sent to a server.` },
+  { q: 'What image formats can I upload?', a: 'You can upload PNG, JPG, or SVG files. Uploaded SVG files are automatically cleaned of scripts before use.' },
+  { q: 'Can I undo mistakes?', a: 'Yes, use Ctrl/Cmd+Z to undo and Ctrl/Cmd+Shift+Z to redo, or the undo/redo buttons in the editor.' },
+  { q: 'What can I export?', a: 'PNG (at 1x, 2x, or 3x, with optional transparency) and SVG (true vector artwork).' },
+  { q: 'Will my work survive a page refresh?', a: 'Yes, your current project autosaves to your browser and reloads automatically.' },
+  { q: 'Can I use this for official government or legal seals?', a: 'No. See our Responsible Use page — this tool is intended for legitimate design and creative or document workflows only.' },
 ]
 
 export default function FaqPreviewSection() {
   return (
-    <section className="border-t border-line bg-paper py-20">
+    <section id="faq" className="scroll-mt-20 border-t border-line bg-paper py-20">
       <div className="mx-auto max-w-3xl px-6">
         <h2 className="text-2xl font-semibold">Frequently asked questions</h2>
         <div className="mt-8 flex flex-col gap-4">
@@ -19,9 +23,6 @@ export default function FaqPreviewSection() {
             </div>
           ))}
         </div>
-        <Link to="/faq" className="mt-6 inline-block text-sm text-accent underline">
-          See all questions
-        </Link>
       </div>
     </section>
   )

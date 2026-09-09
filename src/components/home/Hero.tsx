@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import { BRAND } from '../../config/brand'
 import Button from '../ui/Button'
 
@@ -11,12 +10,12 @@ export default function Hero() {
         </h1>
         <p className="mt-4 max-w-md text-lg text-ink/70">{BRAND.supportingCopy}</p>
         <div className="mt-8 flex flex-wrap gap-3">
-          <Link to="/studio">
+          <a href="#editor">
             <Button>Open Stamp Studio</Button>
-          </Link>
-          <Link to="/templates">
+          </a>
+          <a href="#templates">
             <Button variant="secondary">Browse Templates</Button>
-          </Link>
+          </a>
         </div>
       </div>
       <div className="flex items-center justify-center">
