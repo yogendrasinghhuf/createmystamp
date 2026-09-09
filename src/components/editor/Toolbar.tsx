@@ -210,15 +210,36 @@ export default function Toolbar() {
 
   return (
     <div className="flex flex-col gap-2 p-3">
-      <IconButton icon={<Type size={18} />} label="Add text" onClick={handleAddText} />
-      <IconButton icon={<TextCursorInput size={18} />} label="Add curved text" onClick={handleAddCurvedText} />
-      <IconButton icon={<ArrowUpToLine size={18} />} label="Add top text" onClick={handleAddTopText} />
-      <IconButton icon={<ArrowDownToLine size={18} />} label="Add bottom text" onClick={handleAddBottomText} />
+      <IconButton
+        icon={<Type size={18} />}
+        label="Add text"
+        onClick={handleAddText}
+        className="border-sky-200 bg-sky-100 text-sky-700 hover:border-sky-400"
+      />
+      <IconButton
+        icon={<TextCursorInput size={18} />}
+        label="Add curved text"
+        onClick={handleAddCurvedText}
+        className="border-sky-200 bg-sky-100 text-sky-700 hover:border-sky-400"
+      />
+      <IconButton
+        icon={<ArrowUpToLine size={18} />}
+        label="Add top text"
+        onClick={handleAddTopText}
+        className="border-sky-200 bg-sky-100 text-sky-700 hover:border-sky-400"
+      />
+      <IconButton
+        icon={<ArrowDownToLine size={18} />}
+        label="Add bottom text"
+        onClick={handleAddBottomText}
+        className="border-sky-200 bg-sky-100 text-sky-700 hover:border-sky-400"
+      />
       <IconButton
         ref={iconTriggerRef}
         icon={<Sparkle size={18} />}
         label="Add icon"
         onClick={() => setIconPickerOpen((v) => !v)}
+        className="border-amber-200 bg-amber-100 text-amber-700 hover:border-amber-400"
       />
       <IconPickerPopover
         open={iconPickerOpen}
@@ -226,11 +247,36 @@ export default function Toolbar() {
         onSelect={handleSelectIcon}
         triggerRef={iconTriggerRef}
       />
-      <IconButton icon={<Circle size={18} />} label="Add circle" onClick={() => handleAddShape('circle')} />
-      <IconButton icon={<RectangleHorizontal size={18} />} label="Add rectangle" onClick={() => handleAddShape('rectangle')} />
-      <IconButton icon={<Square size={18} />} label="Add rounded rectangle" onClick={() => handleAddShape('roundedRectangle')} />
-      <IconButton icon={<Minus size={18} />} label="Add line" onClick={() => handleAddShape('line')} />
-      <IconButton icon={<ImageIcon size={18} />} label="Upload image" onClick={() => fileInputRef.current?.click()} />
+      <IconButton
+        icon={<Circle size={18} />}
+        label="Add circle"
+        onClick={() => handleAddShape('circle')}
+        className="border-violet-200 bg-violet-100 text-violet-700 hover:border-violet-400"
+      />
+      <IconButton
+        icon={<RectangleHorizontal size={18} />}
+        label="Add rectangle"
+        onClick={() => handleAddShape('rectangle')}
+        className="border-violet-200 bg-violet-100 text-violet-700 hover:border-violet-400"
+      />
+      <IconButton
+        icon={<Square size={18} />}
+        label="Add rounded rectangle"
+        onClick={() => handleAddShape('roundedRectangle')}
+        className="border-violet-200 bg-violet-100 text-violet-700 hover:border-violet-400"
+      />
+      <IconButton
+        icon={<Minus size={18} />}
+        label="Add line"
+        onClick={() => handleAddShape('line')}
+        className="border-violet-200 bg-violet-100 text-violet-700 hover:border-violet-400"
+      />
+      <IconButton
+        icon={<ImageIcon size={18} />}
+        label="Upload image"
+        onClick={() => fileInputRef.current?.click()}
+        className="border-emerald-200 bg-emerald-100 text-emerald-700 hover:border-emerald-400"
+      />
       <input
         ref={fileInputRef}
         type="file"
