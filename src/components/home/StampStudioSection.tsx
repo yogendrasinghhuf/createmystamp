@@ -45,44 +45,45 @@ export default function StampStudioSection() {
   }, [selectedIds, removeElement])
 
   return (
-    <section id="editor" className="scroll-mt-20 border-t border-line bg-paper py-16">
-      <div className="mx-auto max-w-6xl px-6">
-        <h2 className="text-2xl font-semibold">Stamp Studio</h2>
-        <p className="mt-2 text-ink/60">Design your stamp right here — no separate page, no account needed.</p>
-      </div>
-      <div className="mx-auto mt-8 flex h-[720px] max-w-6xl min-h-0 flex-col overflow-hidden rounded-xl3 border border-line shadow-card md:h-[640px]">
-        <EditorTopBar />
-        <div className="flex min-h-0 flex-1 flex-col md:grid md:grid-cols-[72px_1fr_320px]">
-          <aside className="hidden min-h-0 overflow-y-auto border-r border-line md:block">
-            <Toolbar />
-          </aside>
-          <div className="flex min-h-0 flex-1 items-center justify-center overflow-hidden bg-line/20 p-4 md:p-8">
-            <div className="aspect-square w-full max-w-sm md:max-w-xl">
-              <StampCanvas />
+    <section id="editor" className="scroll-mt-0 bg-paper">
+      <div className="mx-auto max-w-[1600px] px-3 pt-3 md:px-6 md:pt-4">
+        <div
+          className="flex min-h-0 flex-col overflow-hidden rounded-xl3 border border-line shadow-card"
+          style={{ height: 'min(800px, calc(100vh - 248px))' }}
+        >
+          <EditorTopBar />
+          <div className="flex min-h-0 flex-1 flex-col md:grid md:grid-cols-[72px_1fr_320px]">
+            <aside className="hidden min-h-0 overflow-y-auto border-r border-line md:block">
+              <Toolbar />
+            </aside>
+            <div className="flex min-h-0 flex-1 items-center justify-center overflow-hidden bg-line/20 p-4 md:p-8">
+              <div className="aspect-square w-full max-w-sm md:max-w-2xl">
+                <StampCanvas />
+              </div>
             </div>
+            <aside className="hidden min-h-0 overflow-y-auto border-l border-line md:block">
+              <PropertiesPanel />
+              <div className="border-t border-line p-4">
+                <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-ink/50">Export</h3>
+                <ExportPanel />
+              </div>
+            </aside>
           </div>
-          <aside className="hidden min-h-0 overflow-y-auto border-l border-line md:block">
+          <MobileToolbar
+            onOpenAdd={() => setMobileSheet('add')}
+            onOpenProperties={() => setMobileSheet('properties')}
+            onOpenExport={() => setMobileSheet('export')}
+          />
+          <MobileBottomSheet title="Add element" open={mobileSheet === 'add'} onClose={() => setMobileSheet('none')}>
+            <Toolbar />
+          </MobileBottomSheet>
+          <MobileBottomSheet title="Properties" open={mobileSheet === 'properties'} onClose={() => setMobileSheet('none')}>
             <PropertiesPanel />
-            <div className="border-t border-line p-4">
-              <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-ink/50">Export</h3>
-              <ExportPanel />
-            </div>
-          </aside>
+          </MobileBottomSheet>
+          <MobileBottomSheet title="Export" open={mobileSheet === 'export'} onClose={() => setMobileSheet('none')}>
+            <ExportPanel />
+          </MobileBottomSheet>
         </div>
-        <MobileToolbar
-          onOpenAdd={() => setMobileSheet('add')}
-          onOpenProperties={() => setMobileSheet('properties')}
-          onOpenExport={() => setMobileSheet('export')}
-        />
-        <MobileBottomSheet title="Add element" open={mobileSheet === 'add'} onClose={() => setMobileSheet('none')}>
-          <Toolbar />
-        </MobileBottomSheet>
-        <MobileBottomSheet title="Properties" open={mobileSheet === 'properties'} onClose={() => setMobileSheet('none')}>
-          <PropertiesPanel />
-        </MobileBottomSheet>
-        <MobileBottomSheet title="Export" open={mobileSheet === 'export'} onClose={() => setMobileSheet('none')}>
-          <ExportPanel />
-        </MobileBottomSheet>
       </div>
     </section>
   )
