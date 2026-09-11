@@ -6,11 +6,28 @@ import ColorSwatch from '../ui/ColorSwatch'
 export default function ShapeProperties({ element }: { element: ShapeElement }) {
   const updateElement = useStampStore((s) => s.updateElement)
   const patch = (p: Partial<ShapeElement>) => updateElement(element.id, p)
+  const hasIndependentHeight = element.shape === 'rectangle' || element.shape === 'roundedRectangle'
 
   return (
     <div className="flex flex-col gap-4">
-      <Slider label="Width" value={element.width} min={2} max={80} onChange={(width) => patch({ width })} />
-      {element.shape !== 'line' && (
+      {element.shape === 'circle' ? (
+        <Slider
+          label="Diameter"
+          value={element.width}
+          min={2}
+          max={80}
+          onChange={(size) => patch({ width: size, height: size })}
+        />
+      ) : (
+        <Slider
+          label={element.shape === 'line' ? 'Length' : 'Width'}
+          value={element.width}
+          min={2}
+          max={80}
+          onChange={(width) => patch({ width })}
+        />
+      )}
+      {hasIndependentHeight && (
         <Slider label="Height" value={element.height} min={2} max={80} onChange={(height) => patch({ height })} />
       )}
       <Slider
