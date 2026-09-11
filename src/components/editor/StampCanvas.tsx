@@ -4,52 +4,6 @@ import CanvasElementView from './CanvasElementView'
 import SelectionOverlay from './SelectionOverlay'
 import { clamp } from '../../lib/geometry'
 
-function StampOutlineHighlight({ shape, width, height }: { shape: string; width: number; height: number }) {
-  const stroke = '#C4571F'
-  const strokeWidth = 0.8
-  const inset = 2
-  if (shape === 'circle' || shape === 'badge') {
-    return (
-      <circle
-        data-selection-ui="true"
-        r={Math.min(width, height) / 2 + inset}
-        fill="none"
-        stroke={stroke}
-        strokeWidth={strokeWidth}
-        strokeDasharray="3 2"
-      />
-    )
-  }
-  if (shape === 'oval') {
-    return (
-      <ellipse
-        data-selection-ui="true"
-        rx={width / 2 + inset}
-        ry={height / 2 + inset}
-        fill="none"
-        stroke={stroke}
-        strokeWidth={strokeWidth}
-        strokeDasharray="3 2"
-      />
-    )
-  }
-  const rx = shape === 'roundedRectangle' ? 10 + inset : 0
-  return (
-    <rect
-      data-selection-ui="true"
-      x={-width / 2 - inset}
-      y={-height / 2 - inset}
-      width={width + inset * 2}
-      height={height + inset * 2}
-      rx={rx}
-      fill="none"
-      stroke={stroke}
-      strokeWidth={strokeWidth}
-      strokeDasharray="3 2"
-    />
-  )
-}
-
 function StampOutline({ shape, width, height }: { shape: string; width: number; height: number }) {
   const stroke = '#2B2A28'
   const strokeWidth = 1.2
@@ -225,14 +179,12 @@ export default function StampCanvas() {
           />
         ))}
       </g>
-      {selectedElement ? (
+      {selectedElement && (
         <SelectionOverlay
           element={selectedElement}
           onResizeStart={(e) => handleResizeStart(selectedElement.id, e)}
           onRotateStart={(e) => handleRotateStart(selectedElement.id, e)}
         />
-      ) : (
-        <StampOutlineHighlight shape={project.shape} width={project.dimensions.width} height={project.dimensions.height} />
       )}
     </svg>
   )
