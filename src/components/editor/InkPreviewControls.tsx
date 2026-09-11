@@ -18,9 +18,9 @@ export default function InkPreviewControls() {
         ]}
         onChange={(mode) => setInk({ mode: mode as 'clean' | 'ink' })}
       />
+      <ColorSwatch label="Stamp color" value={project.ink.color} onChange={(color) => setInk({ color })} />
       {project.ink.mode === 'ink' && (
         <>
-          <ColorSwatch label="Ink color" value={project.ink.color} onChange={(color) => setInk({ color })} />
           <Slider
             label="Opacity"
             value={project.ink.opacity}

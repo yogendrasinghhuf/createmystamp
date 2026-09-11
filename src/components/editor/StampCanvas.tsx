@@ -65,8 +65,8 @@ function MeasurementGrid({ viewWidth, viewHeight }: { viewWidth: number; viewHei
   )
 }
 
-function StampOutline({ shape, width, height }: { shape: string; width: number; height: number }) {
-  const stroke = '#2B2A28'
+function StampOutline({ shape, width, height, color }: { shape: string; width: number; height: number; color: string }) {
+  const stroke = color
   const strokeWidth = 1.2
   if (shape === 'circle' || shape === 'badge') {
     return <circle r={Math.min(width, height) / 2} fill="none" stroke={stroke} strokeWidth={strokeWidth} />
@@ -231,7 +231,12 @@ export default function StampCanvas() {
         opacity={project.ink.mode === 'ink' ? project.ink.opacity : 1}
         style={project.ink.mode === 'ink' ? { color: project.ink.color } : undefined}
       >
-        <StampOutline shape={project.shape} width={project.dimensions.width} height={project.dimensions.height} />
+        <StampOutline
+          shape={project.shape}
+          width={project.dimensions.width}
+          height={project.dimensions.height}
+          color={project.ink.color}
+        />
         {sorted.map((element) => (
           <CanvasElementView
             key={element.id}
