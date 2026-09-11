@@ -12,6 +12,8 @@ function labelFor(element: { type: string }): string {
       return 'Shape'
     case 'image':
       return 'Image'
+    case 'qrCode':
+      return 'QR code'
     default:
       return 'Element'
   }

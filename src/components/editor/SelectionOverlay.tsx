@@ -13,6 +13,7 @@ function boundingSize(element: StampElement): { width: number; height: number } 
     return { width: approxWidth, height: element.fontSize * 1.5 }
   }
   if (element.type === 'shape') return { width: element.width, height: element.height }
+  if (element.type === 'qrCode') return { width: element.size, height: element.size }
   return { width: element.width, height: element.height }
 }
 

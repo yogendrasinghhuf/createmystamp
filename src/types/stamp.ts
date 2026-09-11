@@ -76,7 +76,17 @@ export interface ImageElement extends ElementCommon {
   isSvg: boolean
 }
 
-export type StampElement = TextElement | CurvedTextElement | ShapeElement | ImageElement
+export type QrContentType = 'text' | 'email' | 'telephone'
+
+export interface QrCodeElement extends ElementCommon {
+  type: 'qrCode'
+  content: string
+  contentType: QrContentType
+  size: number
+  color: string
+}
+
+export type StampElement = TextElement | CurvedTextElement | ShapeElement | ImageElement | QrCodeElement
 
 export interface StampProject {
   id: string

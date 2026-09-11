@@ -3,6 +3,7 @@ import TextProperties from './TextProperties'
 import CurvedTextProperties from './CurvedTextProperties'
 import ShapeProperties from './ShapeProperties'
 import ImageProperties from './ImageProperties'
+import QrCodeProperties from './QrCodeProperties'
 import StampSettingsPanel from './StampSettingsPanel'
 import InkPreviewControls from './InkPreviewControls'
 import LayerList from './LayerList'
@@ -23,6 +24,7 @@ export default function PropertiesPanel() {
           {selected.type === 'curvedText' && <CurvedTextProperties element={selected} />}
           {selected.type === 'shape' && <ShapeProperties element={selected} />}
           {selected.type === 'image' && <ImageProperties element={selected} />}
+          {selected.type === 'qrCode' && <QrCodeProperties element={selected} />}
         </div>
       ) : (
         <div>

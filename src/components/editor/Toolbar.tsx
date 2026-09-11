@@ -14,6 +14,7 @@ import {
   Star,
   Octagon,
   X,
+  QrCode,
 } from 'lucide-react'
 import { useStampStore, useProject } from '../../store/useStampStore'
 import { uid } from '../../lib/id'
@@ -122,6 +123,22 @@ export default function Toolbar() {
       radius,
       startAngle: 75,
       direction: 'clockwise',
+    })
+  }
+
+  function handleAddQrCode() {
+    addAndSelect({
+      id: uid(),
+      type: 'qrCode',
+      x: 0,
+      y: 0,
+      rotation: 0,
+      scale: 1,
+      zIndex: nextZIndex(),
+      content: '',
+      contentType: 'text',
+      size: 18,
+      color: '#2B2A28',
     })
   }
 
@@ -257,6 +274,13 @@ export default function Toolbar() {
         onClose={() => setIconPickerOpen(false)}
         onSelect={handleSelectIcon}
         triggerRef={iconTriggerRef}
+      />
+      <IconButton
+        icon={<QrCode size={18} />}
+        label="QR code"
+        showLabel
+        onClick={handleAddQrCode}
+        className="min-h-11 md:min-h-8 border-line hover:border-amber-400 hover:bg-amber-50"
       />
       <IconButton
         icon={<Circle size={18} />}

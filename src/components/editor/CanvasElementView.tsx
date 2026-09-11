@@ -1,6 +1,7 @@
 // src/components/editor/CanvasElementView.tsx
 import type { StampElement } from '../../types/stamp'
 import { buildCurvedTextArcPath } from '../../lib/curvedText'
+import { buildQrMatrix } from '../../lib/qrcode'
 
 interface CanvasElementViewProps {
   element: StampElement
@@ -84,20 +85,64 @@ export default function CanvasElementView({
     )
   }
 
-  // image
+  if (element.type === 'image') {
+    return (
+      <g
+        transform={transform}
+        onPointerDown={(e) => onPointerDownSelect(element.id, e)}
+        style={{ cursor: 'move' }}
+      >
+        <image
+          href={element.src}
+          width={element.width}
+          height={element.height}
+          x={-element.width / 2}
+          y={-element.height / 2}
+        />
+        {isSelected && <SelectionMarker />}
+      </g>
+    )
+  }
+
+  // qrCode
+  const matrix = buildQrMatrix(element.content, element.contentType)
+  const moduleCount = matrix.length
+  const cellSize = moduleCount > 0 ? element.size / moduleCount : 0
   return (
     <g
       transform={transform}
       onPointerDown={(e) => onPointerDownSelect(element.id, e)}
       style={{ cursor: 'move' }}
     >
-      <image
-        href={element.src}
-        width={element.width}
-        height={element.height}
-        x={-element.width / 2}
-        y={-element.height / 2}
-      />
+      {moduleCount > 0 ? (
+        <g transform={`translate(${-element.size / 2} ${-element.size / 2})`}>
+          {matrix.map((row, rowIndex) =>
+            row.map((isDark, colIndex) =>
+              isDark ? (
+                <rect
+                  key={`${rowIndex}-${colIndex}`}
+                  x={colIndex * cellSize}
+                  y={rowIndex * cellSize}
+                  width={cellSize}
+                  height={cellSize}
+                  fill={element.color}
+                />
+              ) : null,
+            ),
+          )}
+        </g>
+      ) : (
+        <rect
+          x={-element.size / 2}
+          y={-element.size / 2}
+          width={element.size}
+          height={element.size}
+          fill="none"
+          stroke={element.color}
+          strokeWidth={0.5}
+          strokeDasharray="2 1"
+        />
+      )}
       {isSelected && <SelectionMarker />}
     </g>
   )
