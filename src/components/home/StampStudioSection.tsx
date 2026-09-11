@@ -52,7 +52,7 @@ export default function StampStudioSection() {
           style={{ height: 'min(800px, calc(100vh - 248px))' }}
         >
           <EditorTopBar />
-          <div className="flex min-h-0 flex-1 flex-col md:grid md:grid-cols-[72px_1fr_320px]">
+          <div className="flex min-h-0 flex-1 flex-col md:grid md:grid-cols-[150px_1fr_320px]">
             <aside className="hidden min-h-0 overflow-y-auto border-r border-line md:block">
               <Toolbar />
             </aside>
