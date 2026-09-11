@@ -6,7 +6,14 @@ import ColorSwatch from '../ui/ColorSwatch'
 export default function ShapeProperties({ element }: { element: ShapeElement }) {
   const updateElement = useStampStore((s) => s.updateElement)
   const patch = (p: Partial<ShapeElement>) => updateElement(element.id, p)
-  const hasIndependentHeight = element.shape === 'rectangle' || element.shape === 'roundedRectangle'
+  const hasIndependentHeight =
+    element.shape === 'rectangle' ||
+    element.shape === 'roundedRectangle' ||
+    element.shape === 'triangle' ||
+    element.shape === 'star' ||
+    element.shape === 'octagon' ||
+    element.shape === 'x'
+  const canFill = element.shape !== 'line' && element.shape !== 'x'
 
   return (
     <div className="flex flex-col gap-4">
@@ -39,7 +46,7 @@ export default function ShapeProperties({ element }: { element: ShapeElement }) 
         onChange={(strokeWidth) => patch({ strokeWidth })}
       />
       <ColorSwatch label="Stroke color" value={element.strokeColor} onChange={(strokeColor) => patch({ strokeColor })} />
-      {element.shape !== 'line' && (
+      {canFill && (
         <>
           <label className="flex items-center gap-2 text-sm text-ink/70">
             <input type="checkbox" checked={element.filled} onChange={(e) => patch({ filled: e.target.checked })} />

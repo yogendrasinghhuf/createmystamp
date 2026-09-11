@@ -103,6 +103,44 @@ export default function CanvasElementView({
   )
 }
 
+function trianglePoints(width: number, height: number): string {
+  const halfW = width / 2
+  const halfH = height / 2
+  return `0,${-halfH} ${halfW},${halfH} ${-halfW},${halfH}`
+}
+
+function starPoints(width: number, height: number): string {
+  const outerRx = width / 2
+  const outerRy = height / 2
+  const innerRx = outerRx * 0.4
+  const innerRy = outerRy * 0.4
+  const points: string[] = []
+  for (let i = 0; i < 10; i++) {
+    const angle = (Math.PI / 5) * i - Math.PI / 2
+    const rx = i % 2 === 0 ? outerRx : innerRx
+    const ry = i % 2 === 0 ? outerRy : innerRy
+    points.push(`${rx * Math.cos(angle)},${ry * Math.sin(angle)}`)
+  }
+  return points.join(' ')
+}
+
+function octagonPoints(width: number, height: number): string {
+  const halfW = width / 2
+  const halfH = height / 2
+  const cutW = halfW * 0.4142 // tan(22.5deg), gives a regular-looking octagon
+  const cutH = halfH * 0.4142
+  return [
+    `${-halfW + cutW},${-halfH}`,
+    `${halfW - cutW},${-halfH}`,
+    `${halfW},${-halfH + cutH}`,
+    `${halfW},${halfH - cutH}`,
+    `${halfW - cutW},${halfH}`,
+    `${-halfW + cutW},${halfH}`,
+    `${-halfW},${halfH - cutH}`,
+    `${-halfW},${-halfH + cutH}`,
+  ].join(' ')
+}
+
 function ShapePrimitive({ element }: { element: Extract<StampElement, { type: 'shape' }> }) {
   const fill = element.filled ? element.fillColor : 'none'
   if (element.shape === 'circle') {
@@ -124,6 +162,49 @@ function ShapePrimitive({ element }: { element: Extract<StampElement, { type: 's
         y2={0}
         stroke={element.strokeColor}
         strokeWidth={element.strokeWidth}
+      />
+    )
+  }
+  if (element.shape === 'x') {
+    const halfW = element.width / 2
+    const halfH = element.height / 2
+    return (
+      <g stroke={element.strokeColor} strokeWidth={element.strokeWidth} strokeLinecap="round">
+        <line x1={-halfW} y1={-halfH} x2={halfW} y2={halfH} />
+        <line x1={halfW} y1={-halfH} x2={-halfW} y2={halfH} />
+      </g>
+    )
+  }
+  if (element.shape === 'triangle') {
+    return (
+      <polygon
+        points={trianglePoints(element.width, element.height)}
+        fill={fill}
+        stroke={element.strokeColor}
+        strokeWidth={element.strokeWidth}
+        strokeLinejoin="round"
+      />
+    )
+  }
+  if (element.shape === 'star') {
+    return (
+      <polygon
+        points={starPoints(element.width, element.height)}
+        fill={fill}
+        stroke={element.strokeColor}
+        strokeWidth={element.strokeWidth}
+        strokeLinejoin="round"
+      />
+    )
+  }
+  if (element.shape === 'octagon') {
+    return (
+      <polygon
+        points={octagonPoints(element.width, element.height)}
+        fill={fill}
+        stroke={element.strokeColor}
+        strokeWidth={element.strokeWidth}
+        strokeLinejoin="round"
       />
     )
   }

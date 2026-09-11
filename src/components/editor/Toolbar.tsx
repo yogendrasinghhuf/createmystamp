@@ -10,6 +10,10 @@ import {
   ArrowUpToLine,
   ArrowDownToLine,
   Sparkle,
+  Triangle,
+  Star,
+  Octagon,
+  X,
 } from 'lucide-react'
 import { useStampStore, useProject } from '../../store/useStampStore'
 import { uid } from '../../lib/id'
@@ -141,7 +145,9 @@ export default function Toolbar() {
     })
   }
 
-  function handleAddShape(shape: 'circle' | 'rectangle' | 'roundedRectangle' | 'line') {
+  function handleAddShape(
+    shape: 'circle' | 'rectangle' | 'roundedRectangle' | 'line' | 'triangle' | 'star' | 'octagon' | 'x',
+  ) {
     addAndSelect({
       id: uid(),
       type: 'shape',
@@ -278,6 +284,34 @@ export default function Toolbar() {
         label="Line"
         showLabel
         onClick={() => handleAddShape('line')}
+        className="min-h-11 md:min-h-8 border-line hover:border-violet-400 hover:bg-violet-50"
+      />
+      <IconButton
+        icon={<Triangle size={18} />}
+        label="Triangle"
+        showLabel
+        onClick={() => handleAddShape('triangle')}
+        className="min-h-11 md:min-h-8 border-line hover:border-violet-400 hover:bg-violet-50"
+      />
+      <IconButton
+        icon={<Star size={18} />}
+        label="Star"
+        showLabel
+        onClick={() => handleAddShape('star')}
+        className="min-h-11 md:min-h-8 border-line hover:border-violet-400 hover:bg-violet-50"
+      />
+      <IconButton
+        icon={<Octagon size={18} />}
+        label="Octagon"
+        showLabel
+        onClick={() => handleAddShape('octagon')}
+        className="min-h-11 md:min-h-8 border-line hover:border-violet-400 hover:bg-violet-50"
+      />
+      <IconButton
+        icon={<X size={18} />}
+        label="X mark"
+        showLabel
+        onClick={() => handleAddShape('x')}
         className="min-h-11 md:min-h-8 border-line hover:border-violet-400 hover:bg-violet-50"
       />
       <IconButton

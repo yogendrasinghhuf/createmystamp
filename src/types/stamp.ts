@@ -46,7 +46,15 @@ export interface CurvedTextElement extends ElementCommon {
   direction: 'clockwise' | 'counterclockwise'
 }
 
-export type ShapeKind = 'circle' | 'rectangle' | 'roundedRectangle' | 'line'
+export type ShapeKind =
+  | 'circle'
+  | 'rectangle'
+  | 'roundedRectangle'
+  | 'line'
+  | 'triangle'
+  | 'star'
+  | 'octagon'
+  | 'x'
 
 export interface ShapeElement extends ElementCommon {
   type: 'shape'
