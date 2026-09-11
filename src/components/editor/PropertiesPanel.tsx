@@ -15,8 +15,8 @@ export default function PropertiesPanel() {
   return (
     <div className="flex flex-col gap-4 p-3">
       {selected ? (
-        <div className="rounded-xl2 border-2 border-accent/40 bg-accent/5 p-3">
-          <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-accent">
+        <div>
+          <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-ink/50">
             Element properties
           </h3>
           {selected.type === 'text' && <TextProperties element={selected} />}
