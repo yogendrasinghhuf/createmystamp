@@ -213,15 +213,15 @@ export default function StampCanvas() {
         <filter id="ink-distress-filter" x="-20%" y="-20%" width="140%" height="140%">
           <feTurbulence
             type="fractalNoise"
-            baseFrequency={0.9}
-            numOctaves={2}
+            baseFrequency={1.8}
+            numOctaves={3}
             seed={3}
             result="noise"
           />
           <feDisplacementMap
             in="SourceGraphic"
             in2="noise"
-            scale={project.ink.distress * 6}
+            scale={project.ink.distress * 1.5}
           />
         </filter>
       </defs>
