@@ -213,8 +213,8 @@ export default function StampCanvas() {
         <filter id="ink-distress-filter" x="-20%" y="-20%" width="140%" height="140%">
           <feTurbulence
             type="fractalNoise"
-            baseFrequency={1.8}
-            numOctaves={3}
+            baseFrequency={4}
+            numOctaves={2}
             seed={3}
             result="noise"
           />
