@@ -17,6 +17,12 @@ function MeasurementGrid({ viewWidth, viewHeight }: { viewWidth: number; viewHei
   const minorLinesY: number[] = []
   for (let y = startY; y <= endY; y += 5) minorLinesY.push(y)
 
+  // Ruler labels read as distance from the top-left corner (0-based, like a
+  // physical ruler), even though the underlying SVG coordinates stay centered
+  // at (0,0) -- element positions, drag math, and curved-text angles all
+  // depend on that centered coordinate system elsewhere in the canvas.
+  const toRulerLabel = (coord: number, origin: number) => Math.round(coord - origin)
+
   return (
     <g data-selection-ui="true" pointerEvents="none">
       {minorLinesX.map((x) => (
@@ -45,14 +51,14 @@ function MeasurementGrid({ viewWidth, viewHeight }: { viewWidth: number; viewHei
         .filter((x) => x % 10 === 0)
         .map((x) => (
           <text key={`vl-${x}`} x={x} y={top + 2.6} fontSize={2} textAnchor="middle" fill="#B7AD98">
-            {x}
+            {toRulerLabel(x, left)}
           </text>
         ))}
       {minorLinesY
         .filter((y) => y % 10 === 0)
         .map((y) => (
           <text key={`hl-${y}`} x={left + 1} y={y + 0.7} fontSize={2} fill="#B7AD98">
-            {y}
+            {toRulerLabel(y, top)}
           </text>
         ))}
     </g>
