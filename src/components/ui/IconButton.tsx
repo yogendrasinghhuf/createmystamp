@@ -28,7 +28,7 @@ export default function IconButton({
       {...props}
     >
       {icon}
-      {showLabel && <span className="text-sm font-medium">{label}</span>}
+      {showLabel && <span className="text-xs font-medium">{label}</span>}
     </button>
   )
 }
