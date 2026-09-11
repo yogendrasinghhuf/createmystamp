@@ -9,9 +9,7 @@ export default function FinalCtaSection() {
           Open Stamp Studio and have a finished design in minutes.
         </p>
         <a href="#editor" className="mt-8 inline-block">
-          <Button className="bg-paper text-ink hover:bg-accent hover:text-paper">
-            Open Stamp Studio
-          </Button>
+          <Button variant="secondary">Open Stamp Studio</Button>
         </a>
       </div>
     </section>
