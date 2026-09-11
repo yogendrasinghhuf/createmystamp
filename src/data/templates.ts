@@ -206,7 +206,7 @@ export const TEMPLATES: StampTemplate[] = [
       ink: { mode: 'ink', color: '#C4571F', opacity: 0.8, distress: 0.3 },
       elements: [
         shape({ shape: 'circle', width: 30, height: 30, strokeWidth: 1.4 }),
-        text({ text: 'HAND MADE', y: 0, fontSize: 4, fontWeight: 700, letterSpacing: 0.3 }),
+        text({ text: 'HAND MADE', y: 0, fontSize: 3.4, fontWeight: 700, letterSpacing: 0.2 }),
         text({ text: 'WITH JOY', y: 6, fontSize: 3, letterSpacing: 1 }),
       ],
     },
@@ -312,7 +312,7 @@ export const TEMPLATES: StampTemplate[] = [
       ink: { mode: 'ink', color: '#1F4E8B', opacity: 0.85, distress: 0.2 },
       elements: [
         shape({ shape: 'circle', width: 34, height: 34, strokeWidth: 0.8 }),
-        curvedText({ text: 'SHREE ENTERPRISES', radius: 16, startAngle: 300, fontSize: 3.6 }),
+        curvedText({ text: 'SHREE ENTERPRISES', radius: 15, startAngle: 300, fontSize: 3, letterSpacing: 0.3 }),
         text({ text: 'PROPRIETOR', y: -1, fontSize: 3.4, letterSpacing: 1 }),
         text({ text: 'GSTIN 27ABCDE1234F1Z5', y: 6, fontSize: 2.3, letterSpacing: 0 }),
       ],
@@ -361,7 +361,6 @@ export const TEMPLATES: StampTemplate[] = [
       dimensions: { width: 48, height: 30 },
       ink: { mode: 'ink', color: '#2B2A28', opacity: 0.85, distress: 0.2 },
       elements: [
-        shape({ shape: 'circle', width: 42, height: 24, strokeWidth: 0.8 }),
         text({ text: 'ADV. SUNITA MEHTA', y: -3, fontSize: 3.4, fontWeight: 700, letterSpacing: 0.3 }),
         text({ text: 'B.A. LL.B, ADVOCATE', y: 3, fontSize: 2.6, letterSpacing: 0.3 }),
         text({ text: 'HIGH COURT, MUMBAI', y: 8, fontSize: 2.7, letterSpacing: 0.3 }),
@@ -406,7 +405,7 @@ export const TEMPLATES: StampTemplate[] = [
       elements: [
         shape({ shape: 'circle', width: 32, height: 32, strokeWidth: 0.6 }),
         shape({ shape: 'circle', width: 21, height: 21, strokeWidth: 0.6 }),
-        curvedText({ text: 'BRAHMAGIRI RICE INDUSTRIES', radius: 15.3, startAngle: 300, fontSize: 2, letterSpacing: 0 }),
+        curvedText({ text: 'BRAHMAGIRI RICE', radius: 15.3, startAngle: 300, fontSize: 2.6, letterSpacing: 0.3 }),
         curvedText({
           text: 'KALLODY',
           radius: 15.3,
@@ -447,7 +446,7 @@ export const TEMPLATES: StampTemplate[] = [
       elements: [
         shape({ shape: 'circle', width: 31, height: 31, strokeWidth: 1.2 }),
         curvedText({ text: 'QUALITY MANAGEMENT', radius: 14, startAngle: 300, fontSize: 2.4, letterSpacing: 0.2 }),
-        text({ text: 'APPROVED', y: 1, fontSize: 4.4, fontWeight: 700, letterSpacing: 0.5 }),
+        text({ text: 'APPROVED', y: 1, fontSize: 3.6, fontWeight: 700, letterSpacing: 0.3 }),
       ],
     },
   },
@@ -461,7 +460,7 @@ export const TEMPLATES: StampTemplate[] = [
       dimensions: { width: 34, height: 34 },
       ink: { mode: 'ink', color: '#8B2E1F', opacity: 0.8, distress: 0.3 },
       elements: [
-        shape({ shape: 'octagon', width: 30, height: 30, strokeWidth: 1.2 }),
+        shape({ shape: 'octagon', width: 28, height: 28, strokeWidth: 1.2 }),
         text({ text: 'CERTIFIED', y: -1, fontSize: 3.3, fontWeight: 700, letterSpacing: 1 }),
         text({ text: 'TRUE COPY', y: 5, fontSize: 2.4, letterSpacing: 1 }),
       ],
@@ -474,14 +473,14 @@ export const TEMPLATES: StampTemplate[] = [
     project: {
       name: 'Received Ledger',
       shape: 'rectangle',
-      dimensions: { width: 52, height: 28 },
+      dimensions: { width: 52, height: 32 },
       ink: { mode: 'ink', color: '#2B2A28', opacity: 0.8, distress: 0.25 },
       elements: [
-        text({ text: 'RECEIVED', y: -8, fontSize: 4.2, fontWeight: 700, letterSpacing: 1 }),
-        shape({ shape: 'line', width: 42, height: 0.5, y: -3 }),
-        text({ text: 'BY: ______________', y: 1, fontSize: 3, align: 'left', x: -21 }),
-        text({ text: 'DATE: __ / __ / __', y: 7, fontSize: 3, align: 'left', x: -21 }),
-        text({ text: 'AMOUNT: ____________', y: 13, fontSize: 3, align: 'left', x: -21 }),
+        text({ text: 'RECEIVED', y: -10, fontSize: 4.2, fontWeight: 700, letterSpacing: 1 }),
+        shape({ shape: 'line', width: 42, height: 0.5, y: -5 }),
+        text({ text: 'BY: ______________', y: -1, fontSize: 3, align: 'left', x: -21 }),
+        text({ text: 'DATE: __ / __ / __', y: 5, fontSize: 3, align: 'left', x: -21 }),
+        text({ text: 'AMOUNT: ____________', y: 11, fontSize: 3, align: 'left', x: -21 }),
       ],
     },
   },
@@ -609,26 +608,26 @@ export const TEMPLATES: StampTemplate[] = [
     project: {
       name: 'True Copy Certification',
       shape: 'rectangle',
-      dimensions: { width: 66, height: 36 },
+      dimensions: { width: 66, height: 40 },
       ink: { mode: 'clean', color: '#2B2A28', opacity: 0.85, distress: 0.1 },
       elements: [
         text({
           text: 'I have viewed the original document',
-          y: -12,
+          y: -14,
           fontSize: 2.6,
           align: 'left',
           x: -31,
         }),
         text({
           text: '& certify this to be a true copy',
-          y: -8,
+          y: -10,
           fontSize: 2.6,
           align: 'left',
           x: -31,
         }),
-        text({ text: 'Signed: ____________  Date: ________', y: 0, fontSize: 2.4, align: 'left', x: -31 }),
+        text({ text: 'Signed: ____________  Date: ________', y: -1, fontSize: 2.4, align: 'left', x: -31 }),
         text({ text: 'Name: ____________  Position: ______', y: 5, fontSize: 2.4, align: 'left', x: -31 }),
-        text({ text: 'Registration number: __________', y: 10, fontSize: 2.4, align: 'left', x: -31 }),
+        text({ text: 'Registration number: __________', y: 11, fontSize: 2.4, align: 'left', x: -31 }),
       ],
     },
   },
