@@ -46,7 +46,7 @@ export default function StampStudioSection() {
 
   return (
     <section id="editor" className="scroll-mt-0 bg-paper">
-      <div className="mx-auto max-w-[1600px] px-3 pt-3 md:px-6 md:pt-4">
+      <div className="mx-auto max-w-[1000px] px-3 pt-3 md:px-6 md:pt-4">
         <div
           className="flex min-h-0 flex-col overflow-hidden rounded-xl3 border border-line shadow-card"
           style={{ height: 'min(800px, calc(100vh - 248px))' }}
