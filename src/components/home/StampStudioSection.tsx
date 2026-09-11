@@ -49,7 +49,7 @@ export default function StampStudioSection() {
       <div className="mx-auto max-w-[1000px] px-3 pt-3 md:px-6 md:pt-4">
         <div
           className="flex min-h-0 flex-col overflow-hidden rounded-xl3 border border-line shadow-card"
-          style={{ height: 'min(800px, calc(100vh - 248px))' }}
+          style={{ height: 'min(800px, calc(100vh - 198px))' }}
         >
           <EditorTopBar />
           <div className="flex min-h-0 flex-1 flex-col md:grid md:grid-cols-[150px_1fr_320px]">
