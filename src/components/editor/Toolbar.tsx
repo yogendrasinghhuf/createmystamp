@@ -215,28 +215,28 @@ export default function Toolbar() {
         label="Text"
         showLabel
         onClick={handleAddText}
-        className="min-h-11 md:min-h-8 border-sky-200 bg-sky-100 text-sky-700 hover:border-sky-400"
+        className="min-h-11 md:min-h-8 border-line text-sky-700 hover:border-sky-400 hover:bg-sky-50"
       />
       <IconButton
         icon={<TextCursorInput size={18} />}
         label="Curved text"
         showLabel
         onClick={handleAddCurvedText}
-        className="min-h-11 md:min-h-8 border-sky-200 bg-sky-100 text-sky-700 hover:border-sky-400"
+        className="min-h-11 md:min-h-8 border-line text-sky-700 hover:border-sky-400 hover:bg-sky-50"
       />
       <IconButton
         icon={<ArrowUpToLine size={18} />}
         label="Top text"
         showLabel
         onClick={handleAddTopText}
-        className="min-h-11 md:min-h-8 border-sky-200 bg-sky-100 text-sky-700 hover:border-sky-400"
+        className="min-h-11 md:min-h-8 border-line text-sky-700 hover:border-sky-400 hover:bg-sky-50"
       />
       <IconButton
         icon={<ArrowDownToLine size={18} />}
         label="Bottom text"
         showLabel
         onClick={handleAddBottomText}
-        className="min-h-11 md:min-h-8 border-sky-200 bg-sky-100 text-sky-700 hover:border-sky-400"
+        className="min-h-11 md:min-h-8 border-line text-sky-700 hover:border-sky-400 hover:bg-sky-50"
       />
       <IconButton
         ref={iconTriggerRef}
@@ -244,7 +244,7 @@ export default function Toolbar() {
         label="Icon"
         showLabel
         onClick={() => setIconPickerOpen((v) => !v)}
-        className="min-h-11 md:min-h-8 border-amber-200 bg-amber-100 text-amber-700 hover:border-amber-400"
+        className="min-h-11 md:min-h-8 border-line text-amber-700 hover:border-amber-400 hover:bg-amber-50"
       />
       <IconPickerPopover
         open={iconPickerOpen}
@@ -257,35 +257,35 @@ export default function Toolbar() {
         label="Circle"
         showLabel
         onClick={() => handleAddShape('circle')}
-        className="min-h-11 md:min-h-8 border-violet-200 bg-violet-100 text-violet-700 hover:border-violet-400"
+        className="min-h-11 md:min-h-8 border-line text-violet-700 hover:border-violet-400 hover:bg-violet-50"
       />
       <IconButton
         icon={<RectangleHorizontal size={18} />}
         label="Rectangle"
         showLabel
         onClick={() => handleAddShape('rectangle')}
-        className="min-h-11 md:min-h-8 border-violet-200 bg-violet-100 text-violet-700 hover:border-violet-400"
+        className="min-h-11 md:min-h-8 border-line text-violet-700 hover:border-violet-400 hover:bg-violet-50"
       />
       <IconButton
         icon={<Square size={18} />}
         label="Rounded rect."
         showLabel
         onClick={() => handleAddShape('roundedRectangle')}
-        className="min-h-11 md:min-h-8 border-violet-200 bg-violet-100 text-violet-700 hover:border-violet-400"
+        className="min-h-11 md:min-h-8 border-line text-violet-700 hover:border-violet-400 hover:bg-violet-50"
       />
       <IconButton
         icon={<Minus size={18} />}
         label="Line"
         showLabel
         onClick={() => handleAddShape('line')}
-        className="min-h-11 md:min-h-8 border-violet-200 bg-violet-100 text-violet-700 hover:border-violet-400"
+        className="min-h-11 md:min-h-8 border-line text-violet-700 hover:border-violet-400 hover:bg-violet-50"
       />
       <IconButton
         icon={<ImageIcon size={18} />}
         label="Image"
         showLabel
         onClick={() => fileInputRef.current?.click()}
-        className="min-h-11 md:min-h-8 border-emerald-200 bg-emerald-100 text-emerald-700 hover:border-emerald-400"
+        className="min-h-11 md:min-h-8 border-line text-emerald-700 hover:border-emerald-400 hover:bg-emerald-50"
       />
       <input
         ref={fileInputRef}
