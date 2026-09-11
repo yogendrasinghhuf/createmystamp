@@ -82,7 +82,7 @@ export const TEMPLATES: StampTemplate[] = [
       dimensions: { width: 40, height: 40 },
       ink: { mode: 'clean', color: '#2B2A28', opacity: 0.85, distress: 0.15 },
       elements: [
-        curvedText({ text: 'NORTH & PINE CO.', radius: 16, startAngle: 300, fontSize: 4.2 }),
+        curvedText({ text: 'NORTH & PINE CO.', radius: 15.5, startAngle: 300, fontSize: 3.4 }),
         text({ text: 'EST. 2026', y: 0, fontSize: 4, letterSpacing: 1.5 }),
         shape({ shape: 'circle', width: 34, height: 34, strokeWidth: 0.8 }),
       ],
@@ -160,7 +160,7 @@ export const TEMPLATES: StampTemplate[] = [
       dimensions: { width: 35, height: 35 },
       ink: { mode: 'ink', color: '#2B2A28', opacity: 0.75, distress: 0.4 },
       elements: [
-        curvedText({ text: 'MADE BY HAND', radius: 14, startAngle: 300, fontSize: 3.8 }),
+        curvedText({ text: 'MADE BY HAND', radius: 15.5, startAngle: 300, fontSize: 3.4, letterSpacing: 0.3 }),
         text({ text: 'SLOWLY MADE', y: 2, fontSize: 3.2, letterSpacing: 0.3 }),
       ],
     },
@@ -190,7 +190,7 @@ export const TEMPLATES: StampTemplate[] = [
       dimensions: { width: 38, height: 38 },
       ink: { mode: 'clean', color: '#2B2A28', opacity: 0.85, distress: 0.15 },
       elements: [
-        curvedText({ text: 'FROM THE LIBRARY OF', radius: 15, startAngle: 300, fontSize: 3.6 }),
+        curvedText({ text: 'FROM THE LIBRARY OF', radius: 17, startAngle: 300, fontSize: 3.1, letterSpacing: 0.2 }),
         text({ text: 'R. ASHWORTH', y: 2, fontSize: 4.5, fontWeight: 500 }),
       ],
     },
@@ -217,12 +217,13 @@ export const TEMPLATES: StampTemplate[] = [
     category: 'Creative',
     project: {
       name: 'Thank You Burst',
-      shape: 'circle',
+      shape: 'badge',
       dimensions: { width: 32, height: 32 },
       ink: { mode: 'ink', color: '#2B2A28', opacity: 0.8, distress: 0.25 },
       elements: [
-        curvedText({ text: 'THANK YOU', radius: 12, startAngle: 300, fontSize: 3.8, fontWeight: 700 }),
-        text({ text: 'SO MUCH', y: 2, fontSize: 3.4 }),
+        shape({ shape: 'circle', width: 27, height: 27, strokeWidth: 0.6 }),
+        curvedText({ text: 'THANK YOU', radius: 13, startAngle: 300, fontSize: 3.2, fontWeight: 700 }),
+        text({ text: 'SO MUCH', y: 3, fontSize: 3.2 }),
       ],
     },
   },
@@ -379,7 +380,7 @@ export const TEMPLATES: StampTemplate[] = [
       elements: [
         shape({ shape: 'circle', width: 34, height: 34, strokeWidth: 0.6 }),
         shape({ shape: 'circle', width: 22, height: 22, strokeWidth: 0.6 }),
-        curvedText({ text: 'STAMP MAKERS INDIA', radius: 16, startAngle: 300, fontSize: 3.2, letterSpacing: 0.3 }),
+        curvedText({ text: 'STAMP MAKERS INDIA', radius: 16.5, startAngle: 300, fontSize: 2.8, letterSpacing: 0.3 }),
         curvedText({
           text: 'MANANTHAVADY',
           radius: 16,
@@ -405,10 +406,10 @@ export const TEMPLATES: StampTemplate[] = [
       elements: [
         shape({ shape: 'circle', width: 32, height: 32, strokeWidth: 0.6 }),
         shape({ shape: 'circle', width: 21, height: 21, strokeWidth: 0.6 }),
-        curvedText({ text: 'BRAHMAGIRI RICE INDUSTRIES', radius: 15, startAngle: 300, fontSize: 2.4, letterSpacing: 0 }),
+        curvedText({ text: 'BRAHMAGIRI RICE INDUSTRIES', radius: 15.3, startAngle: 300, fontSize: 2, letterSpacing: 0 }),
         curvedText({
           text: 'KALLODY',
-          radius: 15,
+          radius: 15.3,
           startAngle: 240,
           direction: 'counterclockwise',
           fontSize: 3.2,
@@ -429,8 +430,8 @@ export const TEMPLATES: StampTemplate[] = [
       ink: { mode: 'ink', color: '#2B6F4C', opacity: 0.8, distress: 0.3 },
       elements: [
         shape({ shape: 'circle', width: 30, height: 30, strokeWidth: 1.2 }),
-        curvedText({ text: 'CERTIFIED CORRECT', radius: 13, startAngle: 300, fontSize: 2.6, letterSpacing: 0.3 }),
-        text({ text: 'PAID', y: 1, fontSize: 7.5, fontWeight: 700, letterSpacing: 1.5 }),
+        curvedText({ text: 'CERTIFIED CORRECT', radius: 14.5, startAngle: 300, fontSize: 2.2, letterSpacing: 0.2 }),
+        text({ text: 'PAID', y: 1, fontSize: 6.5, fontWeight: 700, letterSpacing: 1.5 }),
       ],
     },
   },
@@ -494,10 +495,9 @@ export const TEMPLATES: StampTemplate[] = [
       dimensions: { width: 44, height: 34 },
       ink: { mode: 'ink', color: '#1F4E8B', opacity: 0.85, distress: 0.2 },
       elements: [
-        shape({ shape: 'circle', width: 38, height: 26, strokeWidth: 0.8 }),
-        curvedText({ text: 'YOUR COMPANY PVT. LTD.', radius: 16, startAngle: 300, fontSize: 3 }),
-        text({ text: 'Authorised', y: -1, fontSize: 4, fontWeight: 600 }),
-        text({ text: 'Signatory', y: 4, fontSize: 4, fontWeight: 600 }),
+        curvedText({ text: 'YOUR COMPANY PVT. LTD.', radius: 15.5, startAngle: 300, fontSize: 2.4, letterSpacing: 0.2 }),
+        text({ text: 'Authorised', y: -1, fontSize: 3.6, fontWeight: 600 }),
+        text({ text: 'Signatory', y: 3, fontSize: 3.6, fontWeight: 600 }),
       ],
     },
   },
@@ -512,10 +512,10 @@ export const TEMPLATES: StampTemplate[] = [
       ink: { mode: 'ink', color: '#1F4E8B', opacity: 0.85, distress: 0.2 },
       elements: [
         shape({ shape: 'circle', width: 36, height: 36, strokeWidth: 0.8 }),
-        curvedText({ text: 'INDIA BANK LIMITED', radius: 17, startAngle: 300, fontSize: 3.2, letterSpacing: 0.3 }),
+        curvedText({ text: 'INDIA BANK LIMITED', radius: 17.5, startAngle: 300, fontSize: 2.8, letterSpacing: 0.2 }),
         curvedText({
           text: 'MUMBAI BRANCH',
-          radius: 17,
+          radius: 17.5,
           startAngle: 240,
           direction: 'counterclockwise',
           fontSize: 3.2,
@@ -564,7 +564,7 @@ export const TEMPLATES: StampTemplate[] = [
       elements: [
         shape({ shape: 'circle', width: 34, height: 34, strokeWidth: 0.8 }),
         shape({ shape: 'circle', width: 22, height: 22, strokeWidth: 0.6 }),
-        curvedText({ text: 'YOUR COMPANY PVT. LTD.', radius: 16, startAngle: 300, fontSize: 2.6, letterSpacing: 0.2 }),
+        curvedText({ text: 'YOUR COMPANY PVT. LTD.', radius: 16, startAngle: 300, fontSize: 2.2, letterSpacing: 0.1 }),
         text({ text: 'YOUR CITY', y: 1, fontSize: 2.6, fontWeight: 600, letterSpacing: 0.3 }),
       ],
     },
