@@ -4,6 +4,61 @@ import CanvasElementView from './CanvasElementView'
 import SelectionOverlay from './SelectionOverlay'
 import { clamp } from '../../lib/geometry'
 
+function MeasurementGrid({ viewWidth, viewHeight }: { viewWidth: number; viewHeight: number }) {
+  const left = -viewWidth / 2
+  const top = -viewHeight / 2
+  const startX = Math.ceil(left / 5) * 5
+  const endX = Math.floor((left + viewWidth) / 5) * 5
+  const startY = Math.ceil(top / 5) * 5
+  const endY = Math.floor((top + viewHeight) / 5) * 5
+
+  const minorLinesX: number[] = []
+  for (let x = startX; x <= endX; x += 5) minorLinesX.push(x)
+  const minorLinesY: number[] = []
+  for (let y = startY; y <= endY; y += 5) minorLinesY.push(y)
+
+  return (
+    <g data-selection-ui="true" pointerEvents="none">
+      {minorLinesX.map((x) => (
+        <line
+          key={`v-${x}`}
+          x1={x}
+          y1={top}
+          x2={x}
+          y2={top + viewHeight}
+          stroke={x % 10 === 0 ? '#D8D0C0' : '#E9E3D6'}
+          strokeWidth={x % 10 === 0 ? 0.15 : 0.08}
+        />
+      ))}
+      {minorLinesY.map((y) => (
+        <line
+          key={`h-${y}`}
+          x1={left}
+          y1={y}
+          x2={left + viewWidth}
+          y2={y}
+          stroke={y % 10 === 0 ? '#D8D0C0' : '#E9E3D6'}
+          strokeWidth={y % 10 === 0 ? 0.15 : 0.08}
+        />
+      ))}
+      {minorLinesX
+        .filter((x) => x % 10 === 0)
+        .map((x) => (
+          <text key={`vl-${x}`} x={x} y={top + 2.6} fontSize={2} textAnchor="middle" fill="#B7AD98">
+            {x}
+          </text>
+        ))}
+      {minorLinesY
+        .filter((y) => y % 10 === 0)
+        .map((y) => (
+          <text key={`hl-${y}`} x={left + 1} y={y + 0.7} fontSize={2} fill="#B7AD98">
+            {y}
+          </text>
+        ))}
+    </g>
+  )
+}
+
 function StampOutline({ shape, width, height }: { shape: string; width: number; height: number }) {
   const stroke = '#2B2A28'
   const strokeWidth = 1.2
@@ -164,6 +219,7 @@ export default function StampCanvas() {
           />
         </filter>
       </defs>
+      <MeasurementGrid viewWidth={viewWidth} viewHeight={viewHeight} />
       <g
         filter={project.ink.mode === 'ink' ? 'url(#ink-distress-filter)' : undefined}
         opacity={project.ink.mode === 'ink' ? project.ink.opacity : 1}
