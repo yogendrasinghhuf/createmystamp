@@ -7,6 +7,8 @@ export type TemplateCategory =
   | 'Teacher'
   | 'Monogram'
   | 'Date'
+  | 'Indian'
+  | 'Office'
 
 export const TEMPLATE_CATEGORIES: TemplateCategory[] = [
   'Business',
@@ -17,4 +19,6 @@ export const TEMPLATE_CATEGORIES: TemplateCategory[] = [
   'Teacher',
   'Monogram',
   'Date',
+  'Indian',
+  'Office',
 ]

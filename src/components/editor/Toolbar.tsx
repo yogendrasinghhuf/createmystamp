@@ -121,8 +121,8 @@ export default function Toolbar() {
       letterSpacing: 1,
       color: '#2B2A28',
       radius,
-      startAngle: 75,
-      direction: 'clockwise',
+      startAngle: 240,
+      direction: 'counterclockwise',
     })
   }
 

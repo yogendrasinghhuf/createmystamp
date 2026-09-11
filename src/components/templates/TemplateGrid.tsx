@@ -12,7 +12,7 @@ export default function TemplateGrid({
     return <p className="text-sm text-ink/50">No templates in this category yet.</p>
   }
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
       {templates.map((template) => (
         <TemplateCard key={template.id} template={template} onUse={onUse} />
       ))}
