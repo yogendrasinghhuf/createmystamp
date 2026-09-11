@@ -17,14 +17,14 @@ export default function TextProperties({ element }: { element: TextElement }) {
           <textarea
             value={element.text}
             onChange={(e) => patch({ text: e.target.value })}
-            className="rounded-lg border border-line bg-paper px-2 py-2"
+            className="rounded-lg border-2 border-accent bg-paper px-2 py-2"
             rows={3}
           />
         ) : (
           <input
             value={element.text}
             onChange={(e) => patch({ text: e.target.value })}
-            className="rounded-lg border border-line bg-paper px-2 py-2"
+            className="rounded-lg border-2 border-accent bg-paper px-2 py-2"
           />
         )}
       </label>

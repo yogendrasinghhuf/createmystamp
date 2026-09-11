@@ -16,7 +16,7 @@ export default function CurvedTextProperties({ element }: { element: CurvedTextE
         <input
           value={element.text}
           onChange={(e) => patch({ text: e.target.value })}
-          className="rounded-lg border border-line bg-paper px-2 py-2"
+          className="rounded-lg border-2 border-accent bg-paper px-2 py-2"
         />
       </label>
       <Select
