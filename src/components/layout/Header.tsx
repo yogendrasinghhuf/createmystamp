@@ -26,12 +26,6 @@ export default function Header() {
             </a>
           ))}
         </nav>
-        <a
-          href="#editor"
-          className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-paper shadow-soft transition-colors hover:bg-accent"
-        >
-          Open Stamp Studio
-        </a>
       </div>
     </header>
   )
