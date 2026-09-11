@@ -49,7 +49,7 @@ export default function StampStudioSection() {
       <div className="mx-auto max-w-[1000px] px-3 pt-3 md:px-6 md:pt-4">
         <div
           className="flex min-h-0 flex-col overflow-hidden rounded-xl3 border border-line shadow-card"
-          style={{ height: 'min(800px, calc(100vh - 198px))' }}
+          style={{ height: 'min(680px, calc(100vh - 198px))' }}
         >
           <EditorTopBar />
           <div className="flex min-h-0 flex-1 flex-col md:grid md:grid-cols-[150px_1fr_320px]">
@@ -63,11 +63,10 @@ export default function StampStudioSection() {
             </div>
             <aside className="hidden min-h-0 overflow-y-auto border-l border-line md:block">
               <PropertiesPanel />
-              <div className="border-t border-line p-3">
-                <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-ink/50">Export</h3>
-                <ExportPanel />
-              </div>
             </aside>
+          </div>
+          <div className="hidden shrink-0 border-t border-line bg-paper px-4 py-2.5 md:block">
+            <ExportPanel layout="row" />
           </div>
           <MobileToolbar
             onOpenAdd={() => setMobileSheet('add')}

@@ -10,7 +10,11 @@ import Select from '../ui/Select'
 
 const PX_PER_MM = 8 // baseline raster density before scale multiplier
 
-export default function ExportPanel() {
+interface ExportPanelProps {
+  layout?: 'stacked' | 'row'
+}
+
+export default function ExportPanel({ layout = 'stacked' }: ExportPanelProps) {
   const project = useProject()
   const [format, setFormat] = useState<'png' | 'svg'>('png')
   const [scale, setScale] = useState<'1' | '2' | '3'>('2')
@@ -38,6 +42,45 @@ export default function ExportPanel() {
     } finally {
       setBusy(false)
     }
+  }
+
+  if (layout === 'row') {
+    return (
+      <div className="flex flex-wrap items-center gap-3">
+        <Select
+          label="Format"
+          value={format}
+          options={[
+            { label: 'PNG', value: 'png' },
+            { label: 'SVG (vector)', value: 'svg' },
+          ]}
+          onChange={(value) => setFormat(value as 'png' | 'svg')}
+          compact
+        />
+        {format === 'png' && (
+          <>
+            <Select
+              label="Scale"
+              value={scale}
+              options={[
+                { label: '1x', value: '1' },
+                { label: '2x', value: '2' },
+                { label: '3x', value: '3' },
+              ]}
+              onChange={(value) => setScale(value as '1' | '2' | '3')}
+              compact
+            />
+            <label className="flex items-center gap-1.5 whitespace-nowrap text-xs text-ink/70">
+              <input type="checkbox" checked={transparent} onChange={(e) => setTransparent(e.target.checked)} />
+              Transparent
+            </label>
+          </>
+        )}
+        <Button onClick={handleExport} disabled={busy} className="ml-auto">
+          {busy ? 'Exporting…' : 'Download'}
+        </Button>
+      </div>
+    )
   }
 
   return (
