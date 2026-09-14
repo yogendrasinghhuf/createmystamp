@@ -412,13 +412,13 @@ export const TEMPLATES: StampTemplate[] = [
     category: 'Office',
     project: {
       name: 'Certified Stamp',
-      shape: 'circle',
-      dimensions: { width: 34, height: 34 },
+      shape: 'rectangle',
+      dimensions: { width: 32, height: 32 },
       ink: { mode: 'ink', color: '#8B2E1F', opacity: 0.8, distress: 0.3 },
       elements: [
-        shape({ shape: 'octagon', width: 28, height: 28, strokeWidth: 1.2 }),
-        text({ text: 'CERTIFIED', y: -1, fontSize: 3.3, fontWeight: 700, letterSpacing: 1 }),
-        text({ text: 'TRUE COPY', y: 5, fontSize: 2.4, letterSpacing: 1 }),
+        shape({ shape: 'octagon', width: 30, height: 30, strokeWidth: 1 }),
+        text({ text: 'CERTIFIED', y: -2, fontSize: 3.4, fontWeight: 700, letterSpacing: 0.6 }),
+        text({ text: 'TRUE COPY', y: 3, fontSize: 3, letterSpacing: 0.6 }),
       ],
     },
   },
