@@ -82,7 +82,7 @@ export const TEMPLATES: StampTemplate[] = [
       dimensions: { width: 40, height: 40 },
       ink: { mode: 'clean', color: '#2B2A28', opacity: 0.85, distress: 0.15 },
       elements: [
-        curvedText({ text: 'NORTH & PINE CO.', radius: 14, startAngle: 300, fontSize: 2.6, letterSpacing: 0.2 }),
+        curvedText({ text: 'NORTH & PINE CO.', radius: 14, startAngle: 303, fontSize: 2.6, letterSpacing: 0.2 }),
         text({ text: 'EST. 2026', y: 1, fontSize: 4, letterSpacing: 1.5 }),
         shape({ shape: 'circle', width: 34, height: 34, strokeWidth: 0.8 }),
       ],
@@ -364,17 +364,16 @@ export const TEMPLATES: StampTemplate[] = [
       elements: [
         shape({ shape: 'circle', width: 34, height: 34, strokeWidth: 0.6 }),
         shape({ shape: 'circle', width: 22, height: 22, strokeWidth: 0.6 }),
-        curvedText({ text: 'STAMP MAKERS INDIA', radius: 16.5, startAngle: 300, fontSize: 2.8, letterSpacing: 0.3 }),
+        curvedText({ text: 'STAMP MAKERS INDIA', radius: 14.5, startAngle: 306, fontSize: 2.2, letterSpacing: 0.2 }),
         curvedText({
           text: 'MANANTHAVADY',
-          radius: 16,
-          startAngle: 240,
+          radius: 14.5,
+          startAngle: 221,
           direction: 'counterclockwise',
-          fontSize: 3,
-          letterSpacing: 0.3,
+          fontSize: 2.6,
+          letterSpacing: 0.2,
         }),
-        text({ text: 'WAYANAD, KERALA', y: -2, fontSize: 2.2, letterSpacing: 0.3 }),
-        text({ text: 'GSTIN: 12345ASFASFA22', y: 3, fontSize: 2.2, letterSpacing: 0 }),
+        text({ text: '2026', y: 1, fontSize: 6, fontWeight: 600, letterSpacing: 1 }),
       ],
     },
   },
@@ -394,7 +393,7 @@ export const TEMPLATES: StampTemplate[] = [
         curvedText({
           text: 'KALLODY',
           radius: 15.3,
-          startAngle: 240,
+          startAngle: 216,
           direction: 'counterclockwise',
           fontSize: 3.2,
           letterSpacing: 1,
@@ -414,7 +413,7 @@ export const TEMPLATES: StampTemplate[] = [
       ink: { mode: 'ink', color: '#2B6F4C', opacity: 0.8, distress: 0.3 },
       elements: [
         shape({ shape: 'circle', width: 30, height: 30, strokeWidth: 1.2 }),
-        curvedText({ text: 'CERTIFIED CORRECT', radius: 14.5, startAngle: 300, fontSize: 2.2, letterSpacing: 0.2 }),
+        curvedText({ text: 'CERTIFIED CORRECT', radius: 14.5, startAngle: 309, fontSize: 2.2, letterSpacing: 0.2 }),
         text({ text: 'PAID', y: 1, fontSize: 6.5, fontWeight: 700, letterSpacing: 1.5 }),
       ],
     },
@@ -479,7 +478,7 @@ export const TEMPLATES: StampTemplate[] = [
       dimensions: { width: 44, height: 34 },
       ink: { mode: 'ink', color: '#1F4E8B', opacity: 0.85, distress: 0.2 },
       elements: [
-        curvedText({ text: 'YOUR COMPANY PVT. LTD.', radius: 15.5, startAngle: 300, fontSize: 2.4, letterSpacing: 0.2 }),
+        curvedText({ text: 'YOUR COMPANY PVT. LTD.', radius: 15.5, startAngle: 294, fontSize: 2.4, letterSpacing: 0.2 }),
         text({ text: 'Authorised', y: -1, fontSize: 3.6, fontWeight: 600 }),
         text({ text: 'Signatory', y: 3, fontSize: 3.6, fontWeight: 600 }),
       ],
@@ -496,11 +495,11 @@ export const TEMPLATES: StampTemplate[] = [
       ink: { mode: 'ink', color: '#1F4E8B', opacity: 0.85, distress: 0.2 },
       elements: [
         shape({ shape: 'circle', width: 36, height: 36, strokeWidth: 0.8 }),
-        curvedText({ text: 'INDIA BANK LIMITED', radius: 17.5, startAngle: 300, fontSize: 2.8, letterSpacing: 0.2 }),
+        curvedText({ text: 'INDIA BANK LIMITED', radius: 17.5, startAngle: 305, fontSize: 2.8, letterSpacing: 0.2 }),
         curvedText({
           text: 'MUMBAI BRANCH',
           radius: 17.5,
-          startAngle: 240,
+          startAngle: 227,
           direction: 'counterclockwise',
           fontSize: 3.2,
           letterSpacing: 0.3,
@@ -522,11 +521,11 @@ export const TEMPLATES: StampTemplate[] = [
       elements: [
         shape({ shape: 'circle', width: 38, height: 38, strokeWidth: 0.8 }),
         shape({ shape: 'circle', width: 26, height: 26, strokeWidth: 0.6 }),
-        curvedText({ text: 'FTFC COURIER SERVICES', radius: 18, startAngle: 300, fontSize: 2.3, letterSpacing: 0.2 }),
+        curvedText({ text: 'FTFC COURIER SERVICES', radius: 18, startAngle: 308, fontSize: 2.3, letterSpacing: 0.2 }),
         curvedText({
           text: 'PVT. LTD.',
           radius: 18,
-          startAngle: 240,
+          startAngle: 209,
           direction: 'counterclockwise',
           fontSize: 2.6,
           letterSpacing: 0.5,
@@ -548,7 +547,7 @@ export const TEMPLATES: StampTemplate[] = [
       elements: [
         shape({ shape: 'circle', width: 34, height: 34, strokeWidth: 0.8 }),
         shape({ shape: 'circle', width: 22, height: 22, strokeWidth: 0.6 }),
-        curvedText({ text: 'YOUR COMPANY PVT. LTD.', radius: 16, startAngle: 300, fontSize: 2.2, letterSpacing: 0.1 }),
+        curvedText({ text: 'YOUR COMPANY PVT. LTD.', radius: 16, startAngle: 304, fontSize: 2.2, letterSpacing: 0.1 }),
         text({ text: 'YOUR CITY', y: 1, fontSize: 2.6, fontWeight: 600, letterSpacing: 0.3 }),
       ],
     },
