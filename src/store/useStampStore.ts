@@ -164,7 +164,7 @@ export function createDefaultProject(): StampProject {
         multiline: false,
       },
     ],
-    ink: { mode: 'clean', color: DEFAULT_INK_COLOR, opacity: 0.85, distress: 0.2 },
+    ink: { mode: 'clean', color: DEFAULT_INK_COLOR, opacity: 0.85, distress: 0 },
     updatedAt: Date.now(),
   }
 }
