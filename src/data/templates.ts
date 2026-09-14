@@ -450,8 +450,8 @@ export const TEMPLATES: StampTemplate[] = [
       dimensions: { width: 50, height: 45 },
       ink: { mode: 'ink', color: '#1F4E8B', opacity: 0.85, distress: 0.2 },
       elements: [
-        text({ text: 'Authorised', y: -3, fontSize: 3.2, fontWeight: 600 }),
-        text({ text: 'Signatory', y: 2, fontSize: 3.2, fontWeight: 600 }),
+        text({ text: 'Authorised', y: 3, fontSize: 3.2, fontWeight: 600 }),
+        text({ text: 'Signatory', y: 8, fontSize: 3.2, fontWeight: 600 }),
         text({ text: 'YOUR COMPANY PVT. LTD.', y: 16, fontSize: 2.4, letterSpacing: 0.1 }),
       ],
     },
