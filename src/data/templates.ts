@@ -71,6 +71,23 @@ function shape(overrides: Partial<Extract<StampElement, { type: 'shape' }>>): St
   } as StampElement
 }
 
+function qrCode(overrides: Partial<Extract<StampElement, { type: 'qrCode' }>>): StampElement {
+  return {
+    id: overrides.id ?? crypto.randomUUID(),
+    type: 'qrCode',
+    x: 0,
+    y: 0,
+    rotation: 0,
+    scale: 1,
+    zIndex: 1,
+    content: 'https://example.com',
+    contentType: 'text',
+    size: 16,
+    color: '#2B2A28',
+    ...overrides,
+  } as StampElement
+}
+
 export const TEMPLATES: StampTemplate[] = [
   {
     id: 'business-northpine',
@@ -508,19 +525,18 @@ export const TEMPLATES: StampTemplate[] = [
     },
   },
   {
-    id: 'office-company-city',
-    name: 'Company & City Seal',
+    id: 'office-qr-verify',
+    name: 'QR Verify Stamp',
     category: 'Office',
     project: {
-      name: 'Company & City Seal',
-      shape: 'circle',
-      dimensions: { width: 40, height: 40 },
-      ink: { mode: 'ink', color: '#1F4E8B', opacity: 0.85, distress: 0.2 },
+      name: 'QR Verify Stamp',
+      shape: 'rectangle',
+      dimensions: { width: 42, height: 50 },
+      ink: { mode: 'clean', color: '#1F4E8B', opacity: 0.85, distress: 0.1 },
       elements: [
-        shape({ shape: 'circle', width: 34, height: 34, strokeWidth: 0.8 }),
-        shape({ shape: 'circle', width: 22, height: 22, strokeWidth: 0.6 }),
-        curvedText({ text: 'YOUR COMPANY PVT. LTD.', radius: 14.5, startAngle: 306, fontSize: 1.9, letterSpacing: 0.1 }),
-        text({ text: 'YOUR CITY', y: 1, fontSize: 2.6, fontWeight: 600, letterSpacing: 0.3 }),
+        text({ text: 'YOUR COMPANY', y: -19, fontSize: 3, fontWeight: 700, letterSpacing: 0.3 }),
+        qrCode({ content: 'https://example.com', contentType: 'text', size: 24, y: -2 }),
+        text({ text: 'SCAN TO VERIFY', y: 18, fontSize: 2.6, letterSpacing: 0.5 }),
       ],
     },
   },
