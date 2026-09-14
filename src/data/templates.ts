@@ -277,14 +277,14 @@ export const TEMPLATES: StampTemplate[] = [
   },
   {
     id: 'monogram-interlock',
-    name: 'Interlock Initials',
-    category: 'Monogram',
+    name: 'Fragile Label',
+    category: 'Packaging',
     project: {
-      name: 'Interlock Initials',
+      name: 'Fragile Label',
       shape: 'oval',
       dimensions: { width: 32, height: 24 },
       ink: { mode: 'clean', color: '#2B2A28', opacity: 0.85, distress: 0.1 },
-      elements: [text({ text: 'M · K', y: 0, fontSize: 7, fontWeight: 600, letterSpacing: 0.5 })],
+      elements: [text({ text: 'FRAGILE', y: 1, fontSize: 4.6, fontWeight: 600, letterSpacing: 0.4, align: 'center' })],
     },
   },
   {
