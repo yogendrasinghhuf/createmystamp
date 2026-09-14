@@ -297,7 +297,7 @@ export const TEMPLATES: StampTemplate[] = [
       ink: { mode: 'ink', color: '#1F4E8B', opacity: 0.85, distress: 0.2 },
       elements: [
         shape({ shape: 'circle', width: 34, height: 34, strokeWidth: 0.8 }),
-        curvedText({ text: 'SHREE ENTERPRISES', radius: 15, startAngle: 300, fontSize: 3, letterSpacing: 0.3 }),
+        curvedText({ text: 'SHREE ENTERPRISES', radius: 14, startAngle: 295, fontSize: 2.8, letterSpacing: 0.2 }),
         text({ text: 'PROPRIETOR', y: -1, fontSize: 3.4, letterSpacing: 1 }),
         text({ text: 'GSTIN 27ABCDE1234F1Z5', y: 6, fontSize: 2.3, letterSpacing: 0 }),
       ],
