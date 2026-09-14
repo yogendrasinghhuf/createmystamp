@@ -271,7 +271,7 @@ export const TEMPLATES: StampTemplate[] = [
       ink: { mode: 'clean', color: '#2B2A28', opacity: 0.85, distress: 0.1 },
       elements: [
         shape({ shape: 'circle', width: 30, height: 30, strokeWidth: 0.8 }),
-        text({ text: 'J R L', y: 0, fontSize: 7, fontWeight: 500, letterSpacing: 1 }),
+        text({ text: 'SEAL', y: 0, fontSize: 7, fontWeight: 500, letterSpacing: 1 }),
       ],
     },
   },
