@@ -1,4 +1,4 @@
-export type StampShapeKind = 'circle' | 'oval' | 'rectangle' | 'roundedRectangle' | 'badge'
+export type StampShapeKind = 'circle' | 'oval' | 'rectangle' | 'roundedRectangle' | 'badge' | 'triangle'
 
 export interface StampDimensions {
   width: number

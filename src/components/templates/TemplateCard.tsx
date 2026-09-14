@@ -11,6 +11,19 @@ function MiniOutline({ shape, width, height }: { shape: string; width: number; h
   if (shape === 'oval') {
     return <ellipse rx={width / 2} ry={height / 2} fill="none" stroke={stroke} strokeWidth={1} />
   }
+  if (shape === 'triangle') {
+    const halfW = width / 2
+    const halfH = height / 2
+    return (
+      <polygon
+        points={`0,${-halfH} ${halfW},${halfH} ${-halfW},${halfH}`}
+        fill="none"
+        stroke={stroke}
+        strokeWidth={1}
+        strokeLinejoin="round"
+      />
+    )
+  }
   return (
     <rect
       x={-width / 2}

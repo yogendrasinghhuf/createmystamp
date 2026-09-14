@@ -74,6 +74,17 @@ function StampOutline({ shape, width, height, color }: { shape: string; width: n
   if (shape === 'oval') {
     return <ellipse rx={width / 2} ry={height / 2} fill="none" stroke={stroke} strokeWidth={strokeWidth} />
   }
+  if (shape === 'triangle') {
+    return (
+      <polygon
+        points={trianglePoints(width, height)}
+        fill="none"
+        stroke={stroke}
+        strokeWidth={strokeWidth}
+        strokeLinejoin="round"
+      />
+    )
+  }
   const rx = shape === 'roundedRectangle' ? 10 : 0
   return (
     <rect
@@ -87,6 +98,12 @@ function StampOutline({ shape, width, height, color }: { shape: string; width: n
       strokeWidth={strokeWidth}
     />
   )
+}
+
+function trianglePoints(width: number, height: number): string {
+  const halfW = width / 2
+  const halfH = height / 2
+  return `0,${-halfH} ${halfW},${halfH} ${-halfW},${halfH}`
 }
 
 type DragMode =

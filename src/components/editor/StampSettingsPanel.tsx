@@ -9,6 +9,7 @@ const SHAPE_OPTIONS: { label: string; value: StampShapeKind }[] = [
   { label: 'Rectangle', value: 'rectangle' },
   { label: 'Rounded rectangle', value: 'roundedRectangle' },
   { label: 'Badge', value: 'badge' },
+  { label: 'Triangle', value: 'triangle' },
 ]
 
 export default function StampSettingsPanel() {
