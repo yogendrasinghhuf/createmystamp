@@ -206,8 +206,8 @@ export const TEMPLATES: StampTemplate[] = [
       dimensions: { width: 32, height: 32 },
       ink: { mode: 'ink', color: '#2B2A28', opacity: 0.8, distress: 0.25 },
       elements: [
-        shape({ shape: 'circle', width: 20, height: 20, strokeWidth: 0.6 }),
-        curvedText({ text: 'THANK YOU', radius: 13, startAngle: 300, fontSize: 2.6, fontWeight: 700, letterSpacing: 0.2 }),
+        shape({ shape: 'circle', width: 23, height: 23, strokeWidth: 0.6 }),
+        curvedText({ text: 'THANK YOU', radius: 12.7, startAngle: 322, fontSize: 2.8, fontWeight: 700, letterSpacing: 0.2 }),
         text({ text: 'SO MUCH', y: 2, fontSize: 3 }),
       ],
     },
