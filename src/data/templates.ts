@@ -378,31 +378,6 @@ export const TEMPLATES: StampTemplate[] = [
     },
   },
   {
-    id: 'indian-business-pin-seal',
-    name: 'Business PIN Seal',
-    category: 'Indian',
-    project: {
-      name: 'Business PIN Seal',
-      shape: 'circle',
-      dimensions: { width: 38, height: 38 },
-      ink: { mode: 'clean', color: '#2B2A28', opacity: 0.85, distress: 0.15 },
-      elements: [
-        shape({ shape: 'circle', width: 32, height: 32, strokeWidth: 0.6 }),
-        shape({ shape: 'circle', width: 21, height: 21, strokeWidth: 0.6 }),
-        curvedText({ text: 'BRAHMAGIRI RICE', radius: 15.3, startAngle: 300, fontSize: 2.6, letterSpacing: 0.3 }),
-        curvedText({
-          text: 'KALLODY',
-          radius: 15.3,
-          startAngle: 216,
-          direction: 'counterclockwise',
-          fontSize: 3.2,
-          letterSpacing: 1,
-        }),
-        text({ text: 'PIN: 670645', y: 1, fontSize: 3, letterSpacing: 0.3 }),
-      ],
-    },
-  },
-  {
     id: 'office-paid',
     name: 'Paid Stamp',
     category: 'Office',
