@@ -398,13 +398,11 @@ export const TEMPLATES: StampTemplate[] = [
     category: 'Office',
     project: {
       name: 'Approved Stamp',
-      shape: 'badge',
-      dimensions: { width: 36, height: 36 },
+      shape: 'rectangle',
+      dimensions: { width: 44, height: 20 },
       ink: { mode: 'ink', color: '#1F4E8B', opacity: 0.8, distress: 0.3 },
       elements: [
-        shape({ shape: 'circle', width: 31, height: 31, strokeWidth: 1.2 }),
-        curvedText({ text: 'QUALITY MANAGEMENT', radius: 14, startAngle: 300, fontSize: 2.4, letterSpacing: 0.2 }),
-        text({ text: 'APPROVED', y: 1, fontSize: 3.6, fontWeight: 700, letterSpacing: 0.3 }),
+        text({ text: 'APPROVED', y: 1, fontSize: 6, fontWeight: 700, letterSpacing: 1 }),
       ],
     },
   },
