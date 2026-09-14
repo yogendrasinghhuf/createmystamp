@@ -82,8 +82,8 @@ export const TEMPLATES: StampTemplate[] = [
       dimensions: { width: 40, height: 40 },
       ink: { mode: 'clean', color: '#2B2A28', opacity: 0.85, distress: 0.15 },
       elements: [
-        curvedText({ text: 'NORTH & PINE CO.', radius: 15.5, startAngle: 300, fontSize: 3.4 }),
-        text({ text: 'EST. 2026', y: 0, fontSize: 4, letterSpacing: 1.5 }),
+        curvedText({ text: 'NORTH & PINE CO.', radius: 16.5, startAngle: 300, fontSize: 2.8, letterSpacing: 0.2 }),
+        text({ text: 'EST. 2026', y: 1, fontSize: 4, letterSpacing: 1.5 }),
         shape({ shape: 'circle', width: 34, height: 34, strokeWidth: 0.8 }),
       ],
     },
