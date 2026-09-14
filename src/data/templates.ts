@@ -405,7 +405,7 @@ export const TEMPLATES: StampTemplate[] = [
       ink: { mode: 'ink', color: '#2B6F4C', opacity: 0.85, distress: 0.2 },
       elements: [
         shape({ shape: 'circle', width: 30, height: 30, strokeWidth: 1.2 }),
-        text({ text: 'PAID', x: 0.3, y: 1, fontSize: 6.5, fontWeight: 700, letterSpacing: 1.5 }),
+        text({ text: 'PAID', x: 0.4, y: 1, fontSize: 6.5, fontWeight: 700, letterSpacing: 1.5 }),
       ],
     },
   },
