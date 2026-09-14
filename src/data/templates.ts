@@ -404,7 +404,7 @@ export const TEMPLATES: StampTemplate[] = [
       dimensions: { width: 40, height: 20 },
       ink: { mode: 'ink', color: '#C4282D', opacity: 0.85, distress: 0.3 },
       elements: [
-        text({ text: 'PAID', x: 0.4, y: 1.2, fontSize: 9, fontWeight: 700, letterSpacing: 1.5, color: '#C4282D' }),
+        text({ text: 'PAID', x: 0.4, y: 1.8, fontSize: 9, fontWeight: 700, letterSpacing: 1.5, color: '#C4282D' }),
       ],
     },
   },
