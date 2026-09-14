@@ -519,7 +519,7 @@ export const TEMPLATES: StampTemplate[] = [
       elements: [
         shape({ shape: 'circle', width: 34, height: 34, strokeWidth: 0.8 }),
         shape({ shape: 'circle', width: 22, height: 22, strokeWidth: 0.6 }),
-        curvedText({ text: 'YOUR COMPANY PVT. LTD.', radius: 16, startAngle: 304, fontSize: 2.2, letterSpacing: 0.1 }),
+        curvedText({ text: 'YOUR COMPANY PVT. LTD.', radius: 14.5, startAngle: 306, fontSize: 1.9, letterSpacing: 0.1 }),
         text({ text: 'YOUR CITY', y: 1, fontSize: 2.6, fontWeight: 600, letterSpacing: 0.3 }),
       ],
     },
