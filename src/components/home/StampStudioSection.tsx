@@ -14,6 +14,7 @@ export default function StampStudioSection() {
   const project = useProject()
   const selectedIds = useSelectedIds()
   const removeElement = useStampStore((s) => s.removeElement)
+  const updateElement = useStampStore((s) => s.updateElement)
   const loadProject = useStampStore((s) => s.loadProject)
   const [mobileSheet, setMobileSheet] = useState<'none' | 'add' | 'properties' | 'export'>('none')
 
@@ -35,14 +36,37 @@ export default function StampStudioSection() {
       const target = e.target as HTMLElement
       const isEditingText = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA'
       if (isEditingText) return
-      if ((e.key === 'Delete' || e.key === 'Backspace') && selectedIds[0]) {
+
+      const selectedId = selectedIds[0]
+      if (!selectedId) return
+
+      if (e.key === 'Delete' || e.key === 'Backspace') {
         e.preventDefault()
-        removeElement(selectedIds[0])
+        removeElement(selectedId)
+        return
+      }
+
+      const nudgeByKey: Record<string, [number, number]> = {
+        ArrowUp: [0, -1],
+        ArrowDown: [0, 1],
+        ArrowLeft: [-1, 0],
+        ArrowRight: [1, 0],
+      }
+      const nudge = nudgeByKey[e.key]
+      if (nudge) {
+        e.preventDefault()
+        const step = e.shiftKey ? 5 : 0.5
+        const element = project.elements.find((el) => el.id === selectedId)
+        if (!element) return
+        updateElement(selectedId, {
+          x: element.x + nudge[0] * step,
+          y: element.y + nudge[1] * step,
+        })
       }
     }
     window.addEventListener('keydown', handleDeleteKey)
     return () => window.removeEventListener('keydown', handleDeleteKey)
-  }, [selectedIds, removeElement])
+  }, [selectedIds, removeElement, updateElement, project.elements])
 
   return (
     <section id="editor" className="scroll-mt-0 bg-paper">
