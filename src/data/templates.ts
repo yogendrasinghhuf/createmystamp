@@ -385,10 +385,9 @@ export const TEMPLATES: StampTemplate[] = [
       name: 'Paid Stamp',
       shape: 'circle',
       dimensions: { width: 34, height: 34 },
-      ink: { mode: 'ink', color: '#2B6F4C', opacity: 0.8, distress: 0.3 },
+      ink: { mode: 'ink', color: '#2B6F4C', opacity: 0.85, distress: 0.2 },
       elements: [
         shape({ shape: 'circle', width: 30, height: 30, strokeWidth: 1.2 }),
-        curvedText({ text: 'CERTIFIED CORRECT', radius: 14.5, startAngle: 309, fontSize: 2.2, letterSpacing: 0.2 }),
         text({ text: 'PAID', y: 1, fontSize: 6.5, fontWeight: 700, letterSpacing: 1.5 }),
       ],
     },
