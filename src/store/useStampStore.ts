@@ -59,7 +59,7 @@ export function createDefaultProject(): StampProject {
         fontWeight: 600,
         letterSpacing: 0.3,
         color: DEFAULT_INK_COLOR,
-        radius: 15.5,
+        radius: 15,
         startAngle: 306,
         direction: 'clockwise',
       },
