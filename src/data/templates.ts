@@ -284,7 +284,7 @@ export const TEMPLATES: StampTemplate[] = [
       shape: 'oval',
       dimensions: { width: 32, height: 24 },
       ink: { mode: 'clean', color: '#2B2A28', opacity: 0.85, distress: 0.1 },
-      elements: [text({ text: 'FRAGILE', y: 1, fontSize: 4.6, fontWeight: 600, letterSpacing: 0.4, align: 'center' })],
+      elements: [text({ text: 'FRAGILE', x: 0.2, y: 1.2, fontSize: 4.6, fontWeight: 600, letterSpacing: 0.4, align: 'center' })],
     },
   },
   {
