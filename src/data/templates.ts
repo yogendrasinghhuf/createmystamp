@@ -156,12 +156,12 @@ export const TEMPLATES: StampTemplate[] = [
     category: 'Packaging',
     project: {
       name: 'Made By Hand',
-      shape: 'circle',
-      dimensions: { width: 35, height: 35 },
+      shape: 'oval',
+      dimensions: { width: 46, height: 34 },
       ink: { mode: 'ink', color: '#2B2A28', opacity: 0.75, distress: 0.4 },
       elements: [
-        curvedText({ text: 'MADE BY HAND', radius: 15.5, startAngle: 300, fontSize: 3.4, letterSpacing: 0.3 }),
-        text({ text: 'SLOWLY MADE', y: 2, fontSize: 3.2, letterSpacing: 0.3 }),
+        curvedText({ text: 'MADE BY HAND', radius: 15, startAngle: 300, fontSize: 3.6, letterSpacing: 0.3 }),
+        text({ text: 'SLOWLY MADE', y: 3, fontSize: 3.2, letterSpacing: 0.3 }),
       ],
     },
   },
