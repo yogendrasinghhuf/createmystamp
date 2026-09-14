@@ -400,12 +400,11 @@ export const TEMPLATES: StampTemplate[] = [
     category: 'Office',
     project: {
       name: 'Paid Stamp',
-      shape: 'circle',
-      dimensions: { width: 34, height: 34 },
-      ink: { mode: 'ink', color: '#2B6F4C', opacity: 0.85, distress: 0.2 },
+      shape: 'rectangle',
+      dimensions: { width: 40, height: 20 },
+      ink: { mode: 'ink', color: '#C4282D', opacity: 0.85, distress: 0.3 },
       elements: [
-        shape({ shape: 'circle', width: 30, height: 30, strokeWidth: 1.2 }),
-        text({ text: 'PAID', x: 0.4, y: 1.2, fontSize: 6.5, fontWeight: 700, letterSpacing: 1.5 }),
+        text({ text: 'PAID', x: 0.4, y: 1.2, fontSize: 9, fontWeight: 700, letterSpacing: 1.5, color: '#C4282D' }),
       ],
     },
   },
