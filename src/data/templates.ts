@@ -181,21 +181,6 @@ export const TEMPLATES: StampTemplate[] = [
     },
   },
   {
-    id: 'personal-bookplate',
-    name: 'From the Library Of',
-    category: 'Personal',
-    project: {
-      name: 'From the Library Of',
-      shape: 'circle',
-      dimensions: { width: 38, height: 38 },
-      ink: { mode: 'clean', color: '#2B2A28', opacity: 0.85, distress: 0.15 },
-      elements: [
-        curvedText({ text: 'FROM THE LIBRARY OF', radius: 17, startAngle: 300, fontSize: 3.1, letterSpacing: 0.2 }),
-        text({ text: 'R. ASHWORTH', y: 2, fontSize: 4.5, fontWeight: 500 }),
-      ],
-    },
-  },
-  {
     id: 'creative-sunburst',
     name: 'Sunburst Notes',
     category: 'Creative',
