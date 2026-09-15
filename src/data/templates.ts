@@ -130,7 +130,7 @@ export const TEMPLATES: StampTemplate[] = [
       name: 'North & Pine Co.',
       shape: 'circle',
       dimensions: { width: 40, height: 40 },
-      ink: { mode: 'clean', color: '#2B2A28', opacity: 0.85, distress: 0.15 },
+      ink: { mode: 'clean', color: '#1F4E8B', opacity: 0.85, distress: 0.15 },
       elements: [
         curvedText({ text: 'NORTH & PINE CO.', radius: 14, startAngle: 303, fontSize: 2.6, letterSpacing: 0.2 }),
         text({ text: 'EST. 2026', y: 1, fontSize: 4, letterSpacing: 1.5 }),
@@ -163,7 +163,7 @@ export const TEMPLATES: StampTemplate[] = [
       name: 'Harborview Returns',
       shape: 'rectangle',
       dimensions: { width: 60, height: 30 },
-      ink: { mode: 'clean', color: '#2B2A28', opacity: 0.85, distress: 0.1 },
+      ink: { mode: 'clean', color: '#1F4E8B', opacity: 0.85, distress: 0.1 },
       elements: [
         text({ text: 'HARBORVIEW LANE 42', y: -6, fontSize: 4.5, align: 'left', x: -25 }),
         text({ text: 'PORTVILLE, ST 00000', y: 0, fontSize: 4, align: 'left', x: -25 }),
@@ -179,7 +179,7 @@ export const TEMPLATES: StampTemplate[] = [
       name: 'Oakline Residence',
       shape: 'roundedRectangle',
       dimensions: { width: 50, height: 22 },
-      ink: { mode: 'clean', color: '#2B2A28', opacity: 0.85, distress: 0.1 },
+      ink: { mode: 'clean', color: '#1F4E8B', opacity: 0.85, distress: 0.1 },
       elements: [
         text({ text: 'THE OAKLINE RESIDENCE', y: -3, fontSize: 3.2, fontWeight: 700 }),
         text({ text: '18 MAPLE COURT', y: 4, fontSize: 3.4 }),
@@ -212,7 +212,7 @@ export const TEMPLATES: StampTemplate[] = [
       name: 'Made By Hand',
       shape: 'circle',
       dimensions: { width: 35, height: 35 },
-      ink: { mode: 'ink', color: '#2B2A28', opacity: 0.75, distress: 0.4 },
+      ink: { mode: 'ink', color: '#1F4E8B', opacity: 0.75, distress: 0.4 },
       elements: [
         curvedText({ text: 'MADE BY HAND', radius: 12.5, startAngle: 300, fontSize: 3.2, letterSpacing: 0.3 }),
         text({ text: 'SLOWLY MADE', y: 3, fontSize: 3.2, letterSpacing: 0.3 }),
@@ -227,7 +227,7 @@ export const TEMPLATES: StampTemplate[] = [
       name: 'Personal Signature Mark',
       shape: 'oval',
       dimensions: { width: 45, height: 28 },
-      ink: { mode: 'clean', color: '#2B2A28', opacity: 0.85, distress: 0.15 },
+      ink: { mode: 'clean', color: '#1F4E8B', opacity: 0.85, distress: 0.15 },
       elements: [
         text({ text: 'AVERY QUINN', y: -2, fontSize: 5, fontWeight: 500 }),
         text({ text: 'PERSONAL COPY', y: 6, fontSize: 3, letterSpacing: 1 }),
@@ -394,7 +394,7 @@ export const TEMPLATES: StampTemplate[] = [
       name: 'Authorised Signatory',
       shape: 'rectangle',
       dimensions: { width: 50, height: 22 },
-      ink: { mode: 'clean', color: '#2B2A28', opacity: 0.85, distress: 0.1 },
+      ink: { mode: 'clean', color: '#1F4E8B', opacity: 0.85, distress: 0.1 },
       elements: [
         text({ text: 'RAJ TRADING CO.', y: -5, fontSize: 3.8, fontWeight: 700, letterSpacing: 0.5 }),
         shape({ shape: 'line', width: 40, height: 0.5, y: 0 }),
@@ -410,7 +410,7 @@ export const TEMPLATES: StampTemplate[] = [
       name: 'Advocate Oval Seal',
       shape: 'oval',
       dimensions: { width: 48, height: 30 },
-      ink: { mode: 'ink', color: '#2B2A28', opacity: 0.85, distress: 0.2 },
+      ink: { mode: 'ink', color: '#1F4E8B', opacity: 0.85, distress: 0.2 },
       elements: [
         text({ text: 'ADV. SUNITA MEHTA', y: -3, fontSize: 3.4, fontWeight: 700, letterSpacing: 0.3 }),
         text({ text: 'B.A. LL.B, ADVOCATE', y: 3, fontSize: 2.6, letterSpacing: 0.3 }),
@@ -426,7 +426,7 @@ export const TEMPLATES: StampTemplate[] = [
       name: 'GST Business Seal',
       shape: 'circle',
       dimensions: { width: 40, height: 40 },
-      ink: { mode: 'clean', color: '#2B2A28', opacity: 0.85, distress: 0.15 },
+      ink: { mode: 'clean', color: '#1F4E8B', opacity: 0.85, distress: 0.15 },
       elements: [
         shape({ shape: 'circle', width: 34, height: 34, strokeWidth: 0.6 }),
         shape({ shape: 'circle', width: 22, height: 22, strokeWidth: 0.6 }),
@@ -652,7 +652,7 @@ export const TEMPLATES: StampTemplate[] = [
       name: 'True Copy Certification',
       shape: 'rectangle',
       dimensions: { width: 66, height: 40 },
-      ink: { mode: 'clean', color: '#2B2A28', opacity: 0.85, distress: 0.1 },
+      ink: { mode: 'clean', color: '#1F4E8B', opacity: 0.85, distress: 0.1 },
       elements: [
         text({
           text: 'I have viewed the original document',
