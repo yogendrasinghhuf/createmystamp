@@ -278,13 +278,6 @@ export default function Toolbar() {
         triggerRef={iconTriggerRef}
       />
       <IconButton
-        icon={<QrCode size={18} />}
-        label="QR code"
-        showLabel
-        onClick={handleAddQrCode}
-        className="min-h-11 md:min-h-8 border-line hover:border-amber-400 hover:bg-amber-50"
-      />
-      <IconButton
         icon={<Circle size={18} />}
         label="Circle"
         showLabel
@@ -346,6 +339,13 @@ export default function Toolbar() {
         showLabel
         onClick={() => handleAddShape('x')}
         className="min-h-11 md:min-h-8 border-line hover:border-violet-400 hover:bg-violet-50"
+      />
+      <IconButton
+        icon={<QrCode size={18} />}
+        label="QR code"
+        showLabel
+        onClick={handleAddQrCode}
+        className="min-h-11 md:min-h-8 border-line hover:border-amber-400 hover:bg-amber-50"
       />
       <IconButton
         icon={<ImageIcon size={18} />}
