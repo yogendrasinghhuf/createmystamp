@@ -170,7 +170,7 @@ export const TEMPLATES: StampTemplate[] = [
   {
     id: 'packaging-madeby',
     name: 'Made By Hand',
-    category: 'Packaging',
+    category: 'Creative',
     project: {
       name: 'Made By Hand',
       shape: 'circle',
@@ -306,7 +306,7 @@ export const TEMPLATES: StampTemplate[] = [
   {
     id: 'indian-company-seal',
     name: 'Company Round Seal',
-    category: 'Indian',
+    category: 'Business',
     project: {
       name: 'Company Round Seal',
       shape: 'circle',
@@ -323,7 +323,7 @@ export const TEMPLATES: StampTemplate[] = [
   {
     id: 'indian-received-with-thanks',
     name: 'Received With Thanks',
-    category: 'Indian',
+    category: 'Legal',
     project: {
       name: 'Received With Thanks',
       shape: 'rectangle',
@@ -340,7 +340,7 @@ export const TEMPLATES: StampTemplate[] = [
   {
     id: 'indian-proprietor-signature',
     name: 'Authorised Signatory',
-    category: 'Indian',
+    category: 'Legal',
     project: {
       name: 'Authorised Signatory',
       shape: 'rectangle',
@@ -356,7 +356,7 @@ export const TEMPLATES: StampTemplate[] = [
   {
     id: 'indian-advocate-seal',
     name: 'Advocate Oval Seal',
-    category: 'Indian',
+    category: 'Legal',
     project: {
       name: 'Advocate Oval Seal',
       shape: 'oval',
@@ -372,7 +372,7 @@ export const TEMPLATES: StampTemplate[] = [
   {
     id: 'indian-stamp-makers-gst',
     name: 'GST Business Seal',
-    category: 'Indian',
+    category: 'Business',
     project: {
       name: 'GST Business Seal',
       shape: 'circle',
@@ -433,7 +433,7 @@ export const TEMPLATES: StampTemplate[] = [
   {
     id: 'office-certified',
     name: 'Certified Stamp',
-    category: 'Office',
+    category: 'Legal',
     project: {
       name: 'Certified Stamp',
       shape: 'rectangle',
@@ -467,7 +467,7 @@ export const TEMPLATES: StampTemplate[] = [
   {
     id: 'office-authorised-signatory-oval',
     name: 'Authorised Signatory Triangle',
-    category: 'Office',
+    category: 'Legal',
     project: {
       name: 'Authorised Signatory Triangle',
       shape: 'triangle',
@@ -483,7 +483,7 @@ export const TEMPLATES: StampTemplate[] = [
   {
     id: 'office-bank-branch',
     name: 'Bank Branch Stamp',
-    category: 'Office',
+    category: 'Business',
     project: {
       name: 'Bank Branch Stamp',
       shape: 'circle',
@@ -508,7 +508,7 @@ export const TEMPLATES: StampTemplate[] = [
   {
     id: 'office-courier-logistics',
     name: 'Courier Logistics Stamp',
-    category: 'Office',
+    category: 'Business',
     project: {
       name: 'Courier Logistics Stamp',
       shape: 'circle',
@@ -550,7 +550,7 @@ export const TEMPLATES: StampTemplate[] = [
   {
     id: 'office-company-partner',
     name: 'Company Partner Frame',
-    category: 'Office',
+    category: 'Business',
     project: {
       name: 'Company Partner Frame',
       shape: 'rectangle',
@@ -565,7 +565,7 @@ export const TEMPLATES: StampTemplate[] = [
   {
     id: 'office-address-frame',
     name: 'Address Stamp Frame',
-    category: 'Office',
+    category: 'Address',
     project: {
       name: 'Address Stamp Frame',
       shape: 'rectangle',
@@ -583,7 +583,7 @@ export const TEMPLATES: StampTemplate[] = [
   {
     id: 'office-true-copy-block',
     name: 'True Copy Certification',
-    category: 'Office',
+    category: 'Legal',
     project: {
       name: 'True Copy Certification',
       shape: 'rectangle',
