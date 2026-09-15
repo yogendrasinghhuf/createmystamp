@@ -75,15 +75,17 @@ export default function StampStudioSection() {
           className="flex min-h-0 flex-col overflow-hidden rounded-xl3 border border-line shadow-card"
           style={{ height: 'min(680px, calc(100vh - 198px))' }}
         >
-          <EditorTopBar />
           <div className="flex min-h-0 flex-1 flex-col md:grid md:grid-cols-[150px_1fr_320px]">
             <aside className="hidden min-h-0 overflow-y-auto border-r border-line md:block">
               <Toolbar />
             </aside>
-            <div className="flex min-h-0 flex-1 items-center justify-center overflow-hidden bg-line/20 p-4 md:p-8">
-              <div className="aspect-square h-full max-h-full w-full max-w-sm md:max-w-2xl">
-                <StampCanvas />
+            <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+              <div className="flex min-h-0 flex-1 items-center justify-center overflow-hidden bg-line/20 p-4 md:p-8">
+                <div className="aspect-square h-full max-h-full w-full max-w-sm md:max-w-2xl">
+                  <StampCanvas />
+                </div>
               </div>
+              <EditorTopBar />
             </div>
             <aside className="hidden min-h-0 overflow-y-auto border-l border-line md:block">
               <PropertiesPanel />

@@ -23,7 +23,7 @@ export default function EditorTopBar() {
   }
 
   return (
-    <div className="flex items-center justify-between border-b border-line px-4 py-2">
+    <div className="flex shrink-0 items-center justify-between border-t border-line px-4 py-2">
       <div className="flex gap-2">
         <IconButton icon={<RotateCcw size={18} />} label="Reset to sample" onClick={handleReset} />
         <IconButton icon={<Eraser size={18} />} label="Clear workspace" onClick={handleClear} />
