@@ -1,6 +1,7 @@
 import type { CurvedTextElement } from '../../types/stamp'
 import { useStampStore } from '../../store/useStampStore'
 import { FONT_STACKS } from '../../data/fonts'
+import { maxCurvedTextLetterSpacing } from '../../lib/curvedText'
 import Slider from '../ui/Slider'
 import ColorSwatch from '../ui/ColorSwatch'
 import Select from '../ui/Select'
@@ -8,6 +9,7 @@ import Select from '../ui/Select'
 export default function CurvedTextProperties({ element }: { element: CurvedTextElement }) {
   const updateElement = useStampStore((s) => s.updateElement)
   const patch = (p: Partial<CurvedTextElement>) => updateElement(element.id, p)
+  const maxLetterSpacing = maxCurvedTextLetterSpacing(element.text, element.fontSize, element.radius)
 
   return (
     <div className="flex flex-col gap-4">
@@ -28,9 +30,9 @@ export default function CurvedTextProperties({ element }: { element: CurvedTextE
       <Slider label="Size" value={element.fontSize} min={2} max={16} step={0.5} onChange={(fontSize) => patch({ fontSize })} />
       <Slider
         label="Letter spacing"
-        value={element.letterSpacing}
+        value={Math.min(element.letterSpacing, maxLetterSpacing)}
         min={-2}
-        max={10}
+        max={maxLetterSpacing}
         step={0.1}
         onChange={(letterSpacing) => patch({ letterSpacing })}
       />
