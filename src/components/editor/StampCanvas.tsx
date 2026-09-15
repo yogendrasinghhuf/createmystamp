@@ -7,58 +7,65 @@ import { clamp } from '../../lib/geometry'
 function MeasurementGrid({ viewWidth, viewHeight }: { viewWidth: number; viewHeight: number }) {
   const left = -viewWidth / 2
   const top = -viewHeight / 2
-  const startX = Math.ceil(left / 5) * 5
-  const endX = Math.floor((left + viewWidth) / 5) * 5
-  const startY = Math.ceil(top / 5) * 5
-  const endY = Math.floor((top + viewHeight) / 5) * 5
-
-  const minorLinesX: number[] = []
-  for (let x = startX; x <= endX; x += 5) minorLinesX.push(x)
-  const minorLinesY: number[] = []
-  for (let y = startY; y <= endY; y += 5) minorLinesY.push(y)
 
   // Ruler labels read as distance from the top-left corner (0-based, like a
   // physical ruler), even though the underlying SVG coordinates stay centered
   // at (0,0) -- element positions, drag math, and curved-text angles all
   // depend on that centered coordinate system elsewhere in the canvas.
-  const toRulerLabel = (coord: number, origin: number) => Math.round(coord - origin)
+  // Gridlines are generated directly in this label space (multiples of 5,
+  // always including 0) and converted back to SVG coordinates, so the ruler
+  // always starts at 0 regardless of the stamp's width/height/padding.
+  const minorLinesX: { svg: number; label: number }[] = []
+  for (let label = 0; label <= viewWidth; label += 5) {
+    minorLinesX.push({ svg: left + label, label })
+  }
+  const minorLinesY: { svg: number; label: number }[] = []
+  for (let label = 0; label <= viewHeight; label += 5) {
+    minorLinesY.push({ svg: top + label, label })
+  }
 
   return (
     <g data-selection-ui="true" pointerEvents="none">
-      {minorLinesX.map((x) => (
-        <line
-          key={`v-${x}`}
-          x1={x}
-          y1={top}
-          x2={x}
-          y2={top + viewHeight}
-          stroke={x % 10 === 0 ? '#D8D0C0' : '#E9E3D6'}
-          strokeWidth={x % 10 === 0 ? 0.15 : 0.08}
-        />
-      ))}
-      {minorLinesY.map((y) => (
-        <line
-          key={`h-${y}`}
-          x1={left}
-          y1={y}
-          x2={left + viewWidth}
-          y2={y}
-          stroke={y % 10 === 0 ? '#D8D0C0' : '#E9E3D6'}
-          strokeWidth={y % 10 === 0 ? 0.15 : 0.08}
-        />
-      ))}
+      {minorLinesX.map(({ svg: x, label }) => {
+        const isMajor = label % 10 === 0
+        return (
+          <line
+            key={`v-${x}`}
+            x1={x}
+            y1={top}
+            x2={x}
+            y2={top + viewHeight}
+            stroke={isMajor ? '#D8D0C0' : '#E9E3D6'}
+            strokeWidth={isMajor ? 0.15 : 0.08}
+          />
+        )
+      })}
+      {minorLinesY.map(({ svg: y, label }) => {
+        const isMajor = label % 10 === 0
+        return (
+          <line
+            key={`h-${y}`}
+            x1={left}
+            y1={y}
+            x2={left + viewWidth}
+            y2={y}
+            stroke={isMajor ? '#D8D0C0' : '#E9E3D6'}
+            strokeWidth={isMajor ? 0.15 : 0.08}
+          />
+        )
+      })}
       {minorLinesX
-        .filter((x) => x % 10 === 0)
-        .map((x) => (
+        .filter(({ label }) => label % 10 === 0)
+        .map(({ svg: x, label }) => (
           <text key={`vl-${x}`} x={x} y={top + 2.6} fontSize={2} textAnchor="middle" fill="#B7AD98">
-            {toRulerLabel(x, left)}
+            {label}
           </text>
         ))}
       {minorLinesY
-        .filter((y) => y % 10 === 0)
-        .map((y) => (
+        .filter(({ label }) => label % 10 === 0)
+        .map(({ svg: y, label }) => (
           <text key={`hl-${y}`} x={left + 1} y={y + 0.7} fontSize={2} fill="#B7AD98">
-            {toRulerLabel(y, top)}
+            {label}
           </text>
         ))}
     </g>
