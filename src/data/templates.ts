@@ -403,6 +403,7 @@ export const TEMPLATES: StampTemplate[] = [
       shape: 'rectangle',
       dimensions: { width: 45, height: 17 },
       ink: { mode: 'ink', color: '#C4282D', opacity: 0.85, distress: 0.3 },
+      outlineSuppressed: true,
       elements: [
         shape({
           shape: 'rectangle',
