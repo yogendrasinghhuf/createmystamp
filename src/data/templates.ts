@@ -419,7 +419,7 @@ export const TEMPLATES: StampTemplate[] = [
           x: 1,
           y: 3.4,
           rotation: -45,
-          fontSize: 10,
+          fontSize: 12,
           fontWeight: 700,
           letterSpacing: 1.5,
           color: '#C4282D',
