@@ -248,12 +248,14 @@ export default function StampCanvas() {
         opacity={project.ink.mode === 'ink' ? project.ink.opacity : 1}
         style={project.ink.mode === 'ink' ? { color: project.ink.color } : undefined}
       >
-        <StampOutline
-          shape={project.shape}
-          width={project.dimensions.width}
-          height={project.dimensions.height}
-          color={project.ink.color}
-        />
+        {project.elements.length > 0 && (
+          <StampOutline
+            shape={project.shape}
+            width={project.dimensions.width}
+            height={project.dimensions.height}
+            color={project.ink.color}
+          />
+        )}
         {sorted.map((element) => (
           <CanvasElementView
             key={element.id}
