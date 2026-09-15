@@ -9,7 +9,13 @@ import Select from '../ui/Select'
 export default function CurvedTextProperties({ element }: { element: CurvedTextElement }) {
   const updateElement = useStampStore((s) => s.updateElement)
   const patch = (p: Partial<CurvedTextElement>) => updateElement(element.id, p)
-  const maxLetterSpacing = maxCurvedTextLetterSpacing(element.text, element.fontSize, element.radius)
+  const maxLetterSpacing = maxCurvedTextLetterSpacing(
+    element.text,
+    element.fontFamily,
+    element.fontSize,
+    element.fontWeight,
+    element.radius,
+  )
 
   return (
     <div className="flex flex-col gap-4">
