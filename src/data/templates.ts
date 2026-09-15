@@ -131,7 +131,9 @@ export const TEMPLATES: StampTemplate[] = [
       shape: 'circle',
       dimensions: { width: 40, height: 40 },
       ink: { mode: 'clean', color: '#1F4E8B', opacity: 0.85, distress: 0.15 },
+      outlineSuppressed: true,
       elements: [
+        shape({ shape: 'circle', width: 40, height: 40, strokeWidth: 1.2 }),
         curvedText({ text: 'NORTH & PINE CO.', radius: 14, startAngle: 303, fontSize: 2.6, letterSpacing: 0.2 }),
         text({ text: 'EST. 2026', y: 1, fontSize: 4, letterSpacing: 1.5 }),
         shape({ shape: 'circle', width: 34, height: 34, strokeWidth: 0.8 }),
@@ -164,7 +166,9 @@ export const TEMPLATES: StampTemplate[] = [
       shape: 'rectangle',
       dimensions: { width: 60, height: 30 },
       ink: { mode: 'clean', color: '#1F4E8B', opacity: 0.85, distress: 0.1 },
+      outlineSuppressed: true,
       elements: [
+        shape({ shape: 'rectangle', width: 60, height: 30, strokeWidth: 1.2 }),
         text({ text: 'HARBORVIEW LANE 42', y: -6, fontSize: 4.5, align: 'left', x: -25 }),
         text({ text: 'PORTVILLE, ST 00000', y: 0, fontSize: 4, align: 'left', x: -25 }),
         text({ text: 'RETURN TO SENDER', y: 8, fontSize: 3, align: 'left', x: -25, letterSpacing: 1 }),
@@ -180,7 +184,9 @@ export const TEMPLATES: StampTemplate[] = [
       shape: 'roundedRectangle',
       dimensions: { width: 50, height: 22 },
       ink: { mode: 'clean', color: '#1F4E8B', opacity: 0.85, distress: 0.1 },
+      outlineSuppressed: true,
       elements: [
+        shape({ shape: 'roundedRectangle', width: 50, height: 22, cornerRadius: 6, strokeWidth: 1.2 }),
         text({ text: 'THE OAKLINE RESIDENCE', y: -3, fontSize: 3.2, fontWeight: 700 }),
         text({ text: '18 MAPLE COURT', y: 4, fontSize: 3.4 }),
       ],
@@ -213,7 +219,9 @@ export const TEMPLATES: StampTemplate[] = [
       shape: 'circle',
       dimensions: { width: 35, height: 35 },
       ink: { mode: 'ink', color: '#1F4E8B', opacity: 0.75, distress: 0.4 },
+      outlineSuppressed: true,
       elements: [
+        shape({ shape: 'circle', width: 35, height: 35, strokeWidth: 1.2 }),
         curvedText({ text: 'MADE BY HAND', radius: 12.5, startAngle: 300, fontSize: 3.2, letterSpacing: 0.3 }),
         text({ text: 'SLOWLY MADE', y: 3, fontSize: 3.2, letterSpacing: 0.3 }),
       ],
@@ -228,7 +236,9 @@ export const TEMPLATES: StampTemplate[] = [
       shape: 'oval',
       dimensions: { width: 45, height: 28 },
       ink: { mode: 'clean', color: '#1F4E8B', opacity: 0.85, distress: 0.15 },
+      outlineSuppressed: true,
       elements: [
+        shape({ shape: 'oval', width: 45, height: 28, strokeWidth: 1.2 }),
         text({ text: 'AVERY QUINN', y: -2, fontSize: 5, fontWeight: 500 }),
         text({ text: 'PERSONAL COPY', y: 6, fontSize: 3, letterSpacing: 1 }),
       ],
@@ -243,7 +253,9 @@ export const TEMPLATES: StampTemplate[] = [
       shape: 'badge',
       dimensions: { width: 36, height: 36 },
       ink: { mode: 'ink', color: '#C4571F', opacity: 0.8, distress: 0.3 },
+      outlineSuppressed: true,
       elements: [
+        shape({ shape: 'circle', width: 36, height: 36, strokeWidth: 1.2 }),
         shape({ shape: 'circle', width: 30, height: 30, strokeWidth: 1.4 }),
         text({ text: 'HAND MADE', y: 0, fontSize: 3.4, fontWeight: 700, letterSpacing: 0.2 }),
         text({ text: 'WITH JOY', y: 6, fontSize: 3, letterSpacing: 1 }),
@@ -345,7 +357,9 @@ export const TEMPLATES: StampTemplate[] = [
       shape: 'rectangle',
       dimensions: { width: 46, height: 22 },
       ink: { mode: 'ink', color: '#1F4E8B', opacity: 0.8, distress: 0.2 },
+      outlineSuppressed: true,
       elements: [
+        shape({ shape: 'rectangle', width: 46, height: 22, strokeWidth: 1.2 }),
         text({ text: 'RECEIVED', y: -4, fontSize: 5, fontWeight: 700, letterSpacing: 2 }),
         shape({ shape: 'line', width: 34, height: 0.5, y: 0 }),
         text({ text: 'DATE: __ / __ / __', y: 6, fontSize: 3.4 }),
@@ -361,7 +375,9 @@ export const TEMPLATES: StampTemplate[] = [
       shape: 'circle',
       dimensions: { width: 40, height: 40 },
       ink: { mode: 'ink', color: '#1F4E8B', opacity: 0.85, distress: 0.2 },
+      outlineSuppressed: true,
       elements: [
+        shape({ shape: 'circle', width: 40, height: 40, strokeWidth: 1.2 }),
         shape({ shape: 'circle', width: 34, height: 34, strokeWidth: 0.8 }),
         curvedText({ text: 'SHREE ENTERPRISES', radius: 14, startAngle: 295, fontSize: 2.8, letterSpacing: 0.2 }),
         text({ text: 'PROPRIETOR', y: -1, fontSize: 3.4, letterSpacing: 1 }),
@@ -378,7 +394,9 @@ export const TEMPLATES: StampTemplate[] = [
       shape: 'rectangle',
       dimensions: { width: 55, height: 26 },
       ink: { mode: 'ink', color: '#8B2E1F', opacity: 0.8, distress: 0.25 },
+      outlineSuppressed: true,
       elements: [
+        shape({ shape: 'rectangle', width: 55, height: 26, strokeWidth: 1.2 }),
         text({ text: 'RECEIVED WITH THANKS', y: -7, fontSize: 3, fontWeight: 700, letterSpacing: 0.3 }),
         shape({ shape: 'line', width: 44, height: 0.5, y: -1 }),
         text({ text: 'AMOUNT: ₹ __________', y: 4, fontSize: 3.4, align: 'left', x: -22 }),
@@ -395,7 +413,9 @@ export const TEMPLATES: StampTemplate[] = [
       shape: 'rectangle',
       dimensions: { width: 50, height: 22 },
       ink: { mode: 'clean', color: '#1F4E8B', opacity: 0.85, distress: 0.1 },
+      outlineSuppressed: true,
       elements: [
+        shape({ shape: 'rectangle', width: 50, height: 22, strokeWidth: 1.2 }),
         text({ text: 'RAJ TRADING CO.', y: -5, fontSize: 3.8, fontWeight: 700, letterSpacing: 0.5 }),
         shape({ shape: 'line', width: 40, height: 0.5, y: 0 }),
         text({ text: 'AUTHORISED SIGNATORY', y: 6, fontSize: 2.6, letterSpacing: 0.5 }),
@@ -411,7 +431,9 @@ export const TEMPLATES: StampTemplate[] = [
       shape: 'oval',
       dimensions: { width: 48, height: 30 },
       ink: { mode: 'ink', color: '#1F4E8B', opacity: 0.85, distress: 0.2 },
+      outlineSuppressed: true,
       elements: [
+        shape({ shape: 'oval', width: 48, height: 30, strokeWidth: 1.2 }),
         text({ text: 'ADV. SUNITA MEHTA', y: -3, fontSize: 3.4, fontWeight: 700, letterSpacing: 0.3 }),
         text({ text: 'B.A. LL.B, ADVOCATE', y: 3, fontSize: 2.6, letterSpacing: 0.3 }),
         text({ text: 'HIGH COURT, MUMBAI', y: 8, fontSize: 2.7, letterSpacing: 0.3 }),
@@ -427,7 +449,9 @@ export const TEMPLATES: StampTemplate[] = [
       shape: 'circle',
       dimensions: { width: 40, height: 40 },
       ink: { mode: 'clean', color: '#1F4E8B', opacity: 0.85, distress: 0.15 },
+      outlineSuppressed: true,
       elements: [
+        shape({ shape: 'circle', width: 40, height: 40, strokeWidth: 1.2 }),
         shape({ shape: 'circle', width: 34, height: 34, strokeWidth: 0.6 }),
         shape({ shape: 'circle', width: 22, height: 22, strokeWidth: 0.6 }),
         curvedText({ text: 'STAMP MAKERS INDIA', radius: 14.5, startAngle: 306, fontSize: 2.2, letterSpacing: 0.2 }),
@@ -501,6 +525,7 @@ export const TEMPLATES: StampTemplate[] = [
       shape: 'rectangle',
       dimensions: { width: 32, height: 32 },
       ink: { mode: 'ink', color: '#8B2E1F', opacity: 0.8, distress: 0.3 },
+      outlineSuppressed: true,
       elements: [
         shape({ shape: 'octagon', width: 30, height: 30, strokeWidth: 1 }),
         text({ text: 'CERTIFIED', y: -2, fontSize: 3.4, fontWeight: 700, letterSpacing: 0.6 }),
@@ -537,7 +562,9 @@ export const TEMPLATES: StampTemplate[] = [
       shape: 'triangle',
       dimensions: { width: 50, height: 45 },
       ink: { mode: 'ink', color: '#1F4E8B', opacity: 0.85, distress: 0.2 },
+      outlineSuppressed: true,
       elements: [
+        shape({ shape: 'triangle', width: 50, height: 45, strokeWidth: 1.2 }),
         text({ text: 'Authorised', y: 3, fontSize: 3.2, fontWeight: 600 }),
         text({ text: 'Signatory', y: 8, fontSize: 3.2, fontWeight: 600 }),
         text({ text: 'YOUR COMPANY PVT. LTD.', y: 16, fontSize: 2.4, letterSpacing: 0.1 }),
@@ -553,7 +580,9 @@ export const TEMPLATES: StampTemplate[] = [
       shape: 'circle',
       dimensions: { width: 42, height: 42 },
       ink: { mode: 'ink', color: '#1F4E8B', opacity: 0.85, distress: 0.2 },
+      outlineSuppressed: true,
       elements: [
+        shape({ shape: 'circle', width: 42, height: 42, strokeWidth: 1.2 }),
         shape({ shape: 'circle', width: 36, height: 36, strokeWidth: 0.8 }),
         curvedText({ text: 'INDIA BANK LIMITED', radius: 15.5, startAngle: 306, fontSize: 2.4, letterSpacing: 0.2 }),
         curvedText({
@@ -578,7 +607,9 @@ export const TEMPLATES: StampTemplate[] = [
       shape: 'circle',
       dimensions: { width: 44, height: 44 },
       ink: { mode: 'ink', color: '#1F4E8B', opacity: 0.85, distress: 0.2 },
+      outlineSuppressed: true,
       elements: [
+        shape({ shape: 'circle', width: 44, height: 44, strokeWidth: 1.2 }),
         shape({ shape: 'circle', width: 38, height: 38, strokeWidth: 0.8 }),
         shape({ shape: 'circle', width: 26, height: 26, strokeWidth: 0.6 }),
         curvedText({ text: 'FTFC COURIER SERVICES', radius: 16.5, startAngle: 309, fontSize: 2, letterSpacing: 0.2 }),
@@ -604,7 +635,9 @@ export const TEMPLATES: StampTemplate[] = [
       shape: 'rectangle',
       dimensions: { width: 42, height: 50 },
       ink: { mode: 'clean', color: '#1F4E8B', opacity: 0.85, distress: 0.1 },
+      outlineSuppressed: true,
       elements: [
+        shape({ shape: 'rectangle', width: 42, height: 50, strokeWidth: 1.2 }),
         text({ text: 'YOUR COMPANY', y: -19, fontSize: 3, fontWeight: 700, letterSpacing: 0.3 }),
         qrCode({ content: 'https://example.com', contentType: 'text', size: 24, y: -2 }),
         text({ text: 'SCAN TO VERIFY', y: 18, fontSize: 2.6, letterSpacing: 0.5 }),
@@ -620,7 +653,9 @@ export const TEMPLATES: StampTemplate[] = [
       shape: 'rectangle',
       dimensions: { width: 50, height: 24 },
       ink: { mode: 'clean', color: '#1F4E8B', opacity: 0.85, distress: 0.1 },
+      outlineSuppressed: true,
       elements: [
+        shape({ shape: 'rectangle', width: 50, height: 24, strokeWidth: 1.2 }),
         text({ text: 'StampJam Technologies', y: -6, fontSize: 2.9, fontWeight: 700, letterSpacing: 0.2 }),
         text({ text: '__________  Partner', y: 5, fontSize: 3.2, align: 'right', x: 22 }),
       ],
@@ -635,7 +670,9 @@ export const TEMPLATES: StampTemplate[] = [
       shape: 'rectangle',
       dimensions: { width: 48, height: 30 },
       ink: { mode: 'clean', color: '#1F4E8B', opacity: 0.85, distress: 0.1 },
+      outlineSuppressed: true,
       elements: [
+        shape({ shape: 'rectangle', width: 48, height: 30, strokeWidth: 1.2 }),
         text({ text: 'SAMPLE ADDRESS STAMP', y: -9, fontSize: 2.8, fontWeight: 700, letterSpacing: 0.3 }),
         text({ text: 'ADDRESS LINE 1', y: -3, fontSize: 2.8 }),
         text({ text: 'STREET NAME', y: 1, fontSize: 2.8 }),
@@ -653,7 +690,9 @@ export const TEMPLATES: StampTemplate[] = [
       shape: 'rectangle',
       dimensions: { width: 66, height: 40 },
       ink: { mode: 'clean', color: '#1F4E8B', opacity: 0.85, distress: 0.1 },
+      outlineSuppressed: true,
       elements: [
+        shape({ shape: 'rectangle', width: 66, height: 40, strokeWidth: 1.2 }),
         text({
           text: 'I have viewed the original document',
           y: -14,
