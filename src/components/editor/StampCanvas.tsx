@@ -56,18 +56,28 @@ function MeasurementGrid({ viewWidth, viewHeight }: { viewWidth: number; viewHei
       })}
       {minorLinesX
         .filter(({ label }) => label % 10 === 0)
-        .map(({ svg: x, label }) => (
-          <text key={`vl-${x}`} x={x} y={top + 2.6} fontSize={2} textAnchor="middle" fill="#B7AD98">
-            {label}
-          </text>
-        ))}
+        .map(({ svg: x, label }) => {
+          // Keep the first/last labels from overflowing past the visible
+          // viewBox edge (a centered "0" or max label would otherwise get
+          // half-clipped by the canvas boundary).
+          const isFirst = label === 0
+          const isLast = x >= left + viewWidth - 0.5
+          const textAnchor = isFirst ? 'start' : isLast ? 'end' : 'middle'
+          return (
+            <text key={`vl-${x}`} x={x} y={top + 2.6} fontSize={2} textAnchor={textAnchor} fill="#B7AD98">
+              {label}
+            </text>
+          )
+        })}
       {minorLinesY
-        .filter(({ label }) => label % 10 === 0)
-        .map(({ svg: y, label }) => (
-          <text key={`hl-${y}`} x={left + 1} y={y + 0.7} fontSize={2} fill="#B7AD98">
-            {label}
-          </text>
-        ))}
+        .filter(({ label }) => label % 10 === 0 && label !== 0)
+        .map(({ svg: y, label }) => {
+          return (
+            <text key={`hl-${y}`} x={left + 1} y={y + 0.7} fontSize={2} fill="#B7AD98">
+              {label}
+            </text>
+          )
+        })}
     </g>
   )
 }
