@@ -14,7 +14,12 @@ export default function TemplatesSection() {
     activeCategory === 'All' ? TEMPLATES : TEMPLATES.filter((t) => t.category === activeCategory)
 
   function handleUse(template: StampTemplate) {
-    loadProject({ ...template.project, id: uid(), updatedAt: Date.now() })
+    loadProject({
+      ...template.project,
+      id: uid(),
+      updatedAt: Date.now(),
+      ink: { ...template.project.ink, mode: 'clean' },
+    })
     document.getElementById('editor')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
