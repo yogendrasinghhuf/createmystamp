@@ -417,7 +417,7 @@ export const TEMPLATES: StampTemplate[] = [
     project: {
       name: 'Paid Stamp',
       shape: 'rectangle',
-      dimensions: { width: 45, height: 17 },
+      dimensions: { width: 48, height: 48 },
       ink: { mode: 'ink', color: '#C4282D', opacity: 0.85, distress: 0.3 },
       outlineSuppressed: true,
       elements: [

@@ -230,13 +230,12 @@ export const useStampStore = create<StampStore & StampStoreState>((set) => ({
         ...p,
         shape,
         dimensions: SHAPE_DEFAULT_DIMENSIONS[shape],
-        outlineSuppressed: false,
       })),
     ),
 
   setDimensions: (dimensions) =>
     set((state) =>
-      withUpdatedProject(state, (p) => ({ ...p, dimensions, outlineSuppressed: false })),
+      withUpdatedProject(state, (p) => ({ ...p, dimensions })),
     ),
 
   setInk: (ink) =>
