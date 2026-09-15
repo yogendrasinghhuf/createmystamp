@@ -4,6 +4,11 @@ import CanvasElementView from './CanvasElementView'
 import SelectionOverlay from './SelectionOverlay'
 import { clamp } from '../../lib/geometry'
 
+// Height/width of the ruler gutter band, in view units -- kept outside the
+// actual drawable workspace (which starts at `left`/`top`) so ruler numbers
+// never sit on top of the design.
+const RULER_GUTTER = 5
+
 function MeasurementGrid({ viewWidth, viewHeight }: { viewWidth: number; viewHeight: number }) {
   const left = -viewWidth / 2
   const top = -viewHeight / 2
@@ -26,6 +31,21 @@ function MeasurementGrid({ viewWidth, viewHeight }: { viewWidth: number; viewHei
 
   return (
     <g data-selection-ui="true" pointerEvents="none">
+      {/* Ruler gutter background, outside the drawable workspace area */}
+      <rect
+        x={left - RULER_GUTTER}
+        y={top - RULER_GUTTER}
+        width={viewWidth + RULER_GUTTER}
+        height={RULER_GUTTER}
+        fill="#EFEAE0"
+      />
+      <rect
+        x={left - RULER_GUTTER}
+        y={top - RULER_GUTTER}
+        width={RULER_GUTTER}
+        height={viewHeight + RULER_GUTTER}
+        fill="#EFEAE0"
+      />
       {minorLinesX.map(({ svg: x, label }) => {
         const isMajor = label % 10 === 0
         return (
@@ -54,30 +74,21 @@ function MeasurementGrid({ viewWidth, viewHeight }: { viewWidth: number; viewHei
           />
         )
       })}
+      {/* Tick marks + labels live in the gutter, outside the workspace */}
       {minorLinesX
         .filter(({ label }) => label % 10 === 0)
-        .map(({ svg: x, label }) => {
-          // Keep the first/last labels from overflowing past the visible
-          // viewBox edge (a centered "0" or max label would otherwise get
-          // half-clipped by the canvas boundary).
-          const isFirst = label === 0
-          const isLast = x >= left + viewWidth - 0.5
-          const textAnchor = isFirst ? 'start' : isLast ? 'end' : 'middle'
-          return (
-            <text key={`vl-${x}`} x={x} y={top + 2.6} fontSize={2} textAnchor={textAnchor} fill="#B7AD98">
-              {label}
-            </text>
-          )
-        })}
+        .map(({ svg: x, label }) => (
+          <text key={`vl-${x}`} x={x} y={top - 1.6} fontSize={2} textAnchor="middle" fill="#9A8F78">
+            {label}
+          </text>
+        ))}
       {minorLinesY
-        .filter(({ label }) => label % 10 === 0 && label !== 0)
-        .map(({ svg: y, label }) => {
-          return (
-            <text key={`hl-${y}`} x={left + 1} y={y + 0.7} fontSize={2} fill="#B7AD98">
-              {label}
-            </text>
-          )
-        })}
+        .filter(({ label }) => label % 10 === 0)
+        .map(({ svg: y, label }) => (
+          <text key={`hl-${y}`} x={left - 1} y={y + 0.7} fontSize={2} textAnchor="end" fill="#9A8F78">
+            {label}
+          </text>
+        ))}
     </g>
   )
 }
@@ -235,7 +246,7 @@ export default function StampCanvas() {
     <svg
       id="stamp-canvas-svg"
       ref={svgRef}
-      viewBox={`${-viewWidth / 2 - pan.x} ${-viewHeight / 2 - pan.y} ${viewWidth} ${viewHeight}`}
+      viewBox={`${-viewWidth / 2 - pan.x - RULER_GUTTER} ${-viewHeight / 2 - pan.y - RULER_GUTTER} ${viewWidth + RULER_GUTTER} ${viewHeight + RULER_GUTTER}`}
       width="100%"
       height="100%"
       onPointerDown={handleCanvasPointerDown}
