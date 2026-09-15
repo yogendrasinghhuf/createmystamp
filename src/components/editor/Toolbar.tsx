@@ -175,7 +175,7 @@ export default function Toolbar() {
       zIndex: nextZIndex(),
       shape,
       width: shape === 'line' ? 20 : shape === 'rectangle' || shape === 'roundedRectangle' ? 28 : 16,
-      height: shape === 'line' ? 0.5 : shape === 'rectangle' || shape === 'roundedRectangle' ? 14 : 16,
+      height: shape === 'line' ? 0.5 : shape === 'rectangle' || shape === 'roundedRectangle' ? 10 : 16,
       strokeColor: '#2B2A28',
       strokeWidth: 1,
       fillColor: '#2B2A28',
