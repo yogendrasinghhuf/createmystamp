@@ -279,5 +279,5 @@ function ShapePrimitive({ element }: { element: Extract<StampElement, { type: 's
 }
 
 function SelectionMarker() {
-  return <circle r={2} fill="#C4571F" />
+  return <circle data-selection-ui="true" r={2} fill="#C4571F" />
 }
