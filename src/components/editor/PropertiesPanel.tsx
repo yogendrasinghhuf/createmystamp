@@ -36,10 +36,13 @@ export default function PropertiesPanel() {
         <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-ink/50">Ink preview</h3>
         <InkPreviewControls />
       </div>
-      <div>
-        <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-ink/50">Layers</h3>
+      <details className="group">
+        <summary className="mb-2 flex cursor-pointer list-none items-center gap-1 text-sm font-semibold uppercase tracking-wide text-ink/50">
+          <span className="inline-block transition-transform group-open:rotate-90">▶</span>
+          Layers
+        </summary>
         <LayerList />
-      </div>
+      </details>
     </div>
   )
 }
