@@ -96,4 +96,9 @@ export interface StampProject {
   elements: StampElement[]
   ink: InkSettings
   updatedAt: number
+  // True right after "Clear workspace" until the user explicitly sets a
+  // shape/size (or loads/resets a project). Suppresses the stamp outline so
+  // adding a toolbar shape to a cleared canvas doesn't silently bring back an
+  // outline the user never asked for. Persisted so it survives page reloads.
+  outlineSuppressed?: boolean
 }

@@ -189,16 +189,10 @@ interface StampStoreState {
   // to push exactly ONE history entry for the whole gesture instead of one per
   // pointermove. Null when no transient gesture is in progress.
   transientBaseline: StampProject | null
-  // True right after "Clear workspace" until the user explicitly sets a shape/
-  // size via Stamp Settings (or loads/resets a project). Suppresses the outline
-  // so adding a toolbar shape doesn't silently bring back an unrequested
-  // boundary the user never asked for.
-  outlineSuppressed: boolean
 }
 
 export interface StampStore {
   selectedIds: string[]
-  outlineSuppressed: boolean
   setShape: (shape: StampShapeKind) => void
   setDimensions: (dimensions: StampDimensions) => void
   setInk: (ink: Partial<InkSettings>) => void
@@ -229,23 +223,21 @@ export const useStampStore = create<StampStore & StampStoreState>((set) => ({
   history: { past: [], present: createDefaultProject(), future: [] },
   selectedIds: [],
   transientBaseline: null,
-  outlineSuppressed: false,
 
   setShape: (shape) =>
-    set((state) => ({
-      ...withUpdatedProject(state, (p) => ({
+    set((state) =>
+      withUpdatedProject(state, (p) => ({
         ...p,
         shape,
         dimensions: SHAPE_DEFAULT_DIMENSIONS[shape],
+        outlineSuppressed: false,
       })),
-      outlineSuppressed: false,
-    })),
+    ),
 
   setDimensions: (dimensions) =>
-    set((state) => ({
-      ...withUpdatedProject(state, (p) => ({ ...p, dimensions })),
-      outlineSuppressed: false,
-    })),
+    set((state) =>
+      withUpdatedProject(state, (p) => ({ ...p, dimensions, outlineSuppressed: false })),
+    ),
 
   setInk: (ink) =>
     set((state) =>
@@ -370,7 +362,6 @@ export const useStampStore = create<StampStore & StampStoreState>((set) => ({
       history: { past: [], present: project, future: [] },
       selectedIds: [],
       transientBaseline: null,
-      outlineSuppressed: false,
     })),
 
   resetProject: () =>
@@ -378,15 +369,13 @@ export const useStampStore = create<StampStore & StampStoreState>((set) => ({
       history: { past: [], present: createDefaultProject(), future: [] },
       selectedIds: [],
       transientBaseline: null,
-      outlineSuppressed: false,
     })),
 
   clearProject: () =>
     set(() => ({
-      history: { past: [], present: createBlankProject(), future: [] },
+      history: { past: [], present: { ...createBlankProject(), outlineSuppressed: true }, future: [] },
       selectedIds: [],
       transientBaseline: null,
-      outlineSuppressed: true,
     })),
 }))
 

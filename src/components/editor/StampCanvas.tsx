@@ -119,7 +119,7 @@ export default function StampCanvas() {
   const select = useStampStore((s) => s.select)
   const updateElementTransient = useStampStore((s) => s.updateElementTransient)
   const commitTransientUpdate = useStampStore((s) => s.commitTransientUpdate)
-  const outlineSuppressed = useStampStore((s) => s.outlineSuppressed)
+  const outlineSuppressed = project.outlineSuppressed ?? false
 
   const svgRef = useRef<SVGSVGElement>(null)
   const [zoom, setZoom] = useState(1)
