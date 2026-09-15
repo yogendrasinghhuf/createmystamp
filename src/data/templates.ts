@@ -401,13 +401,13 @@ export const TEMPLATES: StampTemplate[] = [
     project: {
       name: 'Paid Stamp',
       shape: 'rectangle',
-      dimensions: { width: 40, height: 20 },
+      dimensions: { width: 40, height: 17 },
       ink: { mode: 'ink', color: '#C4282D', opacity: 0.85, distress: 0.3 },
       elements: [
         shape({
           shape: 'rectangle',
           width: 40,
-          height: 20,
+          height: 17,
           strokeColor: '#C4282D',
           strokeWidth: 2,
           filled: false,
