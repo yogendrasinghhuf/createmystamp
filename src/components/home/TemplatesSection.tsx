@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import TemplateGrid from '../templates/TemplateGrid'
-import { TEMPLATES, type StampTemplate } from '../../data/templates'
+import { TEMPLATES, resolveTemplateElementColors, type StampTemplate } from '../../data/templates'
 import { TEMPLATE_CATEGORIES } from '../../data/templateCategories'
 import { useStampStore } from '../../store/useStampStore'
 import { uid } from '../../lib/id'
@@ -14,11 +14,12 @@ export default function TemplatesSection() {
     activeCategory === 'All' ? TEMPLATES : TEMPLATES.filter((t) => t.category === activeCategory)
 
   function handleUse(template: StampTemplate) {
+    const resolved = resolveTemplateElementColors(template.project)
     loadProject({
-      ...template.project,
+      ...resolved,
       id: uid(),
       updatedAt: Date.now(),
-      ink: { ...template.project.ink, mode: 'clean' },
+      ink: { ...resolved.ink, mode: 'clean' },
     })
     document.getElementById('editor')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }

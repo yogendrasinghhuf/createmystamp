@@ -8,6 +8,39 @@ export interface StampTemplate {
   project: Omit<StampProject, 'id' | 'updatedAt'>
 }
 
+// Shared fallback used by the text()/shape()/curvedText()/qrCode() builders
+// below when a template doesn't specify its own color. Templates that never
+// override it should render in their project's ink color rather than this
+// literal, so resolveTemplateElementColors() swaps it back out at load time.
+const DEFAULT_ELEMENT_COLOR = '#2B2A28'
+
+// Fills in any element still using the shared default color with the
+// project's own ink color, so every object in a template loads matching its
+// intended design color instead of silently defaulting to dark.
+export function resolveTemplateElementColors(
+  project: Omit<StampProject, 'id' | 'updatedAt'>,
+): Omit<StampProject, 'id' | 'updatedAt'> {
+  const inkColor = project.ink.color
+  if (inkColor === DEFAULT_ELEMENT_COLOR) return project
+  return {
+    ...project,
+    elements: project.elements.map((element) => {
+      if (element.type === 'image') return element
+      if (element.type === 'shape') {
+        return {
+          ...element,
+          strokeColor: element.strokeColor === DEFAULT_ELEMENT_COLOR ? inkColor : element.strokeColor,
+          fillColor: element.fillColor === DEFAULT_ELEMENT_COLOR ? inkColor : element.fillColor,
+        }
+      }
+      return {
+        ...element,
+        color: element.color === DEFAULT_ELEMENT_COLOR ? inkColor : element.color,
+      }
+    }),
+  }
+}
+
 function text(overrides: Partial<Extract<StampElement, { type: 'text' }>>): StampElement {
   return {
     id: overrides.id ?? crypto.randomUUID(),

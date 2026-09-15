@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { StampTemplate } from '../../data/templates'
+import { resolveTemplateElementColors, type StampTemplate } from '../../data/templates'
 import Button from '../ui/Button'
 import CanvasElementView from '../editor/CanvasElementView'
 
@@ -48,7 +48,7 @@ export default function TemplateCard({
   onUse: (template: StampTemplate) => void
 }) {
   const [justUsed, setJustUsed] = useState(false)
-  const { shape, dimensions, elements, outlineSuppressed } = template.project
+  const { shape, dimensions, elements, outlineSuppressed } = resolveTemplateElementColors(template.project)
   const padding = 6
   const viewWidth = dimensions.width + padding * 2
   const viewHeight = dimensions.height + padding * 2
