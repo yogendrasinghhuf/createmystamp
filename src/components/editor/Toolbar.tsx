@@ -4,6 +4,7 @@ import {
   TextCursorInput,
   Circle,
   Square,
+  SquareRoundCorner,
   RectangleHorizontal,
   Minus,
   Image as ImageIcon,
@@ -164,6 +165,7 @@ export default function Toolbar() {
 
   function handleAddShape(
     shape: 'circle' | 'rectangle' | 'roundedRectangle' | 'line' | 'triangle' | 'star' | 'octagon' | 'x',
+    dimensions?: { width: number; height: number },
   ) {
     addAndSelect({
       id: uid(),
@@ -174,8 +176,8 @@ export default function Toolbar() {
       scale: 1,
       zIndex: nextZIndex(),
       shape,
-      width: shape === 'line' ? 20 : shape === 'rectangle' || shape === 'roundedRectangle' ? 28 : 16,
-      height: shape === 'line' ? 0.5 : shape === 'rectangle' || shape === 'roundedRectangle' ? 7 : 16,
+      width: dimensions?.width ?? (shape === 'line' ? 20 : shape === 'rectangle' || shape === 'roundedRectangle' ? 28 : 16),
+      height: dimensions?.height ?? (shape === 'line' ? 0.5 : shape === 'rectangle' || shape === 'roundedRectangle' ? 7 : 16),
       strokeColor: '#2B2A28',
       strokeWidth: 0.6,
       fillColor: '#2B2A28',
@@ -298,6 +300,13 @@ export default function Toolbar() {
       />
       <IconButton
         icon={<Square size={18} />}
+        label="Square"
+        showLabel
+        onClick={() => handleAddShape('rectangle', { width: 18, height: 18 })}
+        className="min-h-11 md:min-h-8 border-line hover:border-violet-400 hover:bg-violet-50"
+      />
+      <IconButton
+        icon={<SquareRoundCorner size={18} />}
         label="Rounded rect."
         showLabel
         onClick={() => handleAddShape('roundedRectangle')}
