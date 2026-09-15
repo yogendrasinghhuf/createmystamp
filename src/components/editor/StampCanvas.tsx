@@ -119,6 +119,7 @@ export default function StampCanvas() {
   const select = useStampStore((s) => s.select)
   const updateElementTransient = useStampStore((s) => s.updateElementTransient)
   const commitTransientUpdate = useStampStore((s) => s.commitTransientUpdate)
+  const outlineSuppressed = useStampStore((s) => s.outlineSuppressed)
 
   const svgRef = useRef<SVGSVGElement>(null)
   const [zoom, setZoom] = useState(1)
@@ -248,7 +249,7 @@ export default function StampCanvas() {
         opacity={project.ink.mode === 'ink' ? project.ink.opacity : 1}
         style={project.ink.mode === 'ink' ? { color: project.ink.color } : undefined}
       >
-        {project.elements.length > 0 && (
+        {project.elements.length > 0 && !outlineSuppressed && (
           <StampOutline
             shape={project.shape}
             width={project.dimensions.width}
