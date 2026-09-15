@@ -1,15 +1,16 @@
 import { ArrowUp, ArrowDown, Trash2, Copy } from 'lucide-react'
+import type { StampElement } from '../../types/stamp'
 import { useProject, useSelectedIds, useStampStore } from '../../store/useStampStore'
 import IconButton from '../ui/IconButton'
 
-function labelFor(element: { type: string }): string {
+function labelFor(element: StampElement): string {
   switch (element.type) {
     case 'text':
-      return 'Text'
+      return element.text.trim() || 'Text'
     case 'curvedText':
-      return 'Curved text'
+      return element.text.trim() || 'Curved text'
     case 'shape':
-      return 'Shape'
+      return `Shape (${element.shape})`
     case 'image':
       return 'Image'
     case 'qrCode':
@@ -19,13 +20,15 @@ function labelFor(element: { type: string }): string {
   }
 }
 
+const NUDGE_STEP = 0.5
+
 export default function LayerList() {
   const project = useProject()
   const selectedIds = useSelectedIds()
   const select = useStampStore((s) => s.select)
   const removeElement = useStampStore((s) => s.removeElement)
   const duplicateElement = useStampStore((s) => s.duplicateElement)
-  const reorderElement = useStampStore((s) => s.reorderElement)
+  const updateElement = useStampStore((s) => s.updateElement)
 
   const sorted = [...project.elements].sort((a, b) => b.zIndex - a.zIndex)
 
@@ -44,12 +47,22 @@ export default function LayerList() {
               isSelected ? 'border-accent bg-accent/10' : 'border-line'
             }`}
           >
-            <button className="text-left" onClick={() => select([element.id])}>
+            <button className="truncate text-left" onClick={() => select([element.id])}>
               {labelFor(element)}
             </button>
-            <div className="flex gap-1">
-              <IconButton icon={<ArrowUp size={14} />} label="Move layer up" onClick={() => reorderElement(element.id, 'up')} className="min-h-8 min-w-8" />
-              <IconButton icon={<ArrowDown size={14} />} label="Move layer down" onClick={() => reorderElement(element.id, 'down')} className="min-h-8 min-w-8" />
+            <div className="flex shrink-0 gap-1">
+              <IconButton
+                icon={<ArrowUp size={14} />}
+                label="Move up"
+                onClick={() => updateElement(element.id, { y: element.y - NUDGE_STEP })}
+                className="min-h-8 min-w-8"
+              />
+              <IconButton
+                icon={<ArrowDown size={14} />}
+                label="Move down"
+                onClick={() => updateElement(element.id, { y: element.y + NUDGE_STEP })}
+                className="min-h-8 min-w-8"
+              />
               <IconButton icon={<Copy size={14} />} label="Duplicate layer" onClick={() => duplicateElement(element.id)} className="min-h-8 min-w-8" />
               <IconButton icon={<Trash2 size={14} />} label="Delete layer" onClick={() => removeElement(element.id)} className="min-h-8 min-w-8" />
             </div>
