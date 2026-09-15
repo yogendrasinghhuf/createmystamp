@@ -435,9 +435,11 @@ export const TEMPLATES: StampTemplate[] = [
       name: 'Approved Stamp',
       shape: 'rectangle',
       dimensions: { width: 44, height: 20 },
-      ink: { mode: 'ink', color: '#1F4E8B', opacity: 0.8, distress: 0.3 },
+      ink: { mode: 'ink', color: '#1F7A3D', opacity: 0.8, distress: 0.3 },
+      outlineSuppressed: true,
       elements: [
-        text({ text: 'APPROVED', y: 1, fontSize: 6, fontWeight: 700, letterSpacing: 1 }),
+        shape({ shape: 'rectangle', width: 44, height: 20, strokeColor: '#1F7A3D', strokeWidth: 1.2, filled: false }),
+        text({ text: 'APPROVED', y: 1, fontSize: 6, fontWeight: 700, letterSpacing: 1, color: '#1F7A3D' }),
       ],
     },
   },
