@@ -51,6 +51,7 @@ export default function CurvedTextProperties({ element }: { element: CurvedTextE
         ]}
         onChange={(direction) => patch({ direction: direction as CurvedTextElement['direction'] })}
       />
+      <Slider label="Rotation" value={element.rotation} min={-180} max={180} onChange={(rotation) => patch({ rotation })} />
       <ColorSwatch label="Color" value={element.color} onChange={(color) => patch({ color })} />
     </div>
   )
