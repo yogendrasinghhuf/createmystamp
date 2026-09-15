@@ -169,6 +169,18 @@ export function createDefaultProject(): StampProject {
   }
 }
 
+export function createBlankProject(): StampProject {
+  return {
+    id: uid(),
+    name: 'Untitled stamp',
+    shape: 'circle',
+    dimensions: { width: 40, height: 40 },
+    elements: [],
+    ink: { mode: 'clean', color: DEFAULT_INK_COLOR, opacity: 0.85, distress: 0 },
+    updatedAt: Date.now(),
+  }
+}
+
 interface StampStoreState {
   history: HistoryState<StampProject>
   selectedIds: string[]
@@ -196,6 +208,7 @@ export interface StampStore {
   redo: () => void
   loadProject: (project: StampProject) => void
   resetProject: () => void
+  clearProject: () => void
 }
 
 function withUpdatedProject(
@@ -351,6 +364,13 @@ export const useStampStore = create<StampStore & StampStoreState>((set) => ({
   resetProject: () =>
     set(() => ({
       history: { past: [], present: createDefaultProject(), future: [] },
+      selectedIds: [],
+      transientBaseline: null,
+    })),
+
+  clearProject: () =>
+    set(() => ({
+      history: { past: [], present: createBlankProject(), future: [] },
       selectedIds: [],
       transientBaseline: null,
     })),
