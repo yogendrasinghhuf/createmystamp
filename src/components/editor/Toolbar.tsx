@@ -177,7 +177,7 @@ export default function Toolbar() {
       width: shape === 'line' ? 20 : shape === 'rectangle' || shape === 'roundedRectangle' ? 28 : 16,
       height: shape === 'line' ? 0.5 : shape === 'rectangle' || shape === 'roundedRectangle' ? 7 : 16,
       strokeColor: '#2B2A28',
-      strokeWidth: 1,
+      strokeWidth: 0.6,
       fillColor: '#2B2A28',
       filled: false,
       cornerRadius: shape === 'roundedRectangle' ? 3 : undefined,
