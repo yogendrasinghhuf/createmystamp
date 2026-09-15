@@ -182,7 +182,7 @@ export default function StampCanvas() {
       updateElementTransient(d.id, { scale: nextScale } as never)
     } else if (d.kind === 'rotate') {
       const angleRad = Math.atan2(p.y - d.centerY, p.x - d.centerX)
-      const angleDeg = (angleRad * 180) / Math.PI + 90
+      const angleDeg = Math.round((angleRad * 180) / Math.PI + 90)
       updateElementTransient(d.id, { rotation: angleDeg } as never)
     } else if (d.kind === 'pan') {
       setPan({
