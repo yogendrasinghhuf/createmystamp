@@ -416,8 +416,8 @@ export const TEMPLATES: StampTemplate[] = [
         }),
         text({
           text: 'PAID',
-          x: 0.8,
-          y: 3,
+          x: 1,
+          y: 4,
           rotation: -45,
           fontSize: 10,
           fontWeight: 700,
