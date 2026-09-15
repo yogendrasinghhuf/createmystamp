@@ -198,6 +198,17 @@ function ShapePrimitive({ element }: { element: Extract<StampElement, { type: 's
       />
     )
   }
+  if (element.shape === 'oval') {
+    return (
+      <ellipse
+        rx={element.width / 2}
+        ry={element.height / 2}
+        fill={fill}
+        stroke={element.strokeColor}
+        strokeWidth={element.strokeWidth}
+      />
+    )
+  }
   if (element.shape === 'line') {
     return (
       <line

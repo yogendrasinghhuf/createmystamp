@@ -48,6 +48,7 @@ export interface CurvedTextElement extends ElementCommon {
 
 export type ShapeKind =
   | 'circle'
+  | 'oval'
   | 'rectangle'
   | 'roundedRectangle'
   | 'line'

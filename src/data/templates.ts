@@ -287,8 +287,12 @@ export const TEMPLATES: StampTemplate[] = [
       name: 'Fragile Label',
       shape: 'oval',
       dimensions: { width: 32, height: 24 },
-      ink: { mode: 'clean', color: '#2B2A28', opacity: 0.85, distress: 0.1 },
-      elements: [text({ text: 'FRAGILE', x: 0.2, y: 1.2, fontSize: 4.6, fontWeight: 600, letterSpacing: 0.4, align: 'center' })],
+      ink: { mode: 'clean', color: '#C4282D', opacity: 0.85, distress: 0.1 },
+      outlineSuppressed: true,
+      elements: [
+        shape({ shape: 'oval', width: 32, height: 24, strokeColor: '#C4282D', strokeWidth: 1.2, filled: false }),
+        text({ text: 'FRAGILE', x: 0.2, y: 1.2, fontSize: 4.6, fontWeight: 600, letterSpacing: 0.4, align: 'center', color: '#C4282D' }),
+      ],
     },
   },
   {
