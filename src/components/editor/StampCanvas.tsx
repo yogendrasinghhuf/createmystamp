@@ -9,52 +9,54 @@ import { clamp } from '../../lib/geometry'
 // never sit on top of the design.
 const RULER_GUTTER = 5
 
-function MeasurementGrid({ viewWidth, viewHeight }: { viewWidth: number; viewHeight: number }) {
+function MeasurementGrid({
+  viewWidth,
+  viewHeight,
+  stampWidth,
+  stampHeight,
+}: {
+  viewWidth: number
+  viewHeight: number
+  stampWidth: number
+  stampHeight: number
+}) {
   const left = -viewWidth / 2
   const top = -viewHeight / 2
 
-  // Ruler labels read as distance from the top-left corner (0-based, like a
-  // physical ruler), even though the underlying SVG coordinates stay centered
-  // at (0,0) -- element positions, drag math, and curved-text angles all
-  // depend on that centered coordinate system elsewhere in the canvas.
-  // Gridlines are generated directly in this label space (multiples of 5,
-  // always including 0) and converted back to SVG coordinates, so the ruler
-  // always starts at 0 regardless of the stamp's width/height/padding.
+  // Ruler labels read as distance from the stamp's own top-left corner
+  // (0-based, like a physical ruler), so "0" lines up with where the design
+  // actually starts rather than the extra breathing-room padding around it.
+  // The underlying SVG coordinates stay centered at (0,0) -- element
+  // positions, drag math, and curved-text angles all depend on that
+  // centered coordinate system elsewhere in the canvas.
+  const originX = -stampWidth / 2
+  const originY = -stampHeight / 2
+
+  // Gridlines/ticks only cover the stamp's own bounding box; the padding
+  // around it stays plain background with no ruling.
   const minorLinesX: { svg: number; label: number }[] = []
-  for (let label = 0; label <= viewWidth; label += 5) {
-    minorLinesX.push({ svg: left + label, label })
+  for (let label = 0; label <= stampWidth; label += 5) {
+    minorLinesX.push({ svg: originX + label, label })
   }
   const minorLinesY: { svg: number; label: number }[] = []
-  for (let label = 0; label <= viewHeight; label += 5) {
-    minorLinesY.push({ svg: top + label, label })
+  for (let label = 0; label <= stampHeight; label += 5) {
+    minorLinesY.push({ svg: originY + label, label })
   }
 
   return (
     <g data-selection-ui="true" pointerEvents="none">
-      {/* Ruler gutter background, outside the drawable workspace area */}
-      <rect
-        x={left - RULER_GUTTER}
-        y={top - RULER_GUTTER}
-        width={viewWidth + RULER_GUTTER}
-        height={RULER_GUTTER}
-        fill="#EFEAE0"
-      />
-      <rect
-        x={left - RULER_GUTTER}
-        y={top - RULER_GUTTER}
-        width={RULER_GUTTER}
-        height={viewHeight + RULER_GUTTER}
-        fill="#EFEAE0"
-      />
+      {/* Ruler gutter background along the outer canvas edges */}
+      <rect x={left - RULER_GUTTER} y={top - RULER_GUTTER} width={viewWidth + RULER_GUTTER} height={RULER_GUTTER} fill="#EFEAE0" />
+      <rect x={left - RULER_GUTTER} y={top - RULER_GUTTER} width={RULER_GUTTER} height={viewHeight + RULER_GUTTER} fill="#EFEAE0" />
       {minorLinesX.map(({ svg: x, label }) => {
         const isMajor = label % 10 === 0
         return (
           <line
             key={`v-${x}`}
             x1={x}
-            y1={top}
+            y1={originY}
             x2={x}
-            y2={top + viewHeight}
+            y2={originY + stampHeight}
             stroke={isMajor ? '#D8D0C0' : '#E9E3D6'}
             strokeWidth={isMajor ? 0.15 : 0.08}
           />
@@ -65,16 +67,17 @@ function MeasurementGrid({ viewWidth, viewHeight }: { viewWidth: number; viewHei
         return (
           <line
             key={`h-${y}`}
-            x1={left}
+            x1={originX}
             y1={y}
-            x2={left + viewWidth}
+            x2={originX + stampWidth}
             y2={y}
             stroke={isMajor ? '#D8D0C0' : '#E9E3D6'}
             strokeWidth={isMajor ? 0.15 : 0.08}
           />
         )
       })}
-      {/* Tick marks + labels live in the gutter, outside the workspace */}
+      {/* Tick marks + labels live in the outer gutter, aligned to each
+          gridline's actual position (which starts at the stamp edge) */}
       {minorLinesX
         .filter(({ label }) => label % 10 === 0)
         .map(({ svg: x, label }) => (
@@ -271,7 +274,12 @@ export default function StampCanvas() {
           />
         </filter>
       </defs>
-      <MeasurementGrid viewWidth={viewWidth} viewHeight={viewHeight} />
+      <MeasurementGrid
+        viewWidth={viewWidth}
+        viewHeight={viewHeight}
+        stampWidth={project.dimensions.width}
+        stampHeight={project.dimensions.height}
+      />
       <g
         filter={project.ink.mode === 'ink' ? 'url(#ink-distress-filter)' : undefined}
         opacity={project.ink.mode === 'ink' ? project.ink.opacity : 1}
