@@ -42,20 +42,19 @@ function MeasurementGrid({
   viewHeight,
   viewLeft,
   viewTop,
-  stampWidth,
-  stampHeight,
 }: {
   viewWidth: number
   viewHeight: number
   viewLeft: number
   viewTop: number
-  stampWidth: number
-  stampHeight: number
 }) {
   const left = viewLeft
   const top = viewTop
-  const originX = -stampWidth / 2
-  const originY = -stampHeight / 2
+  // The ruler's 0 is the workspace's own top-left corner (a fixed
+  // reference point), not the design's edge -- the design sits inset from
+  // it by designPadding, so it reads e.g. 2..40 instead of 0..38.
+  const originX = viewLeft
+  const originY = viewTop
 
   const minorLinesX = buildRulerTicks(viewWidth, left, originX)
   const minorLinesY = buildRulerTicks(viewHeight, top, originY)
@@ -103,8 +102,6 @@ function RulerOverlay({
   viewHeight,
   viewLeft,
   viewTop,
-  stampWidth,
-  stampHeight,
   renderedWidth,
   renderedHeight,
 }: {
@@ -112,15 +109,15 @@ function RulerOverlay({
   viewHeight: number
   viewLeft: number
   viewTop: number
-  stampWidth: number
-  stampHeight: number
   renderedWidth: number
   renderedHeight: number
 }) {
   const left = viewLeft
   const top = viewTop
-  const originX = -stampWidth / 2
-  const originY = -stampHeight / 2
+  // The ruler's 0 is the workspace's own top-left corner, not the design's
+  // edge -- see MeasurementGrid for the matching rationale.
+  const originX = viewLeft
+  const originY = viewTop
 
   const ticksX = buildRulerTicks(viewWidth, left, originX)
   const ticksY = buildRulerTicks(viewHeight, top, originY)
@@ -305,16 +302,19 @@ export default function StampCanvas() {
     return () => observer.disconnect()
   }, [])
 
-  // No padding around the design -- the workspace and ruler both start
-  // exactly at the stamp's own top-left corner (0,0) with no leading or
-  // trailing margin. edgeInset is a hairline buffer (not a visible gap) so
-  // the gridline/stroke rendered exactly at the viewBox edge isn't clipped
-  // in half by the canvas boundary -- it does not change where "0" reads.
+  // The workspace/ruler origin (0,0) is a fixed reference point -- it is
+  // NOT the design's own edge. The design itself sits inset by
+  // `designPadding` from that origin on every side, so e.g. a 38mm design
+  // starts at ruler position 2 and ends at 40, with the workspace spanning
+  // 0 to 42. edgeInset is a hairline buffer (not a visible gap) so a
+  // gridline/stroke rendered exactly at the viewBox edge isn't clipped in
+  // half by the canvas boundary.
+  const designPadding = 2
   const edgeInset = 0.1
-  const viewWidth = (project.dimensions.width + edgeInset) / zoom
-  const viewHeight = (project.dimensions.height + edgeInset) / zoom
-  const viewLeft = -project.dimensions.width / 2 - edgeInset
-  const viewTop = -project.dimensions.height / 2 - edgeInset
+  const viewWidth = (project.dimensions.width + designPadding * 2 + edgeInset) / zoom
+  const viewHeight = (project.dimensions.height + designPadding * 2 + edgeInset) / zoom
+  const viewLeft = -project.dimensions.width / 2 - designPadding - edgeInset
+  const viewTop = -project.dimensions.height / 2 - designPadding - edgeInset
 
   // Because the viewBox's aspect ratio is fixed to the design's own shape
   // (not the panel's), preserveAspectRatio="meet" may letterbox -- shrinking
@@ -468,8 +468,6 @@ export default function StampCanvas() {
           viewHeight={viewHeight}
           viewLeft={viewLeft}
           viewTop={viewTop}
-          stampWidth={project.dimensions.width}
-          stampHeight={project.dimensions.height}
         />
         <g clipPath="url(#workspace-clip)">
           <g
@@ -509,8 +507,6 @@ export default function StampCanvas() {
         viewHeight={viewHeight}
         viewLeft={viewLeft}
         viewTop={viewTop}
-        stampWidth={project.dimensions.width}
-        stampHeight={project.dimensions.height}
         renderedWidth={renderedWidth}
         renderedHeight={renderedHeight}
       />
