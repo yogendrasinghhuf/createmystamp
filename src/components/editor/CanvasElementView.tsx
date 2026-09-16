@@ -188,10 +188,17 @@ function octagonPoints(width: number, height: number): string {
 
 function ShapePrimitive({ element }: { element: Extract<StampElement, { type: 'shape' }> }) {
   const fill = element.filled ? element.fillColor : 'none'
+  // SVG strokes are centered on the path by default, so they grow both
+  // inward and outward -- making the shape's visible outer edge exceed its
+  // own nominal width/height/radius as strokeWidth increases. Inset the
+  // underlying geometry by half the stroke width so the stroke instead
+  // grows inward only, keeping the outer edge fixed at the shape's stated
+  // size.
+  const inset = element.strokeWidth / 2
   if (element.shape === 'circle') {
     return (
       <circle
-        r={element.width / 2}
+        r={Math.max(element.width / 2 - inset, 0)}
         fill={fill}
         stroke={element.strokeColor}
         strokeWidth={element.strokeWidth}
@@ -201,8 +208,8 @@ function ShapePrimitive({ element }: { element: Extract<StampElement, { type: 's
   if (element.shape === 'oval') {
     return (
       <ellipse
-        rx={element.width / 2}
-        ry={element.height / 2}
+        rx={Math.max(element.width / 2 - inset, 0)}
+        ry={Math.max(element.height / 2 - inset, 0)}
         fill={fill}
         stroke={element.strokeColor}
         strokeWidth={element.strokeWidth}
@@ -234,7 +241,7 @@ function ShapePrimitive({ element }: { element: Extract<StampElement, { type: 's
   if (element.shape === 'triangle') {
     return (
       <polygon
-        points={trianglePoints(element.width, element.height)}
+        points={trianglePoints(Math.max(element.width - inset * 2, 0), Math.max(element.height - inset * 2, 0))}
         fill={fill}
         stroke={element.strokeColor}
         strokeWidth={element.strokeWidth}
@@ -245,7 +252,7 @@ function ShapePrimitive({ element }: { element: Extract<StampElement, { type: 's
   if (element.shape === 'star') {
     return (
       <polygon
-        points={starPoints(element.width, element.height)}
+        points={starPoints(Math.max(element.width - inset * 2, 0), Math.max(element.height - inset * 2, 0))}
         fill={fill}
         stroke={element.strokeColor}
         strokeWidth={element.strokeWidth}
@@ -256,7 +263,7 @@ function ShapePrimitive({ element }: { element: Extract<StampElement, { type: 's
   if (element.shape === 'octagon') {
     return (
       <polygon
-        points={octagonPoints(element.width, element.height)}
+        points={octagonPoints(Math.max(element.width - inset * 2, 0), Math.max(element.height - inset * 2, 0))}
         fill={fill}
         stroke={element.strokeColor}
         strokeWidth={element.strokeWidth}
@@ -264,12 +271,14 @@ function ShapePrimitive({ element }: { element: Extract<StampElement, { type: 's
       />
     )
   }
+  const rectWidth = Math.max(element.width - inset * 2, 0)
+  const rectHeight = Math.max(element.height - inset * 2, 0)
   return (
     <rect
-      x={-element.width / 2}
-      y={-element.height / 2}
-      width={element.width}
-      height={element.height}
+      x={-rectWidth / 2}
+      y={-rectHeight / 2}
+      width={rectWidth}
+      height={rectHeight}
       rx={element.shape === 'roundedRectangle' ? element.cornerRadius ?? 8 : 0}
       fill={fill}
       stroke={element.strokeColor}
