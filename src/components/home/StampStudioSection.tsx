@@ -75,7 +75,7 @@ export default function StampStudioSection() {
           className="flex min-h-0 flex-col overflow-hidden rounded-xl3 border border-line shadow-card"
           style={{ height: 'min(680px, calc(100vh - 198px))' }}
         >
-          <div className="flex min-h-0 flex-1 flex-col md:grid md:grid-cols-[190px_1fr_320px]">
+          <div className="flex min-h-0 flex-1 flex-col md:grid md:grid-cols-[160px_1fr_320px]">
             <aside className="hidden min-h-0 overflow-y-auto border-r border-line md:block">
               <Toolbar />
             </aside>
