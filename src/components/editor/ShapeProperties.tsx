@@ -45,7 +45,7 @@ export default function ShapeProperties({ element }: { element: ShapeElement }) 
         step={0.2}
         onChange={(strokeWidth) => patch({ strokeWidth })}
       />
-      <ColorSwatch label="Stroke color" value={element.strokeColor} onChange={(strokeColor) => patch({ strokeColor })} />
+      <ColorSwatch label="Element color" value={element.strokeColor} onChange={(strokeColor) => patch({ strokeColor })} />
       {canFill && (
         <>
           <label className="flex items-center gap-2 text-sm text-ink/70">
