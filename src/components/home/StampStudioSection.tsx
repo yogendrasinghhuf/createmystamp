@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import EditorTopBar from '../editor/EditorTopBar'
 import Toolbar from '../editor/Toolbar'
 import StampCanvas from '../editor/StampCanvas'
@@ -17,8 +17,20 @@ export default function StampStudioSection() {
   const updateElement = useStampStore((s) => s.updateElement)
   const loadProject = useStampStore((s) => s.loadProject)
   const [mobileSheet, setMobileSheet] = useState<'none' | 'add' | 'properties' | 'export'>('none')
+  const canvasWrapRef = useRef<HTMLDivElement>(null)
+  const [canvasBoxSize, setCanvasBoxSize] = useState(0)
 
   useEditorKeyboardShortcuts()
+
+  useEffect(() => {
+    const el = canvasWrapRef.current
+    if (!el) return
+    const update = () => setCanvasBoxSize(Math.floor(Math.min(el.clientWidth, el.clientHeight)))
+    update()
+    const observer = new ResizeObserver(update)
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
 
   useEffect(() => {
     const saved = loadFromStorage()
@@ -80,8 +92,11 @@ export default function StampStudioSection() {
               <Toolbar />
             </aside>
             <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
-              <div className="flex min-h-0 flex-1 items-center justify-center overflow-hidden bg-line/20">
-                <div className="aspect-square h-full max-h-full max-w-full md:max-w-2xl">
+              <div
+                ref={canvasWrapRef}
+                className="flex min-h-0 flex-1 items-center justify-center overflow-hidden bg-line/20"
+              >
+                <div style={{ width: canvasBoxSize || '100%', height: canvasBoxSize || '100%' }}>
                   <StampCanvas />
                 </div>
               </div>
