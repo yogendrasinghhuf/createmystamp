@@ -32,14 +32,20 @@ function MeasurementGrid({
   const originX = -stampWidth / 2
   const originY = -stampHeight / 2
 
-  // Gridlines/ticks only cover the stamp's own bounding box; the padding
-  // around it stays plain background with no ruling.
+  // Gridlines/ticks span the entire padded workspace (not just the stamp's
+  // own box), so the ruler fully covers the zoomable/draggable area with no
+  // unmarked gap -- labels go negative into the padding before the stamp
+  // and past stampWidth/stampHeight after it.
+  const startLabelX = Math.ceil((left - originX) / 5) * 5
+  const endLabelX = Math.floor((left + viewWidth - originX) / 5) * 5
   const minorLinesX: { svg: number; label: number }[] = []
-  for (let label = 0; label <= stampWidth; label += 5) {
+  for (let label = startLabelX; label <= endLabelX; label += 5) {
     minorLinesX.push({ svg: originX + label, label })
   }
+  const startLabelY = Math.ceil((top - originY) / 5) * 5
+  const endLabelY = Math.floor((top + viewHeight - originY) / 5) * 5
   const minorLinesY: { svg: number; label: number }[] = []
-  for (let label = 0; label <= stampHeight; label += 5) {
+  for (let label = startLabelY; label <= endLabelY; label += 5) {
     minorLinesY.push({ svg: originY + label, label })
   }
 
@@ -54,9 +60,9 @@ function MeasurementGrid({
           <line
             key={`v-${x}`}
             x1={x}
-            y1={originY}
+            y1={top}
             x2={x}
-            y2={originY + stampHeight}
+            y2={top + viewHeight}
             stroke={isMajor ? '#D8D0C0' : '#E9E3D6'}
             strokeWidth={isMajor ? 0.15 : 0.08}
           />
@@ -67,9 +73,9 @@ function MeasurementGrid({
         return (
           <line
             key={`h-${y}`}
-            x1={originX}
+            x1={left}
             y1={y}
-            x2={originX + stampWidth}
+            x2={left + viewWidth}
             y2={y}
             stroke={isMajor ? '#D8D0C0' : '#E9E3D6'}
             strokeWidth={isMajor ? 0.15 : 0.08}
@@ -273,6 +279,14 @@ export default function StampCanvas() {
             scale={project.ink.distress * 1.5}
           />
         </filter>
+        <clipPath id="workspace-clip">
+          <rect
+            x={-viewWidth / 2}
+            y={-viewHeight / 2}
+            width={viewWidth}
+            height={viewHeight}
+          />
+        </clipPath>
       </defs>
       <MeasurementGrid
         viewWidth={viewWidth}
@@ -280,27 +294,29 @@ export default function StampCanvas() {
         stampWidth={project.dimensions.width}
         stampHeight={project.dimensions.height}
       />
-      <g
-        filter={project.ink.mode === 'ink' ? 'url(#ink-distress-filter)' : undefined}
-        opacity={project.ink.mode === 'ink' ? project.ink.opacity : 1}
-        style={project.ink.mode === 'ink' ? { color: project.ink.color } : undefined}
-      >
-        {project.elements.length > 0 && !outlineSuppressed && (
-          <StampOutline
-            shape={project.shape}
-            width={project.dimensions.width}
-            height={project.dimensions.height}
-            color={project.ink.color}
-          />
-        )}
-        {sorted.map((element) => (
-          <CanvasElementView
-            key={element.id}
-            element={element}
-            isSelected={selectedIds.includes(element.id)}
-            onPointerDownSelect={handleElementPointerDown}
-          />
-        ))}
+      <g clipPath="url(#workspace-clip)">
+        <g
+          filter={project.ink.mode === 'ink' ? 'url(#ink-distress-filter)' : undefined}
+          opacity={project.ink.mode === 'ink' ? project.ink.opacity : 1}
+          style={project.ink.mode === 'ink' ? { color: project.ink.color } : undefined}
+        >
+          {project.elements.length > 0 && !outlineSuppressed && (
+            <StampOutline
+              shape={project.shape}
+              width={project.dimensions.width}
+              height={project.dimensions.height}
+              color={project.ink.color}
+            />
+          )}
+          {sorted.map((element) => (
+            <CanvasElementView
+              key={element.id}
+              element={element}
+              isSelected={selectedIds.includes(element.id)}
+              onPointerDownSelect={handleElementPointerDown}
+            />
+          ))}
+        </g>
       </g>
       {selectedElement && (
         <SelectionOverlay
