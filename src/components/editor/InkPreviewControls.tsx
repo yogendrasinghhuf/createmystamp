@@ -3,21 +3,23 @@ import Select from '../ui/Select'
 import Slider from '../ui/Slider'
 import ColorSwatch from '../ui/ColorSwatch'
 
-export default function InkPreviewControls() {
+export default function InkPreviewControls({ showPreviewMode = true }: { showPreviewMode?: boolean }) {
   const project = useProject()
   const setInk = useStampStore((s) => s.setInk)
 
   return (
     <div className="flex flex-col gap-4">
-      <Select
-        label="Preview mode"
-        value={project.ink.mode}
-        options={[
-          { label: 'Clean', value: 'clean' },
-          { label: 'Ink', value: 'ink' },
-        ]}
-        onChange={(mode) => setInk({ mode: mode as 'clean' | 'ink' })}
-      />
+      {showPreviewMode && (
+        <Select
+          label="Preview mode"
+          value={project.ink.mode}
+          options={[
+            { label: 'Clean', value: 'clean' },
+            { label: 'Ink', value: 'ink' },
+          ]}
+          onChange={(mode) => setInk({ mode: mode as 'clean' | 'ink' })}
+        />
+      )}
       <ColorSwatch label="Stamp color" value={project.ink.color} onChange={(color) => setInk({ color })} />
       {project.ink.mode === 'ink' && (
         <>

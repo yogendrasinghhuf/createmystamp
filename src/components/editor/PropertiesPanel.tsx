@@ -34,7 +34,7 @@ export default function PropertiesPanel() {
       )}
       <div>
         <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-ink/50">Ink preview</h3>
-        <InkPreviewControls />
+        <InkPreviewControls showPreviewMode={Boolean(selected)} />
       </div>
       <details className="group">
         <summary className="mb-2 flex cursor-pointer list-none items-center gap-1 text-sm font-semibold uppercase tracking-wide text-ink/50">
