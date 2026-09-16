@@ -306,8 +306,10 @@ export default function StampCanvas() {
   // NOT the design's own edge. The workspace is always a square span sized
   // by the larger of the design's own width/height (its "diameter"), with
   // `designPadding` added on every side -- so e.g. a 38x25mm design still
-  // gets a 42x42 workspace (both axes reaching the same ruler max), with
-  // the design centered inside it rather than stretched to fill it.
+  // gets a 42x42 workspace (both axes reaching the same ruler max). The
+  // design is anchored to the workspace's top-left corner (2mm in on both
+  // axes), not centered, so a shorter/narrower design still starts at the
+  // same ruler position on every axis instead of floating in the middle.
   // edgeInset is a hairline buffer (not a visible gap) so a gridline/stroke
   // rendered exactly at the viewBox edge isn't clipped in half by the
   // canvas boundary.
@@ -316,8 +318,8 @@ export default function StampCanvas() {
   const workspaceSpan = Math.max(project.dimensions.width, project.dimensions.height)
   const viewWidth = (workspaceSpan + designPadding * 2 + edgeInset) / zoom
   const viewHeight = (workspaceSpan + designPadding * 2 + edgeInset) / zoom
-  const viewLeft = -workspaceSpan / 2 - designPadding - edgeInset
-  const viewTop = -workspaceSpan / 2 - designPadding - edgeInset
+  const viewLeft = -project.dimensions.width / 2 - designPadding - edgeInset
+  const viewTop = -project.dimensions.height / 2 - designPadding - edgeInset
 
   // Because the viewBox's aspect ratio is fixed to the design's own shape
   // (not the panel's), preserveAspectRatio="meet" may letterbox -- shrinking
