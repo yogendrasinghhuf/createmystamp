@@ -1,5 +1,3 @@
-import { useRef } from 'react'
-
 interface ColorSwatchProps {
   label: string
   value: string
@@ -7,34 +5,28 @@ interface ColorSwatchProps {
 }
 
 export default function ColorSwatch({ label, value, onChange }: ColorSwatchProps) {
-  const inputRef = useRef<HTMLInputElement>(null)
-
   return (
     <label className="flex items-center justify-between text-sm">
       <span className="text-ink/70">{label}</span>
-      <button
-        type="button"
-        onClick={() => inputRef.current?.showPicker?.() ?? inputRef.current?.click()}
-        className="h-8 w-8 shrink-0 rounded border border-line"
-        style={{ backgroundColor: value }}
-        aria-label={label}
-      >
-        {/* Kept off-screen (not just invisible) so browser extensions that
-            scan the DOM for color inputs and inject their own icon next to
-            them -- e.g. eyedropper-style extensions -- have no visible
-            element to anchor that icon to. The button above is the only
-            thing users ever see or click; it opens this input's native
-            picker programmatically. */}
+      <span className="relative inline-block h-8 w-8 shrink-0">
+        <span
+          className="pointer-events-none absolute inset-0 rounded border border-line"
+          style={{ backgroundColor: value }}
+        />
+        {/* Kept in normal layout (required for showPicker()/click() to work
+            reliably) but visually clipped to nothing, so browser extensions
+            that anchor an injected icon on the input's own box (e.g.
+            eyedropper-style extensions) have no visible area to draw into.
+            The swatch square above is what the user actually sees. */}
         <input
-          ref={inputRef}
           type="color"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          style={{ position: 'fixed', top: -9999, left: -9999, width: 1, height: 1, opacity: 0 }}
-          tabIndex={-1}
-          aria-hidden="true"
+          className="absolute inset-0 h-full w-full cursor-pointer"
+          style={{ clipPath: 'inset(50%)' }}
+          aria-label={label}
         />
-      </button>
+      </span>
     </label>
   )
 }
