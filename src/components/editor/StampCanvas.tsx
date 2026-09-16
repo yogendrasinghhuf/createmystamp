@@ -301,15 +301,15 @@ export default function StampCanvas() {
     return () => observer.disconnect()
   }, [])
 
-  // Trailing padding only (right/bottom) so elements still have room to be
-  // dragged past the design's edge -- the workspace itself starts exactly
-  // at the stamp's own top-left corner (0,0 on the ruler). edgeInset is half
-  // a gridline stroke so the line at 0, sitting on the viewBox edge, isn't
-  // clipped in half by the canvas boundary.
+  // 2mm of padding on every side of the design -- the workspace expands by
+  // exactly that much beyond the template's own width/height, on all four
+  // edges. edgeInset is an extra half a gridline stroke so the line at 0,
+  // which would otherwise sit exactly on the viewBox edge, isn't clipped in
+  // half by the canvas boundary.
   const edgeInset = 0.5
-  const padding = 20
-  const fitWidth = project.dimensions.width + padding + edgeInset
-  const fitHeight = project.dimensions.height + padding + edgeInset
+  const padding = 2
+  const fitWidth = project.dimensions.width + padding * 2 + edgeInset
+  const fitHeight = project.dimensions.height + padding * 2 + edgeInset
   // The viewBox must match the container's pixel aspect ratio exactly.
   // Otherwise the SVG letterboxes (centers itself, leaving empty margins)
   // and the fixed-pixel ruler overlay -- which assumes the SVG fills its box
@@ -321,8 +321,8 @@ export default function StampCanvas() {
       : 0
   const viewWidth = pxPerMm > 0 ? containerW / pxPerMm : fitWidth / zoom
   const viewHeight = pxPerMm > 0 ? containerH / pxPerMm : fitHeight / zoom
-  const viewLeft = -project.dimensions.width / 2 - edgeInset
-  const viewTop = -project.dimensions.height / 2 - edgeInset
+  const viewLeft = -project.dimensions.width / 2 - padding - edgeInset
+  const viewTop = -project.dimensions.height / 2 - padding - edgeInset
   const sorted = [...project.elements].sort((a, b) => a.zIndex - b.zIndex)
   const selectedElement = project.elements.find((el) => el.id === selectedIds[0])
 
