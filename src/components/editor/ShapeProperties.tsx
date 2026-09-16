@@ -45,17 +45,16 @@ export default function ShapeProperties({ element }: { element: ShapeElement }) 
         step={0.2}
         onChange={(strokeWidth) => patch({ strokeWidth })}
       />
-      <ColorSwatch label="Element color" value={element.strokeColor} onChange={(strokeColor) => patch({ strokeColor })} />
+      <ColorSwatch
+        label="Element color"
+        value={element.strokeColor}
+        onChange={(strokeColor) => patch({ strokeColor, fillColor: strokeColor })}
+      />
       {canFill && (
-        <>
-          <label className="flex items-center gap-2 text-sm text-ink/70">
-            <input type="checkbox" checked={element.filled} onChange={(e) => patch({ filled: e.target.checked })} />
-            Filled
-          </label>
-          {element.filled && (
-            <ColorSwatch label="Fill color" value={element.fillColor} onChange={(fillColor) => patch({ fillColor })} />
-          )}
-        </>
+        <label className="flex items-center gap-2 text-sm text-ink/70">
+          <input type="checkbox" checked={element.filled} onChange={(e) => patch({ filled: e.target.checked })} />
+          Filled
+        </label>
       )}
       {element.shape === 'roundedRectangle' && (
         <Slider

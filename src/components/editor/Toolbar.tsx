@@ -146,7 +146,8 @@ export default function Toolbar() {
   function handleSelectIcon(iconName: string) {
     const option = STAMP_ICONS.find((i) => i.name === iconName)
     if (!option) return
-    const dataUrl = iconToSvgDataUrl(option.innerMarkup, '#2B2A28')
+    const color = '#2B2A28'
+    const dataUrl = iconToSvgDataUrl(option.innerMarkup, color)
     if (!dataUrl) return
     addAndSelect({
       id: uid(),
@@ -160,6 +161,8 @@ export default function Toolbar() {
       width: 12,
       height: 12,
       isSvg: true,
+      iconName: option.name,
+      color,
     })
   }
 

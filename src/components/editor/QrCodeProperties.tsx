@@ -50,7 +50,7 @@ export default function QrCodeProperties({ element }: { element: QrCodeElement }
         />
       </label>
       <Slider label="Size" value={element.size} min={8} max={60} onChange={(size) => patch({ size })} />
-      <ColorSwatch label="Color" value={element.color} onChange={(color) => patch({ color })} />
+      <ColorSwatch label="Element color" value={element.color} onChange={(color) => patch({ color })} />
       <Slider label="Rotation" value={element.rotation} min={-180} max={180} onChange={(rotation) => patch({ rotation })} />
     </div>
   )

@@ -274,11 +274,7 @@ export const useStampStore = create<StampStore & StampStoreState>((set) => ({
         elements: p.elements.map((el) => {
           if (el.type === 'image') return el
           if (el.type === 'shape') {
-            return {
-              ...el,
-              strokeColor: color,
-              fillColor: el.filled ? color : el.fillColor,
-            }
+            return { ...el, strokeColor: color, fillColor: color }
           }
           return { ...el, color }
         }),

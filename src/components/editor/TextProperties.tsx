@@ -62,7 +62,7 @@ export default function TextProperties({ element }: { element: TextElement }) {
         ]}
         onChange={(align) => patch({ align: align as TextElement['align'] })}
       />
-      <ColorSwatch label="Color" value={element.color} onChange={(color) => patch({ color })} />
+      <ColorSwatch label="Element color" value={element.color} onChange={(color) => patch({ color })} />
       <Slider label="Rotation" value={element.rotation} min={-180} max={180} onChange={(rotation) => patch({ rotation })} />
     </div>
   )

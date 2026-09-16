@@ -75,6 +75,12 @@ export interface ImageElement extends ElementCommon {
   width: number
   height: number
   isSvg: boolean
+  // Present only for images created from the built-in icon picker (matches
+  // StampIconOption.name in src/lib/icons.ts) -- lets the color swatch
+  // regenerate `src` with a new fill instead of exposing color editing for
+  // arbitrary uploaded images, which have no single recolorable fill.
+  iconName?: string
+  color?: string
 }
 
 export type QrContentType = 'text' | 'email' | 'telephone'
