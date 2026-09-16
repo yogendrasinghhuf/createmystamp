@@ -4,10 +4,18 @@ import CanvasElementView from './CanvasElementView'
 import SelectionOverlay from './SelectionOverlay'
 import { clamp } from '../../lib/geometry'
 
-// Height/width of the ruler gutter band, in view units -- kept outside the
-// actual drawable workspace (which starts at `left`/`top`) so ruler numbers
-// never sit on top of the design.
-const RULER_GUTTER = 5
+// Reference viewWidth used to define the gutter/font size "at 1x" -- other
+// sizes scale proportionally to this so the gutter always resolves to the
+// same physical pixel thickness on screen, no matter how far the workspace
+// is zoomed in/out (a fixed mm value would otherwise render thicker as the
+// stamp shrinks, since the same SVG panel then covers fewer total mm).
+const REFERENCE_VIEW_WIDTH = 64
+const RULER_GUTTER_AT_REFERENCE = 5
+const RULER_FONT_SIZE_AT_REFERENCE = 2
+
+function rulerGutterFor(viewWidth: number): number {
+  return RULER_GUTTER_AT_REFERENCE * (viewWidth / REFERENCE_VIEW_WIDTH)
+}
 
 function MeasurementGrid({
   viewWidth,
@@ -20,6 +28,10 @@ function MeasurementGrid({
   stampWidth: number
   stampHeight: number
 }) {
+  const scale = viewWidth / REFERENCE_VIEW_WIDTH
+  const gutter = rulerGutterFor(viewWidth)
+  const fontSize = RULER_FONT_SIZE_AT_REFERENCE * scale
+
   const left = -viewWidth / 2
   const top = -viewHeight / 2
 
@@ -52,8 +64,8 @@ function MeasurementGrid({
   return (
     <g data-selection-ui="true" pointerEvents="none">
       {/* Ruler gutter background along the outer canvas edges */}
-      <rect x={left - RULER_GUTTER} y={top - RULER_GUTTER} width={viewWidth + RULER_GUTTER} height={RULER_GUTTER} fill="#EFEAE0" />
-      <rect x={left - RULER_GUTTER} y={top - RULER_GUTTER} width={RULER_GUTTER} height={viewHeight + RULER_GUTTER} fill="#EFEAE0" />
+      <rect x={left - gutter} y={top - gutter} width={viewWidth + gutter} height={gutter} fill="#EFEAE0" />
+      <rect x={left - gutter} y={top - gutter} width={gutter} height={viewHeight + gutter} fill="#EFEAE0" />
       {minorLinesX.map(({ svg: x, label }) => {
         const isMajor = label % 10 === 0
         return (
@@ -64,7 +76,7 @@ function MeasurementGrid({
             x2={x}
             y2={top + viewHeight}
             stroke={isMajor ? '#D8D0C0' : '#E9E3D6'}
-            strokeWidth={isMajor ? 0.15 : 0.08}
+            strokeWidth={(isMajor ? 0.15 : 0.08) * scale}
           />
         )
       })}
@@ -78,23 +90,65 @@ function MeasurementGrid({
             x2={left + viewWidth}
             y2={y}
             stroke={isMajor ? '#D8D0C0' : '#E9E3D6'}
-            strokeWidth={isMajor ? 0.15 : 0.08}
+            strokeWidth={(isMajor ? 0.15 : 0.08) * scale}
           />
         )
       })}
+      {/* Small tick marks in the gutter at every 5mm, between the labeled
+          10mm lines */}
+      {minorLinesX
+        .filter(({ label }) => label % 10 !== 0)
+        .map(({ svg: x, label }) => (
+          <line
+            key={`vt-${x}-${label}`}
+            x1={x}
+            y1={top - gutter * 0.35}
+            x2={x}
+            y2={top}
+            stroke="#B7AD98"
+            strokeWidth={0.1 * scale}
+          />
+        ))}
+      {minorLinesY
+        .filter(({ label }) => label % 10 !== 0)
+        .map(({ svg: y, label }) => (
+          <line
+            key={`ht-${y}-${label}`}
+            x1={left - gutter * 0.35}
+            y1={y}
+            x2={left}
+            y2={y}
+            stroke="#B7AD98"
+            strokeWidth={0.1 * scale}
+          />
+        ))}
       {/* Tick marks + labels live in the outer gutter, aligned to each
           gridline's actual position (which starts at the stamp edge) */}
       {minorLinesX
         .filter(({ label }) => label % 10 === 0)
         .map(({ svg: x, label }) => (
-          <text key={`vl-${x}`} x={x} y={top - 1.6} fontSize={2} textAnchor="middle" fill="#9A8F78">
+          <text
+            key={`vl-${x}`}
+            x={x}
+            y={top - gutter * 0.35}
+            fontSize={fontSize}
+            textAnchor="middle"
+            fill="#9A8F78"
+          >
             {label}
           </text>
         ))}
       {minorLinesY
         .filter(({ label }) => label % 10 === 0)
         .map(({ svg: y, label }) => (
-          <text key={`hl-${y}`} x={left - 1} y={y + 0.7} fontSize={2} textAnchor="end" fill="#9A8F78">
+          <text
+            key={`hl-${y}`}
+            x={left - gutter * 0.2}
+            y={y + fontSize * 0.35}
+            fontSize={fontSize}
+            textAnchor="end"
+            fill="#9A8F78"
+          >
             {label}
           </text>
         ))}
@@ -166,6 +220,7 @@ export default function StampCanvas() {
   const padding = 10
   const viewWidth = (project.dimensions.width + padding * 2) / zoom
   const viewHeight = (project.dimensions.height + padding * 2) / zoom
+  const gutter = rulerGutterFor(viewWidth)
   const sorted = [...project.elements].sort((a, b) => a.zIndex - b.zIndex)
   const selectedElement = project.elements.find((el) => el.id === selectedIds[0])
 
@@ -255,7 +310,7 @@ export default function StampCanvas() {
     <svg
       id="stamp-canvas-svg"
       ref={svgRef}
-      viewBox={`${-viewWidth / 2 - pan.x - RULER_GUTTER} ${-viewHeight / 2 - pan.y - RULER_GUTTER} ${viewWidth + RULER_GUTTER} ${viewHeight + RULER_GUTTER}`}
+      viewBox={`${-viewWidth / 2 - pan.x - gutter} ${-viewHeight / 2 - pan.y - gutter} ${viewWidth + gutter} ${viewHeight + gutter}`}
       width="100%"
       height="100%"
       onPointerDown={handleCanvasPointerDown}
