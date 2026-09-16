@@ -240,7 +240,7 @@ export const TEMPLATES: StampTemplate[] = [
       elements: [
         shape({ shape: 'oval', width: 38, height: 23.6, strokeWidth: 1.2 }),
         text({ text: 'AVERY QUINN', y: -1.7, fontSize: 4.2, fontWeight: 500 }),
-        text({ text: 'PERSONAL COPY', y: 5.1, fontSize: 2.5, letterSpacing: 1 }),
+        text({ text: 'PERSONAL COPY', y: 5.1, fontSize: 1.9, letterSpacing: 0.5 }),
       ],
     },
   },
