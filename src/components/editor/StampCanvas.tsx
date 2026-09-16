@@ -305,18 +305,18 @@ export default function StampCanvas() {
     return () => observer.disconnect()
   }, [])
 
-  // 2mm of padding on every side of the design -- the workspace expands by
-  // exactly that much beyond the template's own width/height, on all four
-  // edges, always, regardless of the canvas panel's own aspect ratio.
-  // edgeInset is an extra half a gridline stroke so the line at 0, which
-  // would otherwise sit exactly on the viewBox edge, isn't clipped in half
-  // by the canvas boundary.
-  const edgeInset = 0.5
-  const padding = 2
-  const viewWidth = (project.dimensions.width + padding * 2 + edgeInset) / zoom
-  const viewHeight = (project.dimensions.height + padding * 2 + edgeInset) / zoom
-  const viewLeft = -project.dimensions.width / 2 - padding - edgeInset
-  const viewTop = -project.dimensions.height / 2 - padding - edgeInset
+  // No padding around the design -- the workspace and ruler both start
+  // exactly at the stamp's own top-left corner (0,0) with no leading or
+  // trailing margin. edgeInset only exists to keep the outline's own stroke
+  // (drawn centered on the nominal radius, so it extends strokeWidth/2 past
+  // the design's exact boundary) and the gridline at 0 itself from being
+  // clipped by the canvas edge -- it does not change where "0" reads on
+  // the ruler.
+  const edgeInset = 1
+  const viewWidth = (project.dimensions.width + edgeInset) / zoom
+  const viewHeight = (project.dimensions.height + edgeInset) / zoom
+  const viewLeft = -project.dimensions.width / 2 - edgeInset
+  const viewTop = -project.dimensions.height / 2 - edgeInset
 
   // Because the viewBox's aspect ratio is fixed to the design's own shape
   // (not the panel's), preserveAspectRatio="meet" may letterbox -- shrinking
