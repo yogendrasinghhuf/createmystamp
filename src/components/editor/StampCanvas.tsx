@@ -4,18 +4,12 @@ import CanvasElementView from './CanvasElementView'
 import SelectionOverlay from './SelectionOverlay'
 import { clamp } from '../../lib/geometry'
 
-// Reference viewWidth used to define the gutter/font size "at 1x" -- other
-// sizes scale proportionally to this so the gutter always resolves to the
-// same physical pixel thickness on screen, no matter how far the workspace
-// is zoomed in/out (a fixed mm value would otherwise render thicker as the
-// stamp shrinks, since the same SVG panel then covers fewer total mm).
-const REFERENCE_VIEW_WIDTH = 64
-const RULER_GUTTER_AT_REFERENCE = 5
-const RULER_FONT_SIZE_AT_REFERENCE = 2
-
-function rulerGutterFor(viewWidth: number): number {
-  return RULER_GUTTER_AT_REFERENCE * (viewWidth / REFERENCE_VIEW_WIDTH)
-}
+// Fixed ruler gutter thickness and label font size, in SVG (mm) units.
+// These stay constant regardless of stamp diameter -- the gutter will look
+// relatively thicker on a small stamp and thinner on a large one, since the
+// same absolute mm value covers a different fraction of the total view.
+const RULER_GUTTER = 3.5
+const RULER_FONT_SIZE = 1.2
 
 function MeasurementGrid({
   viewWidth,
@@ -28,9 +22,8 @@ function MeasurementGrid({
   stampWidth: number
   stampHeight: number
 }) {
-  const scale = viewWidth / REFERENCE_VIEW_WIDTH
-  const gutter = rulerGutterFor(viewWidth)
-  const fontSize = RULER_FONT_SIZE_AT_REFERENCE * scale
+  const gutter = RULER_GUTTER
+  const fontSize = RULER_FONT_SIZE
 
   const left = -viewWidth / 2
   const top = -viewHeight / 2
@@ -76,7 +69,7 @@ function MeasurementGrid({
             x2={x}
             y2={top + viewHeight}
             stroke={isMajor ? '#D8D0C0' : '#E9E3D6'}
-            strokeWidth={(isMajor ? 0.15 : 0.08) * scale}
+            strokeWidth={isMajor ? 0.15 : 0.08}
           />
         )
       })}
@@ -90,7 +83,7 @@ function MeasurementGrid({
             x2={left + viewWidth}
             y2={y}
             stroke={isMajor ? '#D8D0C0' : '#E9E3D6'}
-            strokeWidth={(isMajor ? 0.15 : 0.08) * scale}
+            strokeWidth={isMajor ? 0.15 : 0.08}
           />
         )
       })}
@@ -106,7 +99,7 @@ function MeasurementGrid({
             x2={x}
             y2={top}
             stroke="#B7AD98"
-            strokeWidth={0.1 * scale}
+            strokeWidth={0.1}
           />
         ))}
       {minorLinesY
@@ -119,7 +112,7 @@ function MeasurementGrid({
             x2={left}
             y2={y}
             stroke="#B7AD98"
-            strokeWidth={0.1 * scale}
+            strokeWidth={0.1}
           />
         ))}
       {/* Tick marks + labels live in the outer gutter, aligned to each
@@ -220,7 +213,7 @@ export default function StampCanvas() {
   const padding = 10
   const viewWidth = (project.dimensions.width + padding * 2) / zoom
   const viewHeight = (project.dimensions.height + padding * 2) / zoom
-  const gutter = rulerGutterFor(viewWidth)
+  const gutter = RULER_GUTTER
   const sorted = [...project.elements].sort((a, b) => a.zIndex - b.zIndex)
   const selectedElement = project.elements.find((el) => el.id === selectedIds[0])
 
