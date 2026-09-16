@@ -4,12 +4,36 @@ import CanvasElementView from './CanvasElementView'
 import SelectionOverlay from './SelectionOverlay'
 import { clamp } from '../../lib/geometry'
 
-// Fixed ruler gutter thickness and label font size, in SVG (mm) units.
-// These stay constant regardless of stamp diameter -- the gutter will look
-// relatively thicker on a small stamp and thinner on a large one, since the
-// same absolute mm value covers a different fraction of the total view.
-const RULER_GUTTER = 3.5
-const RULER_FONT_SIZE = 1.2
+// Fixed on-screen pixel thickness of the ruler gutter and its label font
+// size. These are rendered in a separate, non-scaling HTML overlay (not as
+// SVG geometry inside the zoomable canvas), because any mm value assigned
+// inside the SVG's viewBox would render at a different pixel size whenever
+// the viewBox's total span changes with stamp diameter or zoom -- that's
+// inherent to how SVG viewBox scaling works, not something fixable by
+// picking a different mm constant.
+const RULER_GUTTER_PX = 22
+const RULER_FONT_SIZE_PX = 10
+
+interface RulerTick {
+  label: number
+  percent: number
+  major: boolean
+}
+
+function buildRulerTicks(viewSpan: number, viewOffset: number, origin: number): RulerTick[] {
+  // Ticks are generated in label space (distance from the stamp's own edge,
+  // so "0" lines up with where the design starts) then converted to a
+  // percentage position along the visible viewBox span for CSS placement.
+  const startLabel = Math.ceil((viewOffset - origin) / 5) * 5
+  const endLabel = Math.floor((viewOffset + viewSpan - origin) / 5) * 5
+  const ticks: RulerTick[] = []
+  for (let label = startLabel; label <= endLabel; label += 5) {
+    const svgPos = origin + label
+    const percent = ((svgPos - viewOffset) / viewSpan) * 100
+    ticks.push({ label, percent, major: label % 10 === 0 })
+  }
+  return ticks
+}
 
 function MeasurementGrid({
   viewWidth,
@@ -22,130 +46,149 @@ function MeasurementGrid({
   stampWidth: number
   stampHeight: number
 }) {
-  const gutter = RULER_GUTTER
-  const fontSize = RULER_FONT_SIZE
-
   const left = -viewWidth / 2
   const top = -viewHeight / 2
-
-  // Ruler labels read as distance from the stamp's own top-left corner
-  // (0-based, like a physical ruler), so "0" lines up with where the design
-  // actually starts rather than the extra breathing-room padding around it.
-  // The underlying SVG coordinates stay centered at (0,0) -- element
-  // positions, drag math, and curved-text angles all depend on that
-  // centered coordinate system elsewhere in the canvas.
   const originX = -stampWidth / 2
   const originY = -stampHeight / 2
 
-  // Gridlines/ticks span the entire padded workspace (not just the stamp's
-  // own box), so the ruler fully covers the zoomable/draggable area with no
-  // unmarked gap -- labels go negative into the padding before the stamp
-  // and past stampWidth/stampHeight after it.
-  const startLabelX = Math.ceil((left - originX) / 5) * 5
-  const endLabelX = Math.floor((left + viewWidth - originX) / 5) * 5
-  const minorLinesX: { svg: number; label: number }[] = []
-  for (let label = startLabelX; label <= endLabelX; label += 5) {
-    minorLinesX.push({ svg: originX + label, label })
-  }
-  const startLabelY = Math.ceil((top - originY) / 5) * 5
-  const endLabelY = Math.floor((top + viewHeight - originY) / 5) * 5
-  const minorLinesY: { svg: number; label: number }[] = []
-  for (let label = startLabelY; label <= endLabelY; label += 5) {
-    minorLinesY.push({ svg: originY + label, label })
-  }
+  const minorLinesX = buildRulerTicks(viewWidth, left, originX)
+  const minorLinesY = buildRulerTicks(viewHeight, top, originY)
 
   return (
     <g data-selection-ui="true" pointerEvents="none">
-      {/* Ruler gutter background along the outer canvas edges */}
-      <rect x={left - gutter} y={top - gutter} width={viewWidth + gutter} height={gutter} fill="#EFEAE0" />
-      <rect x={left - gutter} y={top - gutter} width={gutter} height={viewHeight + gutter} fill="#EFEAE0" />
-      {minorLinesX.map(({ svg: x, label }) => {
-        const isMajor = label % 10 === 0
+      {minorLinesX.map(({ percent, major, label }) => {
+        const x = left + (percent / 100) * viewWidth
         return (
           <line
-            key={`v-${x}`}
+            key={`v-${label}-${percent}`}
             x1={x}
             y1={top}
             x2={x}
             y2={top + viewHeight}
-            stroke={isMajor ? '#D8D0C0' : '#E9E3D6'}
-            strokeWidth={isMajor ? 0.15 : 0.08}
+            stroke={major ? '#D8D0C0' : '#E9E3D6'}
+            strokeWidth={major ? 0.15 : 0.08}
           />
         )
       })}
-      {minorLinesY.map(({ svg: y, label }) => {
-        const isMajor = label % 10 === 0
+      {minorLinesY.map(({ percent, major, label }) => {
+        const y = top + (percent / 100) * viewHeight
         return (
           <line
-            key={`h-${y}`}
+            key={`h-${label}-${percent}`}
             x1={left}
             y1={y}
             x2={left + viewWidth}
             y2={y}
-            stroke={isMajor ? '#D8D0C0' : '#E9E3D6'}
-            strokeWidth={isMajor ? 0.15 : 0.08}
+            stroke={major ? '#D8D0C0' : '#E9E3D6'}
+            strokeWidth={major ? 0.15 : 0.08}
           />
         )
       })}
-      {/* Small tick marks in the gutter at every 5mm, between the labeled
-          10mm lines */}
-      {minorLinesX
-        .filter(({ label }) => label % 10 !== 0)
-        .map(({ svg: x, label }) => (
-          <line
-            key={`vt-${x}-${label}`}
-            x1={x}
-            y1={top - gutter * 0.35}
-            x2={x}
-            y2={top}
-            stroke="#B7AD98"
-            strokeWidth={0.1}
-          />
-        ))}
-      {minorLinesY
-        .filter(({ label }) => label % 10 !== 0)
-        .map(({ svg: y, label }) => (
-          <line
-            key={`ht-${y}-${label}`}
-            x1={left - gutter * 0.35}
-            y1={y}
-            x2={left}
-            y2={y}
-            stroke="#B7AD98"
-            strokeWidth={0.1}
-          />
-        ))}
-      {/* Tick marks + labels live in the outer gutter, aligned to each
-          gridline's actual position (which starts at the stamp edge) */}
-      {minorLinesX
-        .filter(({ label }) => label % 10 === 0)
-        .map(({ svg: x, label }) => (
-          <text
-            key={`vl-${x}`}
-            x={x}
-            y={top - gutter * 0.35}
-            fontSize={fontSize}
-            textAnchor="middle"
-            fill="#9A8F78"
-          >
-            {label}
-          </text>
-        ))}
-      {minorLinesY
-        .filter(({ label }) => label % 10 === 0)
-        .map(({ svg: y, label }) => (
-          <text
-            key={`hl-${y}`}
-            x={left - gutter * 0.2}
-            y={y + fontSize * 0.35}
-            fontSize={fontSize}
-            textAnchor="end"
-            fill="#9A8F78"
-          >
-            {label}
-          </text>
-        ))}
     </g>
+  )
+}
+
+// Fixed-pixel ruler overlay: renders the gutter band, tick marks, and
+// labels in plain HTML/CSS positioned by percentage over the SVG canvas, so
+// its thickness and font size never change with zoom or stamp diameter --
+// only the tick positions/values (in percent) do.
+function RulerOverlay({
+  viewWidth,
+  viewHeight,
+  stampWidth,
+  stampHeight,
+}: {
+  viewWidth: number
+  viewHeight: number
+  stampWidth: number
+  stampHeight: number
+}) {
+  const left = -viewWidth / 2
+  const top = -viewHeight / 2
+  const originX = -stampWidth / 2
+  const originY = -stampHeight / 2
+
+  const ticksX = buildRulerTicks(viewWidth, left, originX)
+  const ticksY = buildRulerTicks(viewHeight, top, originY)
+
+  return (
+    <div
+      data-selection-ui="true"
+      style={{
+        position: 'absolute',
+        inset: 0,
+        pointerEvents: 'none',
+      }}
+    >
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: RULER_GUTTER_PX,
+          right: 0,
+          height: RULER_GUTTER_PX,
+          background: '#EFEAE0',
+        }}
+      >
+        {ticksX.map(({ percent, major, label }) => (
+          <div
+            key={`vl-${label}-${percent}`}
+            style={{
+              position: 'absolute',
+              left: `${percent}%`,
+              top: 0,
+              height: '100%',
+              transform: 'translateX(-50%)',
+              display: 'flex',
+              alignItems: 'flex-end',
+              justifyContent: 'center',
+            }}
+          >
+            {major ? (
+              <span style={{ fontSize: RULER_FONT_SIZE_PX, color: '#9A8F78', lineHeight: 1, paddingBottom: 3 }}>
+                {label}
+              </span>
+            ) : (
+              <div style={{ width: 1, height: RULER_GUTTER_PX * 0.35, background: '#B7AD98' }} />
+            )}
+          </div>
+        ))}
+      </div>
+      <div
+        style={{
+          position: 'absolute',
+          top: RULER_GUTTER_PX,
+          left: 0,
+          bottom: 0,
+          width: RULER_GUTTER_PX,
+          background: '#EFEAE0',
+        }}
+      >
+        {ticksY.map(({ percent, major, label }) => (
+          <div
+            key={`hl-${label}-${percent}`}
+            style={{
+              position: 'absolute',
+              top: `${percent}%`,
+              left: 0,
+              width: '100%',
+              transform: 'translateY(-50%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+            }}
+          >
+            {major ? (
+              <span style={{ fontSize: RULER_FONT_SIZE_PX, color: '#9A8F78', lineHeight: 1, paddingRight: 3 }}>
+                {label}
+              </span>
+            ) : (
+              <div style={{ height: 1, width: RULER_GUTTER_PX * 0.35, background: '#B7AD98' }} />
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
   )
 }
 
@@ -213,7 +256,6 @@ export default function StampCanvas() {
   const padding = 10
   const viewWidth = (project.dimensions.width + padding * 2) / zoom
   const viewHeight = (project.dimensions.height + padding * 2) / zoom
-  const gutter = RULER_GUTTER
   const sorted = [...project.elements].sort((a, b) => a.zIndex - b.zIndex)
   const selectedElement = project.elements.find((el) => el.id === selectedIds[0])
 
@@ -300,79 +342,97 @@ export default function StampCanvas() {
   }
 
   return (
-    <svg
-      id="stamp-canvas-svg"
-      ref={svgRef}
-      viewBox={`${-viewWidth / 2 - pan.x - gutter} ${-viewHeight / 2 - pan.y - gutter} ${viewWidth + gutter} ${viewHeight + gutter}`}
-      width="100%"
-      height="100%"
-      onPointerDown={handleCanvasPointerDown}
-      onPointerMove={handlePointerMove}
-      onPointerUp={handlePointerUp}
-      onWheel={handleWheel}
-      style={{ touchAction: 'none' }}
-    >
-      <defs>
-        <filter id="ink-distress-filter" x="-20%" y="-20%" width="140%" height="140%">
-          <feTurbulence
-            type="fractalNoise"
-            baseFrequency={4}
-            numOctaves={2}
-            seed={3}
-            result="noise"
+    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+      <div
+        style={{
+          position: 'absolute',
+          top: RULER_GUTTER_PX,
+          left: RULER_GUTTER_PX,
+          right: 0,
+          bottom: 0,
+        }}
+      >
+        <svg
+          id="stamp-canvas-svg"
+          ref={svgRef}
+          viewBox={`${-viewWidth / 2 - pan.x} ${-viewHeight / 2 - pan.y} ${viewWidth} ${viewHeight}`}
+          width="100%"
+          height="100%"
+          onPointerDown={handleCanvasPointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onWheel={handleWheel}
+          style={{ touchAction: 'none' }}
+        >
+        <defs>
+          <filter id="ink-distress-filter" x="-20%" y="-20%" width="140%" height="140%">
+            <feTurbulence
+              type="fractalNoise"
+              baseFrequency={4}
+              numOctaves={2}
+              seed={3}
+              result="noise"
+            />
+            <feDisplacementMap
+              in="SourceGraphic"
+              in2="noise"
+              scale={project.ink.distress * 1.5}
+            />
+          </filter>
+          <clipPath id="workspace-clip">
+            <rect
+              x={-viewWidth / 2}
+              y={-viewHeight / 2}
+              width={viewWidth}
+              height={viewHeight}
+            />
+          </clipPath>
+        </defs>
+        <MeasurementGrid
+          viewWidth={viewWidth}
+          viewHeight={viewHeight}
+          stampWidth={project.dimensions.width}
+          stampHeight={project.dimensions.height}
+        />
+        <g clipPath="url(#workspace-clip)">
+          <g
+            filter={project.ink.mode === 'ink' ? 'url(#ink-distress-filter)' : undefined}
+            opacity={project.ink.mode === 'ink' ? project.ink.opacity : 1}
+            style={project.ink.mode === 'ink' ? { color: project.ink.color } : undefined}
+          >
+            {project.elements.length > 0 && !outlineSuppressed && (
+              <StampOutline
+                shape={project.shape}
+                width={project.dimensions.width}
+                height={project.dimensions.height}
+                color={project.ink.color}
+              />
+            )}
+            {sorted.map((element) => (
+              <CanvasElementView
+                key={element.id}
+                element={element}
+                isSelected={selectedIds.includes(element.id)}
+                onPointerDownSelect={handleElementPointerDown}
+              />
+            ))}
+          </g>
+        </g>
+        {selectedElement && (
+          <SelectionOverlay
+            element={selectedElement}
+            onResizeStart={(e) => handleResizeStart(selectedElement.id, e)}
+            onRotateStart={(e) => handleRotateStart(selectedElement.id, e)}
           />
-          <feDisplacementMap
-            in="SourceGraphic"
-            in2="noise"
-            scale={project.ink.distress * 1.5}
-          />
-        </filter>
-        <clipPath id="workspace-clip">
-          <rect
-            x={-viewWidth / 2}
-            y={-viewHeight / 2}
-            width={viewWidth}
-            height={viewHeight}
-          />
-        </clipPath>
-      </defs>
-      <MeasurementGrid
+        )}
+        </svg>
+      </div>
+      <RulerOverlay
         viewWidth={viewWidth}
         viewHeight={viewHeight}
         stampWidth={project.dimensions.width}
         stampHeight={project.dimensions.height}
       />
-      <g clipPath="url(#workspace-clip)">
-        <g
-          filter={project.ink.mode === 'ink' ? 'url(#ink-distress-filter)' : undefined}
-          opacity={project.ink.mode === 'ink' ? project.ink.opacity : 1}
-          style={project.ink.mode === 'ink' ? { color: project.ink.color } : undefined}
-        >
-          {project.elements.length > 0 && !outlineSuppressed && (
-            <StampOutline
-              shape={project.shape}
-              width={project.dimensions.width}
-              height={project.dimensions.height}
-              color={project.ink.color}
-            />
-          )}
-          {sorted.map((element) => (
-            <CanvasElementView
-              key={element.id}
-              element={element}
-              isSelected={selectedIds.includes(element.id)}
-              onPointerDownSelect={handleElementPointerDown}
-            />
-          ))}
-        </g>
-      </g>
-      {selectedElement && (
-        <SelectionOverlay
-          element={selectedElement}
-          onResizeStart={(e) => handleResizeStart(selectedElement.id, e)}
-          onRotateStart={(e) => handleRotateStart(selectedElement.id, e)}
-        />
-      )}
-    </svg>
+    </div>
   )
 }
