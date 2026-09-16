@@ -40,16 +40,20 @@ function buildRulerTicks(viewSpan: number, viewOffset: number, origin: number): 
 function MeasurementGrid({
   viewWidth,
   viewHeight,
+  viewLeft,
+  viewTop,
   stampWidth,
   stampHeight,
 }: {
   viewWidth: number
   viewHeight: number
+  viewLeft: number
+  viewTop: number
   stampWidth: number
   stampHeight: number
 }) {
-  const left = -viewWidth / 2
-  const top = -viewHeight / 2
+  const left = viewLeft
+  const top = viewTop
   const originX = -stampWidth / 2
   const originY = -stampHeight / 2
 
@@ -97,16 +101,20 @@ function MeasurementGrid({
 function RulerOverlay({
   viewWidth,
   viewHeight,
+  viewLeft,
+  viewTop,
   stampWidth,
   stampHeight,
 }: {
   viewWidth: number
   viewHeight: number
+  viewLeft: number
+  viewTop: number
   stampWidth: number
   stampHeight: number
 }) {
-  const left = -viewWidth / 2
-  const top = -viewHeight / 2
+  const left = viewLeft
+  const top = viewTop
   const originX = -stampWidth / 2
   const originY = -stampHeight / 2
 
@@ -255,9 +263,15 @@ export default function StampCanvas() {
   const [pan, setPan] = useState({ x: 0, y: 0 })
   const drag = useRef<DragMode>(null)
 
-  const padding = 10
-  const viewWidth = (project.dimensions.width + padding * 2) / zoom
-  const viewHeight = (project.dimensions.height + padding * 2) / zoom
+  // Trailing padding only (right/bottom) so elements still have room to be
+  // dragged past the design's edge -- the workspace itself starts exactly
+  // at the stamp's own top-left corner (0,0 on the ruler), with no leading
+  // padding before it.
+  const padding = 20
+  const viewWidth = (project.dimensions.width + padding) / zoom
+  const viewHeight = (project.dimensions.height + padding) / zoom
+  const viewLeft = -project.dimensions.width / 2
+  const viewTop = -project.dimensions.height / 2
   const sorted = [...project.elements].sort((a, b) => a.zIndex - b.zIndex)
   const selectedElement = project.elements.find((el) => el.id === selectedIds[0])
 
@@ -357,7 +371,7 @@ export default function StampCanvas() {
         <svg
           id="stamp-canvas-svg"
           ref={svgRef}
-          viewBox={`${-viewWidth / 2 - pan.x} ${-viewHeight / 2 - pan.y} ${viewWidth} ${viewHeight}`}
+          viewBox={`${viewLeft - pan.x} ${viewTop - pan.y} ${viewWidth} ${viewHeight}`}
           width="100%"
           height="100%"
           onPointerDown={handleCanvasPointerDown}
@@ -383,8 +397,8 @@ export default function StampCanvas() {
           </filter>
           <clipPath id="workspace-clip">
             <rect
-              x={-viewWidth / 2}
-              y={-viewHeight / 2}
+              x={viewLeft}
+              y={viewTop}
               width={viewWidth}
               height={viewHeight}
             />
@@ -393,6 +407,8 @@ export default function StampCanvas() {
         <MeasurementGrid
           viewWidth={viewWidth}
           viewHeight={viewHeight}
+          viewLeft={viewLeft}
+          viewTop={viewTop}
           stampWidth={project.dimensions.width}
           stampHeight={project.dimensions.height}
         />
@@ -432,6 +448,8 @@ export default function StampCanvas() {
       <RulerOverlay
         viewWidth={viewWidth}
         viewHeight={viewHeight}
+        viewLeft={viewLeft}
+        viewTop={viewTop}
         stampWidth={project.dimensions.width}
         stampHeight={project.dimensions.height}
       />
