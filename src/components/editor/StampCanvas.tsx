@@ -71,8 +71,8 @@ function MeasurementGrid({
             y1={top}
             x2={x}
             y2={top + viewHeight}
-            stroke={major ? '#D8D0C0' : '#E9E3D6'}
-            strokeWidth={major ? 0.15 : 0.08}
+            stroke={major ? '#BFB49C' : '#D8D0C0'}
+            strokeWidth={(major ? 0.5 : 0.3) * (viewWidth / 64)}
           />
         )
       })}
@@ -85,8 +85,8 @@ function MeasurementGrid({
             y1={y}
             x2={left + viewWidth}
             y2={y}
-            stroke={major ? '#D8D0C0' : '#E9E3D6'}
-            strokeWidth={major ? 0.15 : 0.08}
+            stroke={major ? '#BFB49C' : '#D8D0C0'}
+            strokeWidth={(major ? 0.5 : 0.3) * (viewWidth / 64)}
           />
         )
       })}
