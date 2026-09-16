@@ -24,7 +24,9 @@ function buildRulerTicks(viewSpan: number, viewOffset: number, origin: number): 
   // Ticks are generated in label space (distance from the stamp's own edge,
   // so "0" lines up with where the design starts) then converted to a
   // percentage position along the visible viewBox span for CSS placement.
-  const startLabel = Math.ceil((viewOffset - origin) / 5) * 5
+  // Labels never go negative -- the ruler starts at 0 and the padding
+  // before the stamp's edge stays plain, unruled background.
+  const startLabel = Math.max(0, Math.ceil((viewOffset - origin) / 5) * 5)
   const endLabel = Math.floor((viewOffset + viewSpan - origin) / 5) * 5
   const ticks: RulerTick[] = []
   for (let label = startLabel; label <= endLabel; label += 5) {
