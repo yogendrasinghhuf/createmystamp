@@ -62,8 +62,9 @@ export default function CanvasElementView({
           fontWeight={element.fontWeight}
           letterSpacing={element.letterSpacing}
           fill={element.color}
+          textAnchor="middle"
         >
-          <textPath href={`#${pathId}`} startOffset="0%">
+          <textPath href={`#${pathId}`} startOffset="50%">
             {element.text}
           </textPath>
         </text>

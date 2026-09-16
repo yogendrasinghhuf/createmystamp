@@ -77,7 +77,7 @@ export function createDefaultProject(): StampProject {
         letterSpacing: 0.2,
         color: DEFAULT_INK_COLOR,
         radius: 14,
-        startAngle: 306,
+        startAngle: 210,
         direction: 'clockwise',
       },
       {
@@ -95,7 +95,7 @@ export function createDefaultProject(): StampProject {
         letterSpacing: 0.2,
         color: DEFAULT_INK_COLOR,
         radius: 14.5,
-        startAngle: 228,
+        startAngle: 330,
         direction: 'counterclockwise',
       },
       {
