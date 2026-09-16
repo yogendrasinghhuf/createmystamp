@@ -80,7 +80,7 @@ export default function StampStudioSection() {
               <Toolbar />
             </aside>
             <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
-              <div className="flex min-h-0 flex-1 items-center justify-center overflow-hidden bg-line/20 p-4 md:p-8">
+              <div className="flex min-h-0 flex-1 items-center justify-center overflow-hidden bg-line/20">
                 <div className="aspect-square h-full max-h-full max-w-full md:max-w-2xl">
                   <StampCanvas />
                 </div>
