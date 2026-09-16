@@ -307,12 +307,10 @@ export default function StampCanvas() {
 
   // No padding around the design -- the workspace and ruler both start
   // exactly at the stamp's own top-left corner (0,0) with no leading or
-  // trailing margin. edgeInset only exists to keep the outline's own stroke
-  // (drawn centered on the nominal radius, so it extends strokeWidth/2 past
-  // the design's exact boundary) and the gridline at 0 itself from being
-  // clipped by the canvas edge -- it does not change where "0" reads on
-  // the ruler.
-  const edgeInset = 1
+  // trailing margin. edgeInset is a hairline buffer (not a visible gap) so
+  // the gridline/stroke rendered exactly at the viewBox edge isn't clipped
+  // in half by the canvas boundary -- it does not change where "0" reads.
+  const edgeInset = 0.1
   const viewWidth = (project.dimensions.width + edgeInset) / zoom
   const viewHeight = (project.dimensions.height + edgeInset) / zoom
   const viewLeft = -project.dimensions.width / 2 - edgeInset
