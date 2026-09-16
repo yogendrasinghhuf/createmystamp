@@ -303,18 +303,21 @@ export default function StampCanvas() {
   }, [])
 
   // The workspace/ruler origin (0,0) is a fixed reference point -- it is
-  // NOT the design's own edge. The design itself sits inset by
-  // `designPadding` from that origin on every side, so e.g. a 38mm design
-  // starts at ruler position 2 and ends at 40, with the workspace spanning
-  // 0 to 42. edgeInset is a hairline buffer (not a visible gap) so a
-  // gridline/stroke rendered exactly at the viewBox edge isn't clipped in
-  // half by the canvas boundary.
+  // NOT the design's own edge. The workspace is always a square span sized
+  // by the larger of the design's own width/height (its "diameter"), with
+  // `designPadding` added on every side -- so e.g. a 38x25mm design still
+  // gets a 42x42 workspace (both axes reaching the same ruler max), with
+  // the design centered inside it rather than stretched to fill it.
+  // edgeInset is a hairline buffer (not a visible gap) so a gridline/stroke
+  // rendered exactly at the viewBox edge isn't clipped in half by the
+  // canvas boundary.
   const designPadding = 2
   const edgeInset = 0.1
-  const viewWidth = (project.dimensions.width + designPadding * 2 + edgeInset) / zoom
-  const viewHeight = (project.dimensions.height + designPadding * 2 + edgeInset) / zoom
-  const viewLeft = -project.dimensions.width / 2 - designPadding - edgeInset
-  const viewTop = -project.dimensions.height / 2 - designPadding - edgeInset
+  const workspaceSpan = Math.max(project.dimensions.width, project.dimensions.height)
+  const viewWidth = (workspaceSpan + designPadding * 2 + edgeInset) / zoom
+  const viewHeight = (workspaceSpan + designPadding * 2 + edgeInset) / zoom
+  const viewLeft = -workspaceSpan / 2 - designPadding - edgeInset
+  const viewTop = -workspaceSpan / 2 - designPadding - edgeInset
 
   // Because the viewBox's aspect ratio is fixed to the design's own shape
   // (not the panel's), preserveAspectRatio="meet" may letterbox -- shrinking
