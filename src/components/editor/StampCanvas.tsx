@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useProject, useSelectedIds, useStampStore } from '../../store/useStampStore'
 import CanvasElementView from './CanvasElementView'
 import SelectionOverlay from './SelectionOverlay'
@@ -285,21 +285,42 @@ export default function StampCanvas() {
   const outlineSuppressed = project.outlineSuppressed ?? false
 
   const svgRef = useRef<SVGSVGElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [containerSize, setContainerSize] = useState({ w: 0, h: 0 })
   const [zoom, setZoom] = useState(1)
   const [pan, setPan] = useState({ x: 0, y: 0 })
   const drag = useRef<DragMode>(null)
 
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+    const update = () => setContainerSize({ w: el.clientWidth, h: el.clientHeight })
+    update()
+    const observer = new ResizeObserver(update)
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
   // Trailing padding only (right/bottom) so elements still have room to be
   // dragged past the design's edge -- the workspace itself starts exactly
-  // at the stamp's own top-left corner (0,0 on the ruler), with no leading
-  // padding before it.
-  // Half a gridline's stroke width, so the line at label 0 (which sits
-  // exactly on the viewBox's top/left edge) isn't clipped in half by the
-  // canvas boundary and stays visible.
+  // at the stamp's own top-left corner (0,0 on the ruler). edgeInset is half
+  // a gridline stroke so the line at 0, sitting on the viewBox edge, isn't
+  // clipped in half by the canvas boundary.
   const edgeInset = 0.5
   const padding = 20
-  const viewWidth = (project.dimensions.width + padding) / zoom + edgeInset
-  const viewHeight = (project.dimensions.height + padding) / zoom + edgeInset
+  const fitWidth = project.dimensions.width + padding + edgeInset
+  const fitHeight = project.dimensions.height + padding + edgeInset
+  // The viewBox must match the container's pixel aspect ratio exactly.
+  // Otherwise the SVG letterboxes (centers itself, leaving empty margins)
+  // and the fixed-pixel ruler overlay -- which assumes the SVG fills its box
+  // edge-to-edge -- drifts away from the real gridlines.
+  const { w: containerW, h: containerH } = containerSize
+  const pxPerMm =
+    containerW > 0 && containerH > 0
+      ? Math.min(containerW / fitWidth, containerH / fitHeight) * zoom
+      : 0
+  const viewWidth = pxPerMm > 0 ? containerW / pxPerMm : fitWidth / zoom
+  const viewHeight = pxPerMm > 0 ? containerH / pxPerMm : fitHeight / zoom
   const viewLeft = -project.dimensions.width / 2 - edgeInset
   const viewTop = -project.dimensions.height / 2 - edgeInset
   const sorted = [...project.elements].sort((a, b) => a.zIndex - b.zIndex)
@@ -390,6 +411,7 @@ export default function StampCanvas() {
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
       <div
+        ref={containerRef}
         style={{
           position: 'absolute',
           top: RULER_GUTTER_PX,
@@ -402,6 +424,7 @@ export default function StampCanvas() {
           id="stamp-canvas-svg"
           ref={svgRef}
           viewBox={`${viewLeft - pan.x} ${viewTop - pan.y} ${viewWidth} ${viewHeight}`}
+          preserveAspectRatio="xMinYMin meet"
           width="100%"
           height="100%"
           onPointerDown={handleCanvasPointerDown}
