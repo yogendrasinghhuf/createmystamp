@@ -293,11 +293,15 @@ export default function StampCanvas() {
   // dragged past the design's edge -- the workspace itself starts exactly
   // at the stamp's own top-left corner (0,0 on the ruler), with no leading
   // padding before it.
+  // Half a gridline's stroke width, so the line at label 0 (which sits
+  // exactly on the viewBox's top/left edge) isn't clipped in half by the
+  // canvas boundary and stays visible.
+  const edgeInset = 0.5
   const padding = 20
-  const viewWidth = (project.dimensions.width + padding) / zoom
-  const viewHeight = (project.dimensions.height + padding) / zoom
-  const viewLeft = -project.dimensions.width / 2
-  const viewTop = -project.dimensions.height / 2
+  const viewWidth = (project.dimensions.width + padding) / zoom + edgeInset
+  const viewHeight = (project.dimensions.height + padding) / zoom + edgeInset
+  const viewLeft = -project.dimensions.width / 2 - edgeInset
+  const viewTop = -project.dimensions.height / 2 - edgeInset
   const sorted = [...project.elements].sort((a, b) => a.zIndex - b.zIndex)
   const selectedElement = project.elements.find((el) => el.id === selectedIds[0])
 
