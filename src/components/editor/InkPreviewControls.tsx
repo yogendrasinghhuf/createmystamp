@@ -6,6 +6,7 @@ import ColorSwatch from '../ui/ColorSwatch'
 export default function InkPreviewControls({ showPreviewMode = true }: { showPreviewMode?: boolean }) {
   const project = useProject()
   const setInk = useStampStore((s) => s.setInk)
+  const setStampColor = useStampStore((s) => s.setStampColor)
 
   return (
     <div className="flex flex-col gap-4">
@@ -20,7 +21,7 @@ export default function InkPreviewControls({ showPreviewMode = true }: { showPre
           onChange={(mode) => setInk({ mode: mode as 'clean' | 'ink' })}
         />
       )}
-      <ColorSwatch label="Stamp color" value={project.ink.color} onChange={(color) => setInk({ color })} />
+      <ColorSwatch label="Stamp color" value={project.ink.color} onChange={setStampColor} />
       {project.ink.mode === 'ink' && (
         <>
           <Slider

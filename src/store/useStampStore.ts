@@ -196,6 +196,7 @@ export interface StampStore {
   setShape: (shape: StampShapeKind) => void
   setDimensions: (dimensions: StampDimensions) => void
   setInk: (ink: Partial<InkSettings>) => void
+  setStampColor: (color: string) => void
   addElement: (element: StampElement) => void
   updateElement: (id: string, patch: Partial<StampElement>) => void
   updateElementTransient: (id: string, patch: Partial<StampElement>) => void
@@ -241,6 +242,30 @@ export const useStampStore = create<StampStore & StampStoreState>((set) => ({
   setInk: (ink) =>
     set((state) =>
       withUpdatedProject(state, (p) => ({ ...p, ink: { ...p.ink, ...ink } })),
+    ),
+
+  // "Stamp color" needs to visibly recolor the whole design, not just the
+  // (often-suppressed) shared outline -- most templates draw their own
+  // border/text as regular elements with their own explicit color/
+  // strokeColor/fillColor, which ink.color alone never touches. Updates
+  // every element's color fields to match, in addition to ink.color.
+  setStampColor: (color) =>
+    set((state) =>
+      withUpdatedProject(state, (p) => ({
+        ...p,
+        ink: { ...p.ink, color },
+        elements: p.elements.map((el) => {
+          if (el.type === 'image') return el
+          if (el.type === 'shape') {
+            return {
+              ...el,
+              strokeColor: color,
+              fillColor: el.filled ? color : el.fillColor,
+            }
+          }
+          return { ...el, color }
+        }),
+      })),
     ),
 
   addElement: (element) =>
