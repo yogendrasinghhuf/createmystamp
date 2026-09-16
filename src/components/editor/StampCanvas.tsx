@@ -105,6 +105,8 @@ function RulerOverlay({
   viewTop,
   stampWidth,
   stampHeight,
+  renderedWidth,
+  renderedHeight,
 }: {
   viewWidth: number
   viewHeight: number
@@ -112,6 +114,8 @@ function RulerOverlay({
   viewTop: number
   stampWidth: number
   stampHeight: number
+  renderedWidth: number
+  renderedHeight: number
 }) {
   const left = viewLeft
   const top = viewTop
@@ -135,7 +139,7 @@ function RulerOverlay({
           position: 'absolute',
           top: 0,
           left: RULER_GUTTER_PX,
-          right: 0,
+          width: renderedWidth,
           height: RULER_GUTTER_PX,
           background: '#EFEAE0',
         }}
@@ -182,7 +186,7 @@ function RulerOverlay({
           position: 'absolute',
           top: RULER_GUTTER_PX,
           left: 0,
-          bottom: 0,
+          height: renderedHeight,
           width: RULER_GUTTER_PX,
           background: '#EFEAE0',
         }}
@@ -303,26 +307,30 @@ export default function StampCanvas() {
 
   // 2mm of padding on every side of the design -- the workspace expands by
   // exactly that much beyond the template's own width/height, on all four
-  // edges. edgeInset is an extra half a gridline stroke so the line at 0,
-  // which would otherwise sit exactly on the viewBox edge, isn't clipped in
-  // half by the canvas boundary.
+  // edges, always, regardless of the canvas panel's own aspect ratio.
+  // edgeInset is an extra half a gridline stroke so the line at 0, which
+  // would otherwise sit exactly on the viewBox edge, isn't clipped in half
+  // by the canvas boundary.
   const edgeInset = 0.5
   const padding = 2
-  const fitWidth = project.dimensions.width + padding * 2 + edgeInset
-  const fitHeight = project.dimensions.height + padding * 2 + edgeInset
-  // The viewBox must match the container's pixel aspect ratio exactly.
-  // Otherwise the SVG letterboxes (centers itself, leaving empty margins)
-  // and the fixed-pixel ruler overlay -- which assumes the SVG fills its box
-  // edge-to-edge -- drifts away from the real gridlines.
-  const { w: containerW, h: containerH } = containerSize
-  const pxPerMm =
-    containerW > 0 && containerH > 0
-      ? Math.min(containerW / fitWidth, containerH / fitHeight) * zoom
-      : 0
-  const viewWidth = pxPerMm > 0 ? containerW / pxPerMm : fitWidth / zoom
-  const viewHeight = pxPerMm > 0 ? containerH / pxPerMm : fitHeight / zoom
+  const viewWidth = (project.dimensions.width + padding * 2 + edgeInset) / zoom
+  const viewHeight = (project.dimensions.height + padding * 2 + edgeInset) / zoom
   const viewLeft = -project.dimensions.width / 2 - padding - edgeInset
   const viewTop = -project.dimensions.height / 2 - padding - edgeInset
+
+  // Because the viewBox's aspect ratio is fixed to the design's own shape
+  // (not the panel's), preserveAspectRatio="meet" may letterbox -- shrinking
+  // the rendered content to fit one dimension and leaving empty space on
+  // the other, anchored to the top-left. The ruler overlay needs the
+  // content's actual rendered box (not the raw container box) so its ticks
+  // land on the real gridlines instead of stretching into the letterbox gap.
+  const { w: containerW, h: containerH } = containerSize
+  const contentScale =
+    containerW > 0 && containerH > 0 && viewWidth > 0 && viewHeight > 0
+      ? Math.min(containerW / viewWidth, containerH / viewHeight)
+      : 0
+  const renderedWidth = contentScale > 0 ? viewWidth * contentScale : containerW
+  const renderedHeight = contentScale > 0 ? viewHeight * contentScale : containerH
   const sorted = [...project.elements].sort((a, b) => a.zIndex - b.zIndex)
   const selectedElement = project.elements.find((el) => el.id === selectedIds[0])
 
@@ -505,6 +513,8 @@ export default function StampCanvas() {
         viewTop={viewTop}
         stampWidth={project.dimensions.width}
         stampHeight={project.dimensions.height}
+        renderedWidth={renderedWidth}
+        renderedHeight={renderedHeight}
       />
     </div>
   )
