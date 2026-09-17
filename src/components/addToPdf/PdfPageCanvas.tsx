@@ -3,6 +3,10 @@ import { useEffect, useRef, useState } from 'react'
 import { usePdfStampStore } from '../../store/usePdfStampStore'
 import PlacedStampOverlay from './PlacedStampOverlay'
 
+const MIN_ZOOM = 0.5
+const MAX_ZOOM = 2.5
+const ZOOM_STEP = 0.25
+
 export default function PdfPageCanvas() {
   const pdfDoc = usePdfStampStore((s) => s.pdfDoc)
   const pageCount = usePdfStampStore((s) => s.pageCount)
@@ -10,9 +14,16 @@ export default function PdfPageCanvas() {
   const setCurrentPage = usePdfStampStore((s) => s.setCurrentPage)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+  const fitWidthRef = useRef(0)
   const [isRendering, setIsRendering] = useState(false)
   const [renderScale, setRenderScale] = useState(0)
   const [pageHeightPt, setPageHeightPt] = useState(0)
+  const [zoom, setZoom] = useState(1)
+
+  // Reset zoom back to "fit width" whenever a different page is shown.
+  useEffect(() => {
+    setZoom(1)
+  }, [currentPageIndex])
 
   useEffect(() => {
     if (!pdfDoc) return
@@ -23,11 +34,13 @@ export default function PdfPageCanvas() {
       const page = await pdfDoc!.getPage(currentPageIndex + 1)
       if (cancelled) return
 
-      const containerWidth = containerRef.current?.clientWidth ?? 600
+      if (!fitWidthRef.current) {
+        fitWidthRef.current = containerRef.current?.clientWidth ?? 600
+      }
       const unscaledViewport = page.getViewport({ scale: 1 })
       // The unscaled viewport is already in PDF point space, so this ratio
       // (CSS px per point) is exactly the renderScale used for placement math.
-      const fitScale = containerWidth / unscaledViewport.width
+      const fitScale = (fitWidthRef.current / unscaledViewport.width) * zoom
       const dpr = window.devicePixelRatio || 1
       const viewport = page.getViewport({ scale: fitScale })
 
@@ -54,31 +67,65 @@ export default function PdfPageCanvas() {
     return () => {
       cancelled = true
     }
-  }, [pdfDoc, currentPageIndex])
+  }, [pdfDoc, currentPageIndex, zoom])
 
   return (
     <div className="flex flex-col items-center gap-3">
+      <div className="flex items-center gap-3 text-sm text-ink/70">
+        <button
+          type="button"
+          onClick={() => setZoom((z) => Math.max(MIN_ZOOM, +(z - ZOOM_STEP).toFixed(2)))}
+          disabled={zoom <= MIN_ZOOM}
+          className="rounded border border-line px-2 py-1 disabled:opacity-30"
+          aria-label="Zoom out"
+        >
+          −
+        </button>
+        <span className="w-12 text-center">{Math.round(zoom * 100)}%</span>
+        <button
+          type="button"
+          onClick={() => setZoom((z) => Math.min(MAX_ZOOM, +(z + ZOOM_STEP).toFixed(2)))}
+          disabled={zoom >= MAX_ZOOM}
+          className="rounded border border-line px-2 py-1 disabled:opacity-30"
+          aria-label="Zoom in"
+        >
+          +
+        </button>
+        {zoom !== 1 && (
+          <button
+            type="button"
+            onClick={() => setZoom(1)}
+            className="rounded border border-line px-2 py-1"
+          >
+            Reset
+          </button>
+        )}
+      </div>
       <div
         ref={containerRef}
-        data-pdf-page-canvas="true"
-        data-render-scale={renderScale || undefined}
-        data-page-height-pt={pageHeightPt || undefined}
-        data-page-index={currentPageIndex}
-        className="relative w-full max-w-2xl"
+        className="max-h-[75vh] w-full max-w-2xl overflow-auto rounded border border-line bg-line/10"
       >
-        <canvas ref={canvasRef} className="w-full rounded border border-line shadow-card" />
-        {isRendering && (
-          <div className="absolute inset-0 flex items-center justify-center bg-paper/60 text-sm text-ink/50">
-            Rendering…
-          </div>
-        )}
-        {renderScale > 0 && pageHeightPt > 0 && (
-          <PlacedStampOverlay
-            pageIndex={currentPageIndex}
-            renderScale={renderScale}
-            pageHeightPt={pageHeightPt}
-          />
-        )}
+        <div
+          data-pdf-page-canvas="true"
+          data-render-scale={renderScale || undefined}
+          data-page-height-pt={pageHeightPt || undefined}
+          data-page-index={currentPageIndex}
+          className="relative mx-auto my-4 w-fit"
+        >
+          <canvas ref={canvasRef} className="block shadow-card" />
+          {isRendering && (
+            <div className="absolute inset-0 flex items-center justify-center bg-paper/60 text-sm text-ink/50">
+              Rendering…
+            </div>
+          )}
+          {renderScale > 0 && pageHeightPt > 0 && (
+            <PlacedStampOverlay
+              pageIndex={currentPageIndex}
+              renderScale={renderScale}
+              pageHeightPt={pageHeightPt}
+            />
+          )}
+        </div>
       </div>
       {pageCount > 1 && (
         <div className="flex items-center gap-3 text-sm text-ink/70">

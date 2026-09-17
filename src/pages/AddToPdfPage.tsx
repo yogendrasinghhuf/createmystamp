@@ -79,27 +79,29 @@ export default function AddToPdfPage() {
                 </div>
                 <PdfPageCanvas />
               </div>
-              <div className="flex w-full flex-col gap-4 md:w-64 md:shrink-0">
-                <StampThumbnail />
-                <TemplatePickerPanel />
-                {placedInstances.length > 0 && (
+              <div className="w-full md:w-64 md:shrink-0">
+                <div className="flex flex-col gap-4 md:sticky md:top-4">
+                  <StampThumbnail />
+                  <TemplatePickerPanel />
+                  {placedInstances.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={clearAllPlacedInstances}
+                      className="w-full rounded border border-line px-3 py-1.5 text-sm hover:bg-line/30"
+                    >
+                      Clear PDF stamps
+                    </button>
+                  )}
                   <button
                     type="button"
-                    onClick={clearAllPlacedInstances}
-                    className="w-full rounded border border-line px-3 py-1.5 text-sm hover:bg-line/30"
+                    onClick={handleDownload}
+                    disabled={isExporting || placedInstances.length === 0}
+                    className="w-full rounded bg-ink px-3 py-2 text-sm font-medium text-paper disabled:opacity-40"
                   >
-                    Clear PDF stamps
+                    {isExporting ? 'Preparing…' : 'Download stamped PDF'}
                   </button>
-                )}
-                <button
-                  type="button"
-                  onClick={handleDownload}
-                  disabled={isExporting || placedInstances.length === 0}
-                  className="w-full rounded bg-ink px-3 py-2 text-sm font-medium text-paper disabled:opacity-40"
-                >
-                  {isExporting ? 'Preparing…' : 'Download stamped PDF'}
-                </button>
-                {exportError && <p className="text-xs text-red-600">{exportError}</p>}
+                  {exportError && <p className="text-xs text-red-600">{exportError}</p>}
+                </div>
               </div>
             </div>
           )}
