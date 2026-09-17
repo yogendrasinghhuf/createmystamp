@@ -3,9 +3,13 @@ import { useEffect, useRef, useState } from 'react'
 import { usePdfStampStore } from '../../store/usePdfStampStore'
 import PlacedStampOverlay from './PlacedStampOverlay'
 
-const MIN_ZOOM = 0.5
-const MAX_ZOOM = 2.5
-const ZOOM_STEP = 0.25
+// 1 PDF point = 1/72 inch; a normal-DPI screen is ~96 CSS px/inch, so this is
+// the CSS-px-per-point ratio for "true" 100% (matches real paper size).
+const CSS_PX_PER_PT = 96 / 72
+
+const MIN_ZOOM_PERCENT = 25
+const MAX_ZOOM_PERCENT = 400
+const ZOOM_STEP_PERCENT = 10
 
 export default function PdfPageCanvas() {
   const pdfDoc = usePdfStampStore((s) => s.pdfDoc)
@@ -13,17 +17,24 @@ export default function PdfPageCanvas() {
   const currentPageIndex = usePdfStampStore((s) => s.currentPageIndex)
   const setCurrentPage = usePdfStampStore((s) => s.setCurrentPage)
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
-  const fitWidthRef = useRef(0)
   const [isRendering, setIsRendering] = useState(false)
   const [renderScale, setRenderScale] = useState(0)
   const [pageHeightPt, setPageHeightPt] = useState(0)
-  const [zoom, setZoom] = useState(1)
+  const [zoomPercent, setZoomPercent] = useState(100)
+  const [zoomInputValue, setZoomInputValue] = useState('100')
 
-  // Reset zoom back to "fit width" whenever a different page is shown.
   useEffect(() => {
-    setZoom(1)
-  }, [currentPageIndex])
+    setZoomInputValue(String(zoomPercent))
+  }, [zoomPercent])
+
+  function clampZoom(value: number): number {
+    if (Number.isNaN(value)) return zoomPercent
+    return Math.min(MAX_ZOOM_PERCENT, Math.max(MIN_ZOOM_PERCENT, value))
+  }
+
+  function commitZoomInput() {
+    setZoomPercent(clampZoom(Number(zoomInputValue)))
+  }
 
   useEffect(() => {
     if (!pdfDoc) return
@@ -34,15 +45,12 @@ export default function PdfPageCanvas() {
       const page = await pdfDoc!.getPage(currentPageIndex + 1)
       if (cancelled) return
 
-      if (!fitWidthRef.current) {
-        fitWidthRef.current = containerRef.current?.clientWidth ?? 600
-      }
       const unscaledViewport = page.getViewport({ scale: 1 })
-      // The unscaled viewport is already in PDF point space, so this ratio
-      // (CSS px per point) is exactly the renderScale used for placement math.
-      const fitScale = (fitWidthRef.current / unscaledViewport.width) * zoom
+      // CSS-px-per-point at the current zoom -- this is exactly the
+      // renderScale used for placement math (see src/lib/pdfCoords.ts).
+      const scale = CSS_PX_PER_PT * (zoomPercent / 100)
       const dpr = window.devicePixelRatio || 1
-      const viewport = page.getViewport({ scale: fitScale })
+      const viewport = page.getViewport({ scale })
 
       const canvas = canvasRef.current
       if (!canvas) return
@@ -58,7 +66,7 @@ export default function PdfPageCanvas() {
       await page.render({ canvas, canvasContext: context, viewport }).promise
       if (!cancelled) {
         setIsRendering(false)
-        setRenderScale(fitScale)
+        setRenderScale(scale)
         setPageHeightPt(unscaledViewport.height)
       }
     }
@@ -67,44 +75,49 @@ export default function PdfPageCanvas() {
     return () => {
       cancelled = true
     }
-  }, [pdfDoc, currentPageIndex, zoom])
+  }, [pdfDoc, currentPageIndex, zoomPercent])
 
   return (
     <div className="flex flex-col items-center gap-3">
       <div className="flex items-center gap-3 text-sm text-ink/70">
         <button
           type="button"
-          onClick={() => setZoom((z) => Math.max(MIN_ZOOM, +(z - ZOOM_STEP).toFixed(2)))}
-          disabled={zoom <= MIN_ZOOM}
+          onClick={() => setZoomPercent((z) => clampZoom(z - ZOOM_STEP_PERCENT))}
+          disabled={zoomPercent <= MIN_ZOOM_PERCENT}
           className="rounded border border-line px-2 py-1 disabled:opacity-30"
           aria-label="Zoom out"
         >
           −
         </button>
-        <span className="w-12 text-center">{Math.round(zoom * 100)}%</span>
+        <span className="flex items-center gap-1">
+          <input
+            type="number"
+            value={zoomInputValue}
+            onChange={(e) => setZoomInputValue(e.target.value)}
+            onBlur={commitZoomInput}
+            onKeyDown={(e) => e.key === 'Enter' && commitZoomInput()}
+            min={MIN_ZOOM_PERCENT}
+            max={MAX_ZOOM_PERCENT}
+            className="w-14 rounded border border-line px-1 py-0.5 text-center"
+          />
+          %
+        </span>
         <button
           type="button"
-          onClick={() => setZoom((z) => Math.min(MAX_ZOOM, +(z + ZOOM_STEP).toFixed(2)))}
-          disabled={zoom >= MAX_ZOOM}
+          onClick={() => setZoomPercent((z) => clampZoom(z + ZOOM_STEP_PERCENT))}
+          disabled={zoomPercent >= MAX_ZOOM_PERCENT}
           className="rounded border border-line px-2 py-1 disabled:opacity-30"
           aria-label="Zoom in"
         >
           +
         </button>
-        {zoom !== 1 && (
-          <button
-            type="button"
-            onClick={() => setZoom(1)}
-            className="rounded border border-line px-2 py-1"
-          >
+        {zoomPercent !== 100 && (
+          <button type="button" onClick={() => setZoomPercent(100)} className="rounded border border-line px-2 py-1">
             Reset
           </button>
         )}
       </div>
-      <div
-        ref={containerRef}
-        className="max-h-[75vh] w-full max-w-2xl overflow-auto rounded border border-line bg-line/10"
-      >
+      <div className="w-full overflow-auto rounded border border-line bg-line/10">
         <div
           data-pdf-page-canvas="true"
           data-render-scale={renderScale || undefined}
