@@ -1,5 +1,6 @@
 // src/components/addToPdf/StampThumbnail.tsx
 import { useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useProject } from '../../store/useStampStore'
 import { usePdfStampStore } from '../../store/usePdfStampStore'
 import { TEMPLATES, resolveTemplateElementColors } from '../../data/templates'
@@ -10,6 +11,7 @@ import { pixelsToPoints } from '../../lib/pdfCoords'
 function noop() {}
 
 export default function StampThumbnail() {
+  const navigate = useNavigate()
   const studioProject = useProject()
   const stampSource = usePdfStampStore((s) => s.stampSource)
   const setStampSourceToStudio = usePdfStampStore((s) => s.setStampSourceToStudio)
@@ -124,13 +126,22 @@ export default function StampThumbnail() {
         </svg>
       </div>
       <p className="text-center text-xs text-ink/50">Drag onto the PDF to place a copy</p>
-      <a
-        href="/#editor"
-        onClick={setStampSourceToStudio}
+      <button
+        type="button"
+        onClick={() => {
+          setStampSourceToStudio()
+          navigate('/')
+          // Wait a tick for HomePage/StampStudioSection to mount before
+          // scrolling, since this is a client-side route change (no full
+          // page reload) rather than a real hash navigation.
+          requestAnimationFrame(() => {
+            document.getElementById('editor')?.scrollIntoView()
+          })
+        }}
         className="block w-full rounded border border-line px-3 py-1.5 text-center text-sm hover:bg-line/30"
       >
         Customize in Stamp Studio
-      </a>
+      </button>
     </div>
   )
 }

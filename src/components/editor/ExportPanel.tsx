@@ -1,5 +1,6 @@
 // src/components/editor/ExportPanel.tsx
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useProject } from '../../store/useStampStore'
 import { getCleanSvgString } from '../../lib/svgSerialize'
 import { downloadSvg } from '../../lib/exportSvg'
@@ -76,12 +77,12 @@ export default function ExportPanel({ layout = 'stacked' }: ExportPanelProps) {
             </label>
           </>
         )}
-        <a
-          href="/add-to-pdf"
-          className="ml-auto whitespace-nowrap rounded-lg border border-line px-3 py-2 text-sm font-medium text-ink hover:bg-line/30"
+        <Link
+          to="/add-to-pdf"
+          className="ml-auto whitespace-nowrap rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700"
         >
-          Add to PDF
-        </a>
+          Add to My PDF
+        </Link>
         <Button onClick={handleExport} disabled={busy}>
           {busy ? 'Exporting…' : 'Download'}
         </Button>

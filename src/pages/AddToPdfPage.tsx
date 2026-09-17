@@ -1,9 +1,9 @@
 // src/pages/AddToPdfPage.tsx
 import { useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import PageShell from '../components/layout/PageShell'
 import { BRAND } from '../config/brand'
 import { usePdfStampStore } from '../store/usePdfStampStore'
-import PdfUploadZone from '../components/addToPdf/PdfUploadZone'
 import PdfPageCanvas from '../components/addToPdf/PdfPageCanvas'
 import StampThumbnail from '../components/addToPdf/StampThumbnail'
 import TemplatePickerPanel from '../components/addToPdf/TemplatePickerPanel'
@@ -12,18 +12,27 @@ import { buildStampedPdf } from '../lib/pdfExport'
 import { downloadBlob } from '../lib/exportPng'
 
 export default function AddToPdfPage() {
+  const navigate = useNavigate()
   const pdfDoc = usePdfStampStore((s) => s.pdfDoc)
   const pdfFile = usePdfStampStore((s) => s.pdfFile)
   const pdfBytes = usePdfStampStore((s) => s.pdfBytes)
   const loadPdf = usePdfStampStore((s) => s.loadPdf)
+  const isLoadingPdf = usePdfStampStore((s) => s.isLoadingPdf)
+  const loadError = usePdfStampStore((s) => s.loadError)
   const placedInstances = usePdfStampStore((s) => s.placedInstances)
   const clearAllPlacedInstances = usePdfStampStore((s) => s.clearAllPlacedInstances)
   const [isExporting, setIsExporting] = useState(false)
   const [exportError, setExportError] = useState<string | null>(null)
-  const replaceFileInputRef = useRef<HTMLInputElement>(null)
+  const [fileTypeError, setFileTypeError] = useState<string | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
-  function handleReplaceFile(file: File | undefined) {
-    if (!file || file.type !== 'application/pdf') return
+  function handleChooseFile(file: File | undefined) {
+    if (!file) return
+    if (file.type !== 'application/pdf') {
+      setFileTypeError('Word documents (.doc/.docx) aren’t supported yet — please upload a PDF.')
+      return
+    }
+    setFileTypeError(null)
     void loadPdf(file)
   }
 
@@ -45,65 +54,85 @@ export default function AddToPdfPage() {
 
   return (
     <PageShell
-      title={`Add to PDF — ${BRAND.name}`}
+      title={`Stamp a PDF — ${BRAND.name}`}
       description={`Upload a PDF and place your ${BRAND.name} stamp directly onto its pages.`}
     >
       <div className="mx-auto max-w-7xl px-6 py-10">
-        <h1 className="text-2xl font-semibold text-ink">Stamp a PDF</h1>
-        <p className="mt-1 text-sm text-ink/60">
-          Upload a PDF, then drag your stamp onto any page.
-        </p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-semibold text-ink">Stamp a PDF</h1>
+            <p className="mt-1 text-sm text-ink/60">Upload a PDF, then drag your stamp onto any page.</p>
+          </div>
+          <button
+            type="button"
+            onClick={() => navigate('/')}
+            className="rounded border border-line px-3 py-1.5 text-sm hover:bg-line/30"
+          >
+            Back to Stamp Studio
+          </button>
+        </div>
 
         <div className="mt-8">
-          {!pdfDoc ? (
-            <PdfUploadZone />
-          ) : (
-            <div className="flex flex-col gap-6 md:flex-row">
-              <div className="flex min-w-0 flex-1 flex-col gap-4">
-                <div className="flex items-center justify-between text-sm text-ink/60">
-                  <span>{pdfFile?.name}</span>
-                  <button
-                    type="button"
-                    onClick={() => replaceFileInputRef.current?.click()}
-                    className="rounded border border-line px-3 py-1 hover:bg-line/30"
-                  >
-                    Upload another PDF
-                  </button>
-                  <input
-                    ref={replaceFileInputRef}
-                    type="file"
-                    accept="application/pdf"
-                    className="hidden"
-                    onChange={(e) => handleReplaceFile(e.target.files?.[0])}
-                  />
-                </div>
-                <PdfPageCanvas />
+          <div className="flex flex-col gap-6 md:flex-row">
+            <div className="flex min-w-0 flex-1 flex-col gap-4">
+              <div className="flex items-center justify-between text-sm text-ink/60">
+                <span>{pdfFile?.name ?? 'No PDF selected yet'}</span>
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="rounded border border-line px-3 py-1 hover:bg-line/30"
+                >
+                  {pdfDoc ? 'Upload another PDF' : 'Upload a PDF'}
+                </button>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="application/pdf,.doc,.docx"
+                  className="hidden"
+                  onChange={(e) => handleChooseFile(e.target.files?.[0])}
+                />
               </div>
-              <div className="w-full md:w-64 md:shrink-0">
-                <div className="flex flex-col gap-4 md:sticky md:top-4">
-                  <StampThumbnail />
-                  <TemplatePickerPanel />
-                  <button
-                    type="button"
-                    onClick={clearAllPlacedInstances}
-                    disabled={placedInstances.length === 0}
-                    className="w-full rounded border border-line px-3 py-1.5 text-sm hover:bg-line/30 disabled:opacity-40"
-                  >
-                    Clear PDF stamps
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleDownload}
-                    disabled={isExporting || placedInstances.length === 0}
-                    className="w-full rounded bg-ink px-3 py-2 text-sm font-medium text-paper disabled:opacity-40"
-                  >
-                    {isExporting ? 'Preparing…' : 'Download stamped PDF'}
-                  </button>
-                  {exportError && <p className="text-xs text-red-600">{exportError}</p>}
+              {fileTypeError && <p className="text-xs text-red-600">{fileTypeError}</p>}
+
+              {pdfDoc ? (
+                <PdfPageCanvas />
+              ) : (
+                <div
+                  onClick={() => fileInputRef.current?.click()}
+                  className="flex min-h-[420px] cursor-pointer flex-col items-center justify-center gap-2 rounded border border-dashed border-line bg-line/10 text-center hover:border-accent/50"
+                >
+                  <p className="text-sm font-medium text-ink">
+                    {isLoadingPdf ? 'Loading PDF…' : 'Your PDF preview will appear here'}
+                  </p>
+                  <p className="text-xs text-ink/50">Click here or use "Upload a PDF" above to get started.</p>
+                  {loadError && <p className="mt-2 text-xs text-red-600">{loadError}</p>}
                 </div>
+              )}
+            </div>
+            <div className="w-full md:w-64 md:shrink-0">
+              <div className="flex flex-col gap-4 md:sticky md:top-4">
+                <StampThumbnail />
+                <TemplatePickerPanel />
+                <button
+                  type="button"
+                  onClick={clearAllPlacedInstances}
+                  disabled={placedInstances.length === 0}
+                  className="w-full rounded border border-line px-3 py-1.5 text-sm hover:bg-line/30 disabled:opacity-40"
+                >
+                  Clear PDF stamps
+                </button>
+                <button
+                  type="button"
+                  onClick={handleDownload}
+                  disabled={isExporting || placedInstances.length === 0}
+                  className="w-full rounded bg-ink px-3 py-2 text-sm font-medium text-paper disabled:opacity-40"
+                >
+                  {isExporting ? 'Preparing…' : 'Download stamped PDF'}
+                </button>
+                {exportError && <p className="text-xs text-red-600">{exportError}</p>}
               </div>
             </div>
-          )}
+          </div>
         </div>
       </div>
       <DragGhostOverlay />

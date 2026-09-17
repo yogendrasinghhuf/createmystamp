@@ -1,14 +1,30 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { BRAND } from '../../config/brand'
 
 const navLinks = [
-  { to: '/#editor', label: 'Stamp Studio' },
-  { to: '/#templates', label: 'Templates' },
-  { to: '/#how-it-works', label: 'How It Works' },
-  { to: '/#faq', label: 'FAQ' },
+  { sectionId: 'editor', label: 'Stamp Studio' },
+  { sectionId: 'templates', label: 'Templates' },
+  { sectionId: 'how-it-works', label: 'How It Works' },
+  { sectionId: 'faq', label: 'FAQ' },
 ]
 
 export default function Header() {
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  function goToSection(sectionId: string) {
+    if (location.pathname === '/') {
+      document.getElementById(sectionId)?.scrollIntoView()
+      return
+    }
+    navigate('/')
+    // Wait for HomePage to mount before scrolling, since this is a
+    // client-side route change rather than a real hash navigation.
+    requestAnimationFrame(() => {
+      document.getElementById(sectionId)?.scrollIntoView()
+    })
+  }
+
   return (
     <header className="border-b border-line bg-paper/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
@@ -17,13 +33,14 @@ export default function Header() {
         </Link>
         <nav className="hidden gap-6 md:flex">
           {navLinks.map((link) => (
-            <a
-              key={link.to}
-              href={link.to}
+            <button
+              key={link.sectionId}
+              type="button"
+              onClick={() => goToSection(link.sectionId)}
               className="text-sm font-medium text-ink/70 transition-colors hover:text-ink"
             >
               {link.label}
-            </a>
+            </button>
           ))}
         </nav>
       </div>
