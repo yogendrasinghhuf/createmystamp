@@ -1,5 +1,5 @@
 // src/pages/AddToPdfPage.tsx
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import PageShell from '../components/layout/PageShell'
 import { BRAND } from '../config/brand'
@@ -25,6 +25,10 @@ export default function AddToPdfPage() {
   const [exportError, setExportError] = useState<string | null>(null)
   const [fileTypeError, setFileTypeError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   function handleChooseFile(file: File | undefined) {
     if (!file) return

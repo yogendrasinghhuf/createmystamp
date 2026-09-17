@@ -51,7 +51,7 @@ export default function Slider({ label, value, min, max, step = 1, onChange }: S
         step={step}
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="accent-accent"
+        className="accent-gray-500"
       />
     </label>
   )
