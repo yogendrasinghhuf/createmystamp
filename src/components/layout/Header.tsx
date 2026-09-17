@@ -13,17 +13,33 @@ export default function Header() {
   const navigate = useNavigate()
   const location = useLocation()
 
+  function scrollToSectionWhenReady(sectionId: string, attempt = 0, lastTop: number | null = null) {
+    const el = document.getElementById(sectionId)
+    // HomePage (and everything above this section) can still be mounting
+    // and growing in height for a few frames after a client-side route
+    // change -- a single requestAnimationFrame often fires before the
+    // element exists, or before layout has settled, so scrollIntoView
+    // silently lands at the wrong position (or gets pushed away by later
+    // content loading in above it). Keep re-scrolling until the target's
+    // position stops moving for two consecutive frames, up to ~1.5s.
+    if (attempt > 45) return
+    if (!el) {
+      requestAnimationFrame(() => scrollToSectionWhenReady(sectionId, attempt + 1, lastTop))
+      return
+    }
+    const top = el.getBoundingClientRect().top
+    if (lastTop !== null && Math.abs(top - lastTop) < 1) return
+    el.scrollIntoView()
+    requestAnimationFrame(() => scrollToSectionWhenReady(sectionId, attempt + 1, top))
+  }
+
   function goToSection(sectionId: string) {
     if (location.pathname === '/') {
-      document.getElementById(sectionId)?.scrollIntoView()
+      scrollToSectionWhenReady(sectionId)
       return
     }
     navigate('/')
-    // Wait for HomePage to mount before scrolling, since this is a
-    // client-side route change rather than a real hash navigation.
-    requestAnimationFrame(() => {
-      document.getElementById(sectionId)?.scrollIntoView()
-    })
+    scrollToSectionWhenReady(sectionId)
   }
 
   return (
