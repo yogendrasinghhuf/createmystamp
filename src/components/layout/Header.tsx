@@ -2,10 +2,10 @@ import { Link } from 'react-router-dom'
 import { BRAND } from '../../config/brand'
 
 const navLinks = [
-  { to: '#editor', label: 'Stamp Studio' },
-  { to: '#templates', label: 'Templates' },
-  { to: '#how-it-works', label: 'How It Works' },
-  { to: '#faq', label: 'FAQ' },
+  { to: '/#editor', label: 'Stamp Studio' },
+  { to: '/#templates', label: 'Templates' },
+  { to: '/#how-it-works', label: 'How It Works' },
+  { to: '/#faq', label: 'FAQ' },
 ]
 
 export default function Header() {
