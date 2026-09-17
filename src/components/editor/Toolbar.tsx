@@ -57,7 +57,7 @@ export default function Toolbar() {
       fontWeight: 600,
       letterSpacing: 0,
       align: 'center',
-      color: '#2B2A28',
+      color: project.ink.color,
       multiline: false,
     })
   }
@@ -76,7 +76,7 @@ export default function Toolbar() {
       fontSize: 5,
       fontWeight: 600,
       letterSpacing: 1,
-      color: '#2B2A28',
+      color: project.ink.color,
       radius: Math.min(project.dimensions.width, project.dimensions.height) / 2 - 6,
       startAngle: 0,
       direction: 'clockwise',
@@ -98,7 +98,7 @@ export default function Toolbar() {
       fontSize: 5,
       fontWeight: 600,
       letterSpacing: 1,
-      color: '#2B2A28',
+      color: project.ink.color,
       radius,
       startAngle: 300,
       direction: 'clockwise',
@@ -120,7 +120,7 @@ export default function Toolbar() {
       fontSize: 5,
       fontWeight: 600,
       letterSpacing: 1,
-      color: '#2B2A28',
+      color: project.ink.color,
       radius,
       startAngle: 240,
       direction: 'counterclockwise',
@@ -139,14 +139,14 @@ export default function Toolbar() {
       content: '',
       contentType: 'text',
       size: 18,
-      color: '#2B2A28',
+      color: project.ink.color,
     })
   }
 
   function handleSelectIcon(iconName: string) {
     const option = STAMP_ICONS.find((i) => i.name === iconName)
     if (!option) return
-    const color = '#2B2A28'
+    const color = project.ink.color
     const dataUrl = iconToSvgDataUrl(option.innerMarkup, color)
     if (!dataUrl) return
     addAndSelect({
@@ -181,9 +181,9 @@ export default function Toolbar() {
       shape,
       width: dimensions?.width ?? (shape === 'line' ? 20 : shape === 'rectangle' || shape === 'roundedRectangle' ? 28 : 16),
       height: dimensions?.height ?? (shape === 'line' ? 0.5 : shape === 'rectangle' || shape === 'roundedRectangle' ? 7 : 16),
-      strokeColor: '#2B2A28',
+      strokeColor: project.ink.color,
       strokeWidth: 0.6,
-      fillColor: '#2B2A28',
+      fillColor: project.ink.color,
       filled: false,
       cornerRadius: shape === 'roundedRectangle' ? 3 : undefined,
     })
