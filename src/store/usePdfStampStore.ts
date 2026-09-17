@@ -52,7 +52,6 @@ interface PdfStampState {
 
 export interface PdfStampStore extends PdfStampState {
   loadPdf: (file: File) => Promise<void>
-  clearPdf: () => void
   setCurrentPage: (index: number) => void
   setStampSourceToStudio: () => void
   setStampSourceToTemplate: (templateId: string) => void
@@ -96,6 +95,9 @@ export const usePdfStampStore = create<PdfStampStore>((set, get) => ({
       // keep the original bytes untouched for pdf-lib to open later at export time.
       const doc = await pdfjsLib.getDocument({ data: bytes.slice(0) }).promise
       void get().pdfDoc?.cleanup()
+      // Placed instances are positioned against the previous document's page
+      // geometry, so they can't carry over to a newly loaded PDF.
+      revokeAll(get().placedInstances)
       set({
         pdfFile: file,
         pdfBytes: bytes,
@@ -103,6 +105,8 @@ export const usePdfStampStore = create<PdfStampStore>((set, get) => ({
         pageCount: doc.numPages,
         currentPageIndex: 0,
         isLoadingPdf: false,
+        placedInstances: [],
+        selectedInstanceId: null,
       })
     } catch (err) {
       set({
@@ -110,15 +114,6 @@ export const usePdfStampStore = create<PdfStampStore>((set, get) => ({
         loadError: err instanceof Error ? err.message : 'Could not open this PDF.',
       })
     }
-  },
-
-  clearPdf: () => {
-    void get().pdfDoc?.cleanup()
-    revokeAll(get().placedInstances)
-    // Keep stampSource -- the chosen thumbnail persists across a PDF change,
-    // only the PDF-related fields (and any placed stamps, which belong to
-    // the PDF being replaced) reset.
-    set({ ...initialState, stampSource: get().stampSource })
   },
 
   setCurrentPage: (index) => {

@@ -1,5 +1,5 @@
 // src/pages/AddToPdfPage.tsx
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import PageShell from '../components/layout/PageShell'
 import { BRAND } from '../config/brand'
 import { usePdfStampStore } from '../store/usePdfStampStore'
@@ -15,11 +15,17 @@ export default function AddToPdfPage() {
   const pdfDoc = usePdfStampStore((s) => s.pdfDoc)
   const pdfFile = usePdfStampStore((s) => s.pdfFile)
   const pdfBytes = usePdfStampStore((s) => s.pdfBytes)
-  const clearPdf = usePdfStampStore((s) => s.clearPdf)
+  const loadPdf = usePdfStampStore((s) => s.loadPdf)
   const placedInstances = usePdfStampStore((s) => s.placedInstances)
   const clearAllPlacedInstances = usePdfStampStore((s) => s.clearAllPlacedInstances)
   const [isExporting, setIsExporting] = useState(false)
   const [exportError, setExportError] = useState<string | null>(null)
+  const replaceFileInputRef = useRef<HTMLInputElement>(null)
+
+  function handleReplaceFile(file: File | undefined) {
+    if (!file || file.type !== 'application/pdf') return
+    void loadPdf(file)
+  }
 
   async function handleDownload() {
     if (!pdfBytes || !pdfFile) return
@@ -58,11 +64,18 @@ export default function AddToPdfPage() {
                   <span>{pdfFile?.name}</span>
                   <button
                     type="button"
-                    onClick={clearPdf}
+                    onClick={() => replaceFileInputRef.current?.click()}
                     className="rounded border border-line px-3 py-1 hover:bg-line/30"
                   >
                     Choose a different PDF
                   </button>
+                  <input
+                    ref={replaceFileInputRef}
+                    type="file"
+                    accept="application/pdf"
+                    className="hidden"
+                    onChange={(e) => handleReplaceFile(e.target.files?.[0])}
+                  />
                 </div>
                 <PdfPageCanvas />
               </div>
