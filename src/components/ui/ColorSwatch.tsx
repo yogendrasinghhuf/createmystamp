@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react'
+
 interface ColorSwatchProps {
   label: string
   value: string
@@ -5,6 +7,22 @@ interface ColorSwatchProps {
 }
 
 export default function ColorSwatch({ label, value, onChange }: ColorSwatchProps) {
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    // A color input that's never been focused before renders its native
+    // picker popup with a hue-slider that doesn't respond to the first
+    // interaction (only the 2D saturation/lightness box works) -- this
+    // shows up right after adding a new element, whose properties panel
+    // (and this input) mounts for the first time. Focusing and blurring it
+    // once, right on mount, gives the browser the same "already seen this
+    // input" state that an existing, previously-opened element already has,
+    // so newly added elements behave the same as existing ones.
+    const el = inputRef.current
+    el?.focus({ preventScroll: true })
+    el?.blur()
+  }, [])
+
   return (
     <label className="flex items-center justify-between text-sm">
       <span className="text-ink/70">{label}</span>
@@ -19,6 +37,7 @@ export default function ColorSwatch({ label, value, onChange }: ColorSwatchProps
             eyedropper-style extensions) have no visible area to draw into.
             The swatch square above is what the user actually sees. */}
         <input
+          ref={inputRef}
           type="color"
           value={value}
           onChange={(e) => onChange(e.target.value)}
