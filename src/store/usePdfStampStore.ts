@@ -47,6 +47,7 @@ interface PdfStampState {
   // thumbnail (drag source) and the PDF page canvas (drop target) coordinate
   // without prop drilling across the sidebar/main-panel boundary.
   dragGhost: DragGhost | null
+  selectedInstanceId: string | null
 }
 
 export interface PdfStampStore extends PdfStampState {
@@ -63,6 +64,7 @@ export interface PdfStampStore extends PdfStampState {
   removePlacedInstance: (id: string) => void
   clearAllPlacedInstances: () => void
   setDragGhost: (ghost: DragGhost | null) => void
+  setSelectedInstance: (id: string | null) => void
 }
 
 const initialState: PdfStampState = {
@@ -76,6 +78,7 @@ const initialState: PdfStampState = {
   stampSource: { kind: 'studio' },
   placedInstances: [],
   dragGhost: null,
+  selectedInstanceId: null,
 }
 
 function revokeAll(instances: PlacedStampInstance[]) {
@@ -121,7 +124,7 @@ export const usePdfStampStore = create<PdfStampStore>((set, get) => ({
   setCurrentPage: (index) => {
     const { pageCount } = get()
     if (index < 0 || index >= pageCount) return
-    set({ currentPageIndex: index })
+    set({ currentPageIndex: index, selectedInstanceId: null })
   },
 
   setStampSourceToStudio: () => set({ stampSource: { kind: 'studio' } }),
@@ -129,10 +132,15 @@ export const usePdfStampStore = create<PdfStampStore>((set, get) => ({
   setStampSourceToTemplate: (templateId) =>
     set({ stampSource: { kind: 'template', templateId } }),
 
-  addPlacedInstance: (instance) =>
+  addPlacedInstance: (instance) => {
+    const id = uid()
     set((state) => ({
-      placedInstances: [...state.placedInstances, { ...instance, id: uid() }],
-    })),
+      placedInstances: [...state.placedInstances, { ...instance, id }],
+      // Select the stamp immediately after placing it, so its move/resize
+      // handles are right there without an extra click.
+      selectedInstanceId: id,
+    }))
+  },
 
   updatePlacedInstance: (id, patch) =>
     set((state) => ({
@@ -143,14 +151,19 @@ export const usePdfStampStore = create<PdfStampStore>((set, get) => ({
     set((state) => {
       const target = state.placedInstances.find((i) => i.id === id)
       if (target) URL.revokeObjectURL(target.pngObjectUrl)
-      return { placedInstances: state.placedInstances.filter((i) => i.id !== id) }
+      return {
+        placedInstances: state.placedInstances.filter((i) => i.id !== id),
+        selectedInstanceId: state.selectedInstanceId === id ? null : state.selectedInstanceId,
+      }
     }),
 
   clearAllPlacedInstances: () =>
     set((state) => {
       revokeAll(state.placedInstances)
-      return { placedInstances: [] }
+      return { placedInstances: [], selectedInstanceId: null }
     }),
 
   setDragGhost: (ghost) => set({ dragGhost: ghost }),
+
+  setSelectedInstance: (id) => set({ selectedInstanceId: id }),
 }))
