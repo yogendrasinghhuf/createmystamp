@@ -117,7 +117,7 @@ export default function PdfPageCanvas() {
           </button>
         )}
       </div>
-      <div className="w-full overflow-auto rounded border border-line bg-line/10">
+      <div className="w-full overflow-auto rounded border border-line bg-line/10" style={{ scrollbarWidth: 'auto' }}>
         <div
           data-pdf-page-canvas="true"
           data-render-scale={renderScale || undefined}
