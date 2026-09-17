@@ -1,8 +1,13 @@
 // src/lib/svgSerialize.ts
-export function getCleanSvgString(dimensions: { width: number; height: number }): string {
-  const source = document.getElementById('stamp-canvas-svg') as SVGSVGElement | null
-  if (!source) throw new Error('Canvas SVG not found')
 
+// Clones the given SVG node, strips selection-UI markup, and sets a centered
+// viewBox/size from `dimensions` -- shared by both Stamp Studio's own export
+// (which looks up its live canvas node by id, see getCleanSvgString below)
+// and any other caller that renders its own off-screen SVG node.
+export function serializeStampSvg(
+  source: SVGSVGElement,
+  dimensions: { width: number; height: number },
+): string {
   const clone = source.cloneNode(true) as SVGSVGElement
   clone.querySelectorAll('[data-selection-ui="true"]').forEach((node) => node.remove())
 
@@ -16,4 +21,10 @@ export function getCleanSvgString(dimensions: { width: number; height: number })
   clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
 
   return new XMLSerializer().serializeToString(clone)
+}
+
+export function getCleanSvgString(dimensions: { width: number; height: number }): string {
+  const source = document.getElementById('stamp-canvas-svg') as SVGSVGElement | null
+  if (!source) throw new Error('Canvas SVG not found')
+  return serializeStampSvg(source, dimensions)
 }

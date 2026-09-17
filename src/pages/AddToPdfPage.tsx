@@ -6,11 +6,14 @@ import PdfUploadZone from '../components/addToPdf/PdfUploadZone'
 import PdfPageCanvas from '../components/addToPdf/PdfPageCanvas'
 import StampThumbnail from '../components/addToPdf/StampThumbnail'
 import TemplatePickerPanel from '../components/addToPdf/TemplatePickerPanel'
+import DragGhostOverlay from '../components/addToPdf/DragGhostOverlay'
 
 export default function AddToPdfPage() {
   const pdfDoc = usePdfStampStore((s) => s.pdfDoc)
   const pdfFile = usePdfStampStore((s) => s.pdfFile)
   const clearPdf = usePdfStampStore((s) => s.clearPdf)
+  const placedInstances = usePdfStampStore((s) => s.placedInstances)
+  const clearAllPlacedInstances = usePdfStampStore((s) => s.clearAllPlacedInstances)
 
   return (
     <PageShell
@@ -44,11 +47,21 @@ export default function AddToPdfPage() {
               <div className="flex w-full flex-col gap-4 md:w-64 md:shrink-0">
                 <StampThumbnail />
                 <TemplatePickerPanel />
+                {placedInstances.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={clearAllPlacedInstances}
+                    className="w-full rounded border border-line px-3 py-1.5 text-sm hover:bg-line/30"
+                  >
+                    Clear PDF stamps
+                  </button>
+                )}
               </div>
             </div>
           )}
         </div>
       </div>
+      <DragGhostOverlay />
     </PageShell>
   )
 }
