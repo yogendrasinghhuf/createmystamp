@@ -53,6 +53,16 @@ export default function ShapeProperties({ element }: { element: ShapeElement }) 
         />
         Dashed stroke
       </label>
+      {element.strokeStyle === 'dashed' && (
+        <Slider
+          label="Dash gap"
+          value={element.dashGap ?? 1.5}
+          min={0.5}
+          max={8}
+          step={0.5}
+          onChange={(dashGap) => patch({ dashGap })}
+        />
+      )}
       <ColorSwatch
         label="Element color"
         value={element.strokeColor}
