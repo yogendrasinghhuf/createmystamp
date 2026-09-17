@@ -45,6 +45,14 @@ export default function ShapeProperties({ element }: { element: ShapeElement }) 
         step={0.2}
         onChange={(strokeWidth) => patch({ strokeWidth })}
       />
+      <label className="flex items-center gap-2 text-sm text-ink/70">
+        <input
+          type="checkbox"
+          checked={element.strokeStyle === 'dashed'}
+          onChange={(e) => patch({ strokeStyle: e.target.checked ? 'dashed' : 'solid' })}
+        />
+        Dashed stroke
+      </label>
       <ColorSwatch
         label="Element color"
         value={element.strokeColor}

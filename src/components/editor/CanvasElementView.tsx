@@ -196,6 +196,10 @@ function ShapePrimitive({ element }: { element: Extract<StampElement, { type: 's
   // grows inward only, keeping the outer edge fixed at the shape's stated
   // size.
   const inset = element.strokeWidth / 2
+  // Scale dash/gap length with stroke width so the dash pattern looks
+  // proportionate whether the stroke is thin or thick.
+  const strokeDasharray =
+    element.strokeStyle === 'dashed' ? `${element.strokeWidth * 2.5} ${element.strokeWidth * 1.5}` : undefined
   if (element.shape === 'circle') {
     return (
       <circle
@@ -203,6 +207,7 @@ function ShapePrimitive({ element }: { element: Extract<StampElement, { type: 's
         fill={fill}
         stroke={element.strokeColor}
         strokeWidth={element.strokeWidth}
+        strokeDasharray={strokeDasharray}
       />
     )
   }
@@ -214,6 +219,7 @@ function ShapePrimitive({ element }: { element: Extract<StampElement, { type: 's
         fill={fill}
         stroke={element.strokeColor}
         strokeWidth={element.strokeWidth}
+        strokeDasharray={strokeDasharray}
       />
     )
   }
@@ -226,6 +232,7 @@ function ShapePrimitive({ element }: { element: Extract<StampElement, { type: 's
         y2={0}
         stroke={element.strokeColor}
         strokeWidth={element.strokeWidth}
+        strokeDasharray={strokeDasharray}
       />
     )
   }
@@ -233,7 +240,12 @@ function ShapePrimitive({ element }: { element: Extract<StampElement, { type: 's
     const halfW = element.width / 2
     const halfH = element.height / 2
     return (
-      <g stroke={element.strokeColor} strokeWidth={element.strokeWidth} strokeLinecap="round">
+      <g
+        stroke={element.strokeColor}
+        strokeWidth={element.strokeWidth}
+        strokeLinecap="round"
+        strokeDasharray={strokeDasharray}
+      >
         <line x1={-halfW} y1={-halfH} x2={halfW} y2={halfH} />
         <line x1={halfW} y1={-halfH} x2={-halfW} y2={halfH} />
       </g>
@@ -247,6 +259,7 @@ function ShapePrimitive({ element }: { element: Extract<StampElement, { type: 's
         stroke={element.strokeColor}
         strokeWidth={element.strokeWidth}
         strokeLinejoin="round"
+        strokeDasharray={strokeDasharray}
       />
     )
   }
@@ -258,6 +271,7 @@ function ShapePrimitive({ element }: { element: Extract<StampElement, { type: 's
         stroke={element.strokeColor}
         strokeWidth={element.strokeWidth}
         strokeLinejoin="round"
+        strokeDasharray={strokeDasharray}
       />
     )
   }
@@ -269,6 +283,7 @@ function ShapePrimitive({ element }: { element: Extract<StampElement, { type: 's
         stroke={element.strokeColor}
         strokeWidth={element.strokeWidth}
         strokeLinejoin="round"
+        strokeDasharray={strokeDasharray}
       />
     )
   }
@@ -284,6 +299,7 @@ function ShapePrimitive({ element }: { element: Extract<StampElement, { type: 's
       fill={fill}
       stroke={element.strokeColor}
       strokeWidth={element.strokeWidth}
+      strokeDasharray={strokeDasharray}
     />
   )
 }

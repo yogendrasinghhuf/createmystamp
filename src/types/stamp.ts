@@ -64,6 +64,7 @@ export interface ShapeElement extends ElementCommon {
   height: number
   strokeColor: string
   strokeWidth: number
+  strokeStyle?: 'solid' | 'dashed'
   fillColor: string
   filled: boolean
   cornerRadius?: number
