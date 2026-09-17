@@ -76,7 +76,13 @@ export default function ExportPanel({ layout = 'stacked' }: ExportPanelProps) {
             </label>
           </>
         )}
-        <Button onClick={handleExport} disabled={busy} className="ml-auto">
+        <a
+          href="/add-to-pdf"
+          className="ml-auto whitespace-nowrap rounded-lg border border-line px-3 py-2 text-sm font-medium text-ink hover:bg-line/30"
+        >
+          Add to PDF
+        </a>
+        <Button onClick={handleExport} disabled={busy}>
           {busy ? 'Exporting…' : 'Download'}
         </Button>
       </div>
