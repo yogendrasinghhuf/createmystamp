@@ -82,7 +82,7 @@ export default function AddToPdfPage() {
                   onClick={() => fileInputRef.current?.click()}
                   className="rounded border border-line px-3 py-1 hover:bg-line/30"
                 >
-                  {pdfDoc ? 'Upload another PDF' : 'Upload a PDF'}
+                  {pdfDoc ? 'Upload another PDF' : 'Upload PDF'}
                 </button>
                 <input
                   ref={fileInputRef}
@@ -104,7 +104,7 @@ export default function AddToPdfPage() {
                   <p className="text-sm font-medium text-ink">
                     {isLoadingPdf ? 'Loading PDF…' : 'Your PDF preview will appear here'}
                   </p>
-                  <p className="text-xs text-ink/50">Click here or use "Upload a PDF" above to get started.</p>
+                  <p className="text-xs text-ink/50">Click here or use "Upload PDF" above to get started.</p>
                   {loadError && <p className="mt-2 text-xs text-red-600">{loadError}</p>}
                 </div>
               )}
