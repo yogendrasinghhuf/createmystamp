@@ -1,4 +1,5 @@
 // src/components/addToPdf/PlacedStampOverlay.tsx
+import { useEffect } from 'react'
 import { usePdfStampStore, type PlacedStampInstance } from '../../store/usePdfStampStore'
 import { pixelsToPoints, pointsToPixels } from '../../lib/pdfCoords'
 
@@ -128,6 +129,23 @@ export default function PlacedStampOverlay({
   const instancesOnPage = placedInstances.filter((i) => i.pageIndex === pageIndex)
   const selectedInstanceId = usePdfStampStore((s) => s.selectedInstanceId)
   const setSelectedInstance = usePdfStampStore((s) => s.setSelectedInstance)
+  const removePlacedInstance = usePdfStampStore((s) => s.removePlacedInstance)
+
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (!selectedInstanceId) return
+      if (e.key !== 'Delete' && e.key !== 'Backspace') return
+      // Don't hijack Delete/Backspace while typing in an input (e.g. the
+      // zoom percentage field).
+      const target = e.target as HTMLElement | null
+      if (target?.tagName === 'INPUT' || target?.tagName === 'TEXTAREA') return
+      e.preventDefault()
+      removePlacedInstance(selectedInstanceId)
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [selectedInstanceId, removePlacedInstance])
 
   return (
     <>
