@@ -83,15 +83,14 @@ export default function AddToPdfPage() {
                 <div className="flex flex-col gap-4 md:sticky md:top-4">
                   <StampThumbnail />
                   <TemplatePickerPanel />
-                  {placedInstances.length > 0 && (
-                    <button
-                      type="button"
-                      onClick={clearAllPlacedInstances}
-                      className="w-full rounded border border-line px-3 py-1.5 text-sm hover:bg-line/30"
-                    >
-                      Clear PDF stamps
-                    </button>
-                  )}
+                  <button
+                    type="button"
+                    onClick={clearAllPlacedInstances}
+                    disabled={placedInstances.length === 0}
+                    className="w-full rounded border border-line px-3 py-1.5 text-sm hover:bg-line/30 disabled:opacity-40"
+                  >
+                    Clear PDF stamps
+                  </button>
                   <button
                     type="button"
                     onClick={handleDownload}
