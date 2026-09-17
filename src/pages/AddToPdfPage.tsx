@@ -1,4 +1,5 @@
 // src/pages/AddToPdfPage.tsx
+import { useState } from 'react'
 import PageShell from '../components/layout/PageShell'
 import { BRAND } from '../config/brand'
 import { usePdfStampStore } from '../store/usePdfStampStore'
@@ -7,13 +8,34 @@ import PdfPageCanvas from '../components/addToPdf/PdfPageCanvas'
 import StampThumbnail from '../components/addToPdf/StampThumbnail'
 import TemplatePickerPanel from '../components/addToPdf/TemplatePickerPanel'
 import DragGhostOverlay from '../components/addToPdf/DragGhostOverlay'
+import { buildStampedPdf } from '../lib/pdfExport'
+import { downloadBlob } from '../lib/exportPng'
 
 export default function AddToPdfPage() {
   const pdfDoc = usePdfStampStore((s) => s.pdfDoc)
   const pdfFile = usePdfStampStore((s) => s.pdfFile)
+  const pdfBytes = usePdfStampStore((s) => s.pdfBytes)
   const clearPdf = usePdfStampStore((s) => s.clearPdf)
   const placedInstances = usePdfStampStore((s) => s.placedInstances)
   const clearAllPlacedInstances = usePdfStampStore((s) => s.clearAllPlacedInstances)
+  const [isExporting, setIsExporting] = useState(false)
+  const [exportError, setExportError] = useState<string | null>(null)
+
+  async function handleDownload() {
+    if (!pdfBytes || !pdfFile) return
+    setIsExporting(true)
+    setExportError(null)
+    try {
+      const stampedBytes = await buildStampedPdf(pdfBytes, placedInstances)
+      const blob = new Blob([stampedBytes], { type: 'application/pdf' })
+      const name = pdfFile.name.replace(/\.pdf$/i, '')
+      downloadBlob(blob, `${name}-stamped.pdf`)
+    } catch (err) {
+      setExportError(err instanceof Error ? err.message : 'Could not create the stamped PDF.')
+    } finally {
+      setIsExporting(false)
+    }
+  }
 
   return (
     <PageShell
@@ -56,6 +78,15 @@ export default function AddToPdfPage() {
                     Clear PDF stamps
                   </button>
                 )}
+                <button
+                  type="button"
+                  onClick={handleDownload}
+                  disabled={isExporting || placedInstances.length === 0}
+                  className="w-full rounded bg-ink px-3 py-2 text-sm font-medium text-paper disabled:opacity-40"
+                >
+                  {isExporting ? 'Preparing…' : 'Download stamped PDF'}
+                </button>
+                {exportError && <p className="text-xs text-red-600">{exportError}</p>}
               </div>
             </div>
           )}
