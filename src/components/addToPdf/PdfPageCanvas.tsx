@@ -17,9 +17,11 @@ export default function PdfPageCanvas() {
   const currentPageIndex = usePdfStampStore((s) => s.currentPageIndex)
   const setCurrentPage = usePdfStampStore((s) => s.setCurrentPage)
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const hasRenderedOnceRef = useRef(false)
   const [isRendering, setIsRendering] = useState(false)
   const [renderScale, setRenderScale] = useState(0)
   const [pageHeightPt, setPageHeightPt] = useState(0)
+  const [pageWidthPt, setPageWidthPt] = useState(0)
   const [zoomPercent, setZoomPercent] = useState(100)
   const [zoomInputValue, setZoomInputValue] = useState('100')
 
@@ -41,7 +43,10 @@ export default function PdfPageCanvas() {
     let cancelled = false
 
     async function render() {
-      setIsRendering(true)
+      // Only show the loading overlay on the very first render -- subsequent
+      // page/zoom changes swap the canvas in place, so flashing "Rendering..."
+      // over already-visible content just causes a visible flicker.
+      if (!hasRenderedOnceRef.current) setIsRendering(true)
       const page = await pdfDoc!.getPage(currentPageIndex + 1)
       if (cancelled) return
 
@@ -65,9 +70,11 @@ export default function PdfPageCanvas() {
 
       await page.render({ canvas, canvasContext: context, viewport }).promise
       if (!cancelled) {
+        hasRenderedOnceRef.current = true
         setIsRendering(false)
         setRenderScale(scale)
         setPageHeightPt(unscaledViewport.height)
+        setPageWidthPt(unscaledViewport.width)
       }
     }
 
@@ -111,17 +118,21 @@ export default function PdfPageCanvas() {
         >
           +
         </button>
-        {zoomPercent !== 100 && (
-          <button type="button" onClick={() => setZoomPercent(100)} className="rounded border border-line px-2 py-1">
-            Reset
-          </button>
-        )}
+        <button
+          type="button"
+          onClick={() => setZoomPercent(100)}
+          disabled={zoomPercent === 100}
+          className="rounded border border-line px-2 py-1 disabled:opacity-30"
+        >
+          Reset
+        </button>
       </div>
-      <div className="w-full overflow-auto rounded border border-line bg-line/10" style={{ scrollbarWidth: 'auto' }}>
+      <div className="w-full rounded border border-line bg-line/10">
         <div
           data-pdf-page-canvas="true"
           data-render-scale={renderScale || undefined}
           data-page-height-pt={pageHeightPt || undefined}
+          data-page-width-pt={pageWidthPt || undefined}
           data-page-index={currentPageIndex}
           className="relative mx-auto my-4 w-fit"
         >
@@ -136,6 +147,7 @@ export default function PdfPageCanvas() {
               pageIndex={currentPageIndex}
               renderScale={renderScale}
               pageHeightPt={pageHeightPt}
+              pageWidthPt={pageWidthPt}
             />
           )}
         </div>

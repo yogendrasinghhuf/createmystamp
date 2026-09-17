@@ -7,12 +7,14 @@ function PlacedStamp({
   instance,
   renderScale,
   pageHeightPt,
+  pageWidthPt,
   isSelected,
   onSelect,
 }: {
   instance: PlacedStampInstance
   renderScale: number
   pageHeightPt: number
+  pageWidthPt: number
   isSelected: boolean
   onSelect: () => void
 }) {
@@ -42,7 +44,9 @@ function PlacedStamp({
         renderScale,
         pageHeightPt,
       )
-      updatePlacedInstance(instance.id, { xPt, yPt })
+      const clampedXPt = Math.min(Math.max(xPt, 0), Math.max(0, pageWidthPt - instance.widthPt))
+      const clampedYPt = Math.min(Math.max(yPt, 0), Math.max(0, pageHeightPt - instance.heightPt))
+      updatePlacedInstance(instance.id, { xPt: clampedXPt, yPt: clampedYPt })
     }
 
     function handleUp() {
@@ -65,7 +69,10 @@ function PlacedStamp({
 
     function handleMove(moveEvent: PointerEvent) {
       const dx = moveEvent.clientX - startClientX
-      const newWidthPx = Math.max(16, startWidthPx + dx)
+      const maxWidthPxForPageWidth = (pageWidthPt - instance.xPt) * renderScale
+      const maxWidthPxForPageHeight = (pageHeightPt - instance.yPt) * renderScale * aspectRatio
+      const maxWidthPx = Math.min(maxWidthPxForPageWidth, maxWidthPxForPageHeight)
+      const newWidthPx = Math.min(maxWidthPx, Math.max(16, startWidthPx + dx))
       const newHeightPx = newWidthPx / aspectRatio
       const { xPt, yPt, widthPt, heightPt } = pixelsToPoints(
         { x: startXPx, y: startYPx, width: newWidthPx, height: newHeightPx },
@@ -120,10 +127,12 @@ export default function PlacedStampOverlay({
   pageIndex,
   renderScale,
   pageHeightPt,
+  pageWidthPt,
 }: {
   pageIndex: number
   renderScale: number
   pageHeightPt: number
+  pageWidthPt: number
 }) {
   const placedInstances = usePdfStampStore((s) => s.placedInstances)
   const instancesOnPage = placedInstances.filter((i) => i.pageIndex === pageIndex)
@@ -157,6 +166,7 @@ export default function PlacedStampOverlay({
           instance={instance}
           renderScale={renderScale}
           pageHeightPt={pageHeightPt}
+          pageWidthPt={pageWidthPt}
           isSelected={instance.id === selectedInstanceId}
           onSelect={() => setSelectedInstance(instance.id)}
         />

@@ -49,9 +49,21 @@ export default function StampThumbnail() {
       if (!pageContainer || !svgRef.current) return
 
       const containerRect = pageContainer.getBoundingClientRect()
+      // elementFromPoint/closest can resolve to the page container even when
+      // the pointer is right at its edge; only accept drops whose pointer
+      // position is actually within its rendered bounds, so a stamp never
+      // lands outside the visible PDF page.
+      const isWithinBounds =
+        upEvent.clientX >= containerRect.left &&
+        upEvent.clientX <= containerRect.right &&
+        upEvent.clientY >= containerRect.top &&
+        upEvent.clientY <= containerRect.bottom
+      if (!isWithinBounds) return
+
       const renderScale = Number(pageContainer.dataset.renderScale)
       const pageHeightPt = Number(pageContainer.dataset.pageHeightPt)
-      if (!renderScale || !pageHeightPt) return
+      const pageWidthPt = Number(pageContainer.dataset.pageWidthPt)
+      if (!renderScale || !pageHeightPt || !pageWidthPt) return
 
       const { bytes, objectUrl } = await rasterizeStampSvg(svgRef.current, dimensions)
 
@@ -73,10 +85,15 @@ export default function StampThumbnail() {
         pageHeightPt,
       )
 
+      // Keep the whole stamp within the page bounds even when dropped near
+      // an edge/corner.
+      const clampedXPt = Math.min(Math.max(xPt, 0), Math.max(0, pageWidthPt - widthPt))
+      const clampedYPt = Math.min(Math.max(yPt, 0), Math.max(0, pageHeightPt - heightPt))
+
       addPlacedInstance({
         pageIndex: Number(pageContainer.dataset.pageIndex),
-        xPt,
-        yPt,
+        xPt: clampedXPt,
+        yPt: clampedYPt,
         widthPt,
         heightPt,
         pngBytes: bytes,
