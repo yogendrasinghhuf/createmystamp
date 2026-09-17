@@ -134,7 +134,7 @@ export const TEMPLATES: StampTemplate[] = [
       outlineSuppressed: true,
       elements: [
         shape({ shape: 'circle', width: 38, height: 38, strokeWidth: 1.2 }),
-        curvedText({ text: 'NORTH & PINE CO.', radius: 13.3, startAngle: 303, fontSize: 2.5, letterSpacing: 0.2 }),
+        curvedText({ text: 'NORTH & PINE CO.', radius: 13.3, startAngle: 210, fontSize: 2.5, letterSpacing: 0.2 }),
         text({ text: 'EST. 2026', y: 1, fontSize: 3.8, letterSpacing: 1.4 }),
         shape({ shape: 'circle', width: 32.3, height: 32.3, strokeWidth: 0.8 }),
       ],
@@ -222,7 +222,7 @@ export const TEMPLATES: StampTemplate[] = [
       outlineSuppressed: true,
       elements: [
         shape({ shape: 'circle', width: 38, height: 38, strokeWidth: 1.2 }),
-        curvedText({ text: 'MADE BY HAND', radius: 13.6, startAngle: 300, fontSize: 3.4, letterSpacing: 0.3 }),
+        curvedText({ text: 'MADE BY HAND', radius: 13.6, startAngle: 210, fontSize: 3.4, letterSpacing: 0.3 }),
         text({ text: 'SLOWLY MADE', y: 3.3, fontSize: 3.4, letterSpacing: 0.3 }),
       ],
     },
@@ -275,7 +275,7 @@ export const TEMPLATES: StampTemplate[] = [
       elements: [
         shape({ shape: 'circle', width: 38, height: 38, strokeColor: '#1F7A3D', strokeWidth: 1.2, filled: false }),
         shape({ shape: 'circle', width: 27.3, height: 27.3, strokeWidth: 0.6, strokeColor: '#1F7A3D' }),
-        curvedText({ text: 'THANK YOU', radius: 15.1, startAngle: 322, fontSize: 3.3, fontWeight: 700, letterSpacing: 0.2, color: '#1F7A3D' }),
+        curvedText({ text: 'THANK YOU', radius: 15.1, startAngle: 210, fontSize: 3.3, fontWeight: 700, letterSpacing: 0.2, color: '#1F7A3D' }),
         text({ text: 'SO MUCH', y: 2.4, fontSize: 3.6, color: '#1F7A3D' }),
       ],
     },
@@ -379,7 +379,7 @@ export const TEMPLATES: StampTemplate[] = [
       elements: [
         shape({ shape: 'circle', width: 38, height: 38, strokeWidth: 1.2 }),
         shape({ shape: 'circle', width: 32.3, height: 32.3, strokeWidth: 0.8 }),
-        curvedText({ text: 'SHREE ENTERPRISES', radius: 13.3, startAngle: 291, fontSize: 2.7, letterSpacing: 0.2 }),
+        curvedText({ text: 'SHREE ENTERPRISES', radius: 13.3, startAngle: 210, fontSize: 2.7, letterSpacing: 0.2 }),
         text({ text: 'PROPRIETOR', y: -1, fontSize: 3.2, letterSpacing: 1 }),
         text({ text: 'GSTIN 27ABCDE1234F1Z5', y: 5.7, fontSize: 2.2, letterSpacing: 0 }),
       ],
@@ -454,11 +454,11 @@ export const TEMPLATES: StampTemplate[] = [
         shape({ shape: 'circle', width: 38, height: 38, strokeWidth: 1.2 }),
         shape({ shape: 'circle', width: 32.3, height: 32.3, strokeWidth: 0.6 }),
         shape({ shape: 'circle', width: 20.9, height: 20.9, strokeWidth: 0.6 }),
-        curvedText({ text: 'STAMP MAKERS INDIA', radius: 13.8, startAngle: 306, fontSize: 2.1, letterSpacing: 0.2 }),
+        curvedText({ text: 'STAMP MAKERS INDIA', radius: 13.8, startAngle: 210, fontSize: 2.1, letterSpacing: 0.2 }),
         curvedText({
           text: 'MANANTHAVADY',
           radius: 13.8,
-          startAngle: 221,
+          startAngle: 330,
           direction: 'counterclockwise',
           fontSize: 2.5,
           letterSpacing: 0.2,
@@ -584,11 +584,11 @@ export const TEMPLATES: StampTemplate[] = [
       elements: [
         shape({ shape: 'circle', width: 38, height: 38, strokeWidth: 1.2 }),
         shape({ shape: 'circle', width: 32.6, height: 32.6, strokeWidth: 0.8 }),
-        curvedText({ text: 'INDIA BANK LIMITED', radius: 14, startAngle: 306, fontSize: 2.2, letterSpacing: 0.2 }),
+        curvedText({ text: 'INDIA BANK LIMITED', radius: 14, startAngle: 210, fontSize: 2.2, letterSpacing: 0.2 }),
         curvedText({
           text: 'MUMBAI BRANCH',
           radius: 14,
-          startAngle: 225,
+          startAngle: 330,
           direction: 'counterclockwise',
           fontSize: 2.5,
           letterSpacing: 0.2,
@@ -612,11 +612,11 @@ export const TEMPLATES: StampTemplate[] = [
         shape({ shape: 'circle', width: 38, height: 38, strokeWidth: 1.2 }),
         shape({ shape: 'circle', width: 32.8, height: 32.8, strokeWidth: 0.8 }),
         shape({ shape: 'circle', width: 22.5, height: 22.5, strokeWidth: 0.6 }),
-        curvedText({ text: 'FTFC COURIER SERVICES', radius: 14.3, startAngle: 309, fontSize: 1.7, letterSpacing: 0.2 }),
+        curvedText({ text: 'FTFC COURIER SERVICES', radius: 14.3, startAngle: 210, fontSize: 1.7, letterSpacing: 0.2 }),
         curvedText({
           text: 'PVT. LTD.',
           radius: 14.3,
-          startAngle: 208,
+          startAngle: 330,
           direction: 'counterclockwise',
           fontSize: 2.1,
           letterSpacing: 0.4,
