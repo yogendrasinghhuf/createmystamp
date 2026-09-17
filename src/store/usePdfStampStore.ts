@@ -8,6 +8,8 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
   import.meta.url,
 ).href
 
+export type StampSource = { kind: 'studio' } | { kind: 'template'; templateId: string }
+
 interface PdfStampState {
   pdfFile: File | null
   pdfBytes: ArrayBuffer | null
@@ -16,12 +18,15 @@ interface PdfStampState {
   currentPageIndex: number
   isLoadingPdf: boolean
   loadError: string | null
+  stampSource: StampSource
 }
 
 export interface PdfStampStore extends PdfStampState {
   loadPdf: (file: File) => Promise<void>
   clearPdf: () => void
   setCurrentPage: (index: number) => void
+  setStampSourceToStudio: () => void
+  setStampSourceToTemplate: (templateId: string) => void
 }
 
 const initialState: PdfStampState = {
@@ -32,6 +37,7 @@ const initialState: PdfStampState = {
   currentPageIndex: 0,
   isLoadingPdf: false,
   loadError: null,
+  stampSource: { kind: 'studio' },
 }
 
 export const usePdfStampStore = create<PdfStampStore>((set, get) => ({
@@ -63,7 +69,9 @@ export const usePdfStampStore = create<PdfStampStore>((set, get) => ({
 
   clearPdf: () => {
     void get().pdfDoc?.cleanup()
-    set({ ...initialState })
+    // Keep stampSource -- the chosen thumbnail persists across a PDF change,
+    // only the PDF-related fields reset.
+    set({ ...initialState, stampSource: get().stampSource })
   },
 
   setCurrentPage: (index) => {
@@ -71,4 +79,9 @@ export const usePdfStampStore = create<PdfStampStore>((set, get) => ({
     if (index < 0 || index >= pageCount) return
     set({ currentPageIndex: index })
   },
+
+  setStampSourceToStudio: () => set({ stampSource: { kind: 'studio' } }),
+
+  setStampSourceToTemplate: (templateId) =>
+    set({ stampSource: { kind: 'template', templateId } }),
 }))
