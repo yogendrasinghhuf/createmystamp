@@ -112,7 +112,7 @@ export default function StampThumbnail() {
         onClick={setStampSourceToStudio}
         className="block w-full rounded border border-line px-3 py-1.5 text-center text-sm hover:bg-line/30"
       >
-        Edit in Stamp Studio
+        Customize in Stamp Studio
       </a>
     </div>
   )

@@ -49,9 +49,9 @@ export default function AddToPdfPage() {
       description={`Upload a PDF and place your ${BRAND.name} stamp directly onto its pages.`}
     >
       <div className="mx-auto max-w-7xl px-6 py-10">
-        <h1 className="text-2xl font-semibold text-ink">Add your stamp to a PDF</h1>
+        <h1 className="text-2xl font-semibold text-ink">Stamp a PDF</h1>
         <p className="mt-1 text-sm text-ink/60">
-          Upload a PDF, preview it, then drag your stamp onto any page.
+          Upload a PDF, then drag your stamp onto any page.
         </p>
 
         <div className="mt-8">
@@ -67,7 +67,7 @@ export default function AddToPdfPage() {
                     onClick={() => replaceFileInputRef.current?.click()}
                     className="rounded border border-line px-3 py-1 hover:bg-line/30"
                   >
-                    Choose a different PDF
+                    Upload another PDF
                   </button>
                   <input
                     ref={replaceFileInputRef}

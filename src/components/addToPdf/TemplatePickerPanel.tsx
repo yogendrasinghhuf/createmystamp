@@ -49,7 +49,7 @@ export default function TemplatePickerPanel() {
         onClick={() => setIsOpen((v) => !v)}
         className="w-full rounded border border-line px-3 py-1.5 text-sm hover:bg-line/30"
       >
-        {isOpen ? 'Hide templates' : 'Use a template instead'}
+        {isOpen ? 'Hide templates' : 'Browse stamp templates'}
       </button>
       {isOpen && (
         <div className="flex max-h-96 flex-col gap-2 overflow-y-auto rounded-lg border border-line p-2">
