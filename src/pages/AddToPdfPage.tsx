@@ -129,7 +129,7 @@ export default function AddToPdfPage() {
                   type="button"
                   onClick={handleDownload}
                   disabled={isExporting || placedInstances.length === 0}
-                  className="w-full rounded bg-ink px-3 py-2 text-sm font-medium text-paper disabled:opacity-40"
+                  className="w-full rounded bg-[#1F5C3D] px-3 py-2 text-sm font-medium text-paper transition-colors hover:bg-[#1A4E34] disabled:opacity-40"
                 >
                   {isExporting ? 'Preparing…' : `Download stamped PDF - ${BRAND.stampedPdfDownloadPrice}`}
                 </button>
