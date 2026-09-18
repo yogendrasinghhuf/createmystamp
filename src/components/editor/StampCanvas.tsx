@@ -11,8 +11,8 @@ import { clamp } from '../../lib/geometry'
 // the viewBox's total span changes with stamp diameter or zoom -- that's
 // inherent to how SVG viewBox scaling works, not something fixable by
 // picking a different mm constant.
-const RULER_GUTTER_PX = 22
-const RULER_FONT_SIZE_PX = 10
+const RULER_GUTTER_PX = 10
+const RULER_FONT_SIZE_PX = 8
 
 interface RulerTick {
   label: number
