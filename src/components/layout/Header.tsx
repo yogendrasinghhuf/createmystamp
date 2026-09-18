@@ -67,7 +67,7 @@ export default function Header() {
           ))}
           <Link
             to="/add-to-pdf"
-            className="rounded-lg border border-stamp-blue px-3 py-1.5 text-sm font-medium text-stamp-blue transition-colors hover:bg-stamp-blue/10"
+            className="rounded-lg border border-[#1F5C3D] px-3 py-1.5 text-sm font-medium text-[#1F5C3D] transition-colors hover:bg-[#1F5C3D]/10"
           >
             Add to My PDF
           </Link>
