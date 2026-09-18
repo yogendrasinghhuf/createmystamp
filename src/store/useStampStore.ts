@@ -3,6 +3,7 @@ import type { StampProject, StampElement, StampShapeKind, StampDimensions, InkSe
 import { uid } from '../lib/id'
 import { pushHistory, undoHistory, redoHistory, type HistoryState } from '../lib/history'
 import { SHAPE_DEFAULT_DIMENSIONS } from '../data/shapeDefaults'
+import { loadProject as loadSavedProject } from '../lib/persistence'
 
 const DEFAULT_INK_COLOR = '#1F4E8B'
 
@@ -238,7 +239,11 @@ function withUpdatedProject(
 }
 
 export const useStampStore = create<StampStore & StampStoreState>((set) => ({
-  history: { past: [], present: createDefaultProject(), future: [] },
+  // Read localStorage synchronously at store creation instead of in a
+  // post-mount effect, so the editor's first paint already shows the
+  // saved design -- otherwise the default sample stamp flashes on
+  // screen for a frame before the real saved project swaps in.
+  history: { past: [], present: loadSavedProject() ?? createDefaultProject(), future: [] },
   selectedIds: [],
   transientBaseline: null,
 

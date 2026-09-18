@@ -8,14 +8,13 @@ import MobileToolbar from '../editor/MobileToolbar'
 import MobileBottomSheet from '../editor/MobileBottomSheet'
 import { useEditorKeyboardShortcuts } from '../../lib/useEditorKeyboardShortcuts'
 import { useProject, useSelectedIds, useStampStore } from '../../store/useStampStore'
-import { saveProject, loadProject as loadFromStorage } from '../../lib/persistence'
+import { saveProject } from '../../lib/persistence'
 
 export default function StampStudioSection() {
   const project = useProject()
   const selectedIds = useSelectedIds()
   const removeElement = useStampStore((s) => s.removeElement)
   const updateElement = useStampStore((s) => s.updateElement)
-  const loadProject = useStampStore((s) => s.loadProject)
   const [mobileSheet, setMobileSheet] = useState<'none' | 'add' | 'properties' | 'export'>('none')
   const canvasWrapRef = useRef<HTMLDivElement>(null)
   const [canvasBoxSize, setCanvasBoxSize] = useState(0)
@@ -30,12 +29,6 @@ export default function StampStudioSection() {
     const observer = new ResizeObserver(update)
     observer.observe(el)
     return () => observer.disconnect()
-  }, [])
-
-  useEffect(() => {
-    const saved = loadFromStorage()
-    if (saved) loadProject(saved)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
