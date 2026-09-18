@@ -64,7 +64,10 @@ export interface ShapeElement extends ElementCommon {
   height: number
   strokeColor: string
   strokeWidth: number
-  strokeStyle?: 'solid' | 'dashed'
+  // Gap between dashes, as a multiple of strokeWidth. 0 (or unset) = solid;
+  // any value above 0 makes the stroke dashed, with the gap growing as this
+  // increases.
+  dashGap?: number
   fillColor: string
   filled: boolean
   cornerRadius?: number

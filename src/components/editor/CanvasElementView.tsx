@@ -196,10 +196,12 @@ function ShapePrimitive({ element }: { element: Extract<StampElement, { type: 's
   // grows inward only, keeping the outer edge fixed at the shape's stated
   // size.
   const inset = element.strokeWidth / 2
-  // Scale dash/gap length with stroke width so the dash pattern looks
-  // proportionate whether the stroke is thin or thick.
-  const strokeDasharray =
-    element.strokeStyle === 'dashed' ? `${element.strokeWidth * 2.5} ${element.strokeWidth * 1.5}` : undefined
+  // Dash length is fixed relative to strokeWidth; the gap is user-
+  // adjustable (also as a multiple of strokeWidth) and scales the dash
+  // pattern from tight to loose. 0/unset means a solid stroke.
+  const strokeDasharray = element.dashGap
+    ? `${element.strokeWidth * 2.5} ${element.strokeWidth * element.dashGap}`
+    : undefined
   if (element.shape === 'circle') {
     return (
       <circle
