@@ -196,11 +196,13 @@ function ShapePrimitive({ element }: { element: Extract<StampElement, { type: 's
   // grows inward only, keeping the outer edge fixed at the shape's stated
   // size.
   const inset = element.strokeWidth / 2
-  // Dash length is user-adjustable (in mm); the gap between dashes scales
-  // proportionally to it. 0/unset means a solid stroke.
-  const strokeDasharray = element.dashLength
-    ? `${element.dashLength} ${element.dashLength * 0.6}`
-    : undefined
+  // Dash length is user-adjustable (in mm), but the slider is intentionally
+  // descending: a lower slider value should produce a longer dash (1 -> the
+  // biggest dashes, 10 -> the smallest), so invert it here rather than in
+  // the stored value. The gap between dashes scales proportionally to the
+  // actual dash length. 0/unset means a solid stroke.
+  const actualDashLength = element.dashLength ? 11 - element.dashLength : 0
+  const strokeDasharray = actualDashLength ? `${actualDashLength} ${actualDashLength * 0.6}` : undefined
   if (element.shape === 'circle') {
     return (
       <circle
