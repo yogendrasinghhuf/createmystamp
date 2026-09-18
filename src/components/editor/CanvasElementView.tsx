@@ -187,6 +187,21 @@ function octagonPoints(width: number, height: number): string {
   ].join(' ')
 }
 
+// Given a target dash length and gap ratio, adjusts both so a whole number
+// of dash+gap repeats fits exactly around the given perimeter -- otherwise
+// the last repeat before the path wraps gets cut short/irregular, which is
+// very visible on closed shapes (circles, polygons). Keeps the repeat count
+// closest to what the target length implies, so the result stays close to
+// the requested size while every dash ends up the same length.
+function evenDasharray(dashLength: number, gapRatio: number, perimeter: number): string {
+  const targetRepeat = dashLength * (1 + gapRatio)
+  const repeatCount = Math.max(1, Math.round(perimeter / targetRepeat))
+  const repeatLength = perimeter / repeatCount
+  const actualDash = repeatLength / (1 + gapRatio)
+  const actualGap = repeatLength - actualDash
+  return `${actualDash} ${actualGap}`
+}
+
 function ShapePrimitive({ element }: { element: Extract<StampElement, { type: 'shape' }> }) {
   const fill = element.filled ? element.fillColor : 'none'
   // SVG strokes are centered on the path by default, so they grow both
@@ -202,11 +217,13 @@ function ShapePrimitive({ element }: { element: Extract<StampElement, { type: 's
   // the stored value. The gap between dashes scales proportionally to the
   // actual dash length. 0/unset means a solid stroke.
   const actualDashLength = element.dashLength ? 11 - element.dashLength : 0
-  const strokeDasharray = actualDashLength ? `${actualDashLength} ${actualDashLength * 0.6}` : undefined
+  const gapRatio = 0.6
   if (element.shape === 'circle') {
+    const r = Math.max(element.width / 2 - inset, 0)
+    const strokeDasharray = actualDashLength ? evenDasharray(actualDashLength, gapRatio, 2 * Math.PI * r) : undefined
     return (
       <circle
-        r={Math.max(element.width / 2 - inset, 0)}
+        r={r}
         fill={fill}
         stroke={element.strokeColor}
         strokeWidth={element.strokeWidth}
@@ -215,10 +232,16 @@ function ShapePrimitive({ element }: { element: Extract<StampElement, { type: 's
     )
   }
   if (element.shape === 'oval') {
+    const rx = Math.max(element.width / 2 - inset, 0)
+    const ry = Math.max(element.height / 2 - inset, 0)
+    // Ramanujan's approximation for an ellipse's circumference.
+    const h = Math.pow(rx - ry, 2) / Math.pow(rx + ry, 2)
+    const perimeter = Math.PI * (rx + ry) * (1 + (3 * h) / (10 + Math.sqrt(4 - 3 * h)))
+    const strokeDasharray = actualDashLength ? evenDasharray(actualDashLength, gapRatio, perimeter) : undefined
     return (
       <ellipse
-        rx={Math.max(element.width / 2 - inset, 0)}
-        ry={Math.max(element.height / 2 - inset, 0)}
+        rx={rx}
+        ry={ry}
         fill={fill}
         stroke={element.strokeColor}
         strokeWidth={element.strokeWidth}
@@ -227,6 +250,7 @@ function ShapePrimitive({ element }: { element: Extract<StampElement, { type: 's
     )
   }
   if (element.shape === 'line') {
+    const strokeDasharray = actualDashLength ? evenDasharray(actualDashLength, gapRatio, element.width) : undefined
     return (
       <line
         x1={-element.width / 2}
@@ -242,6 +266,8 @@ function ShapePrimitive({ element }: { element: Extract<StampElement, { type: 's
   if (element.shape === 'x') {
     const halfW = element.width / 2
     const halfH = element.height / 2
+    const diagonalLength = Math.hypot(element.width, element.height)
+    const strokeDasharray = actualDashLength ? evenDasharray(actualDashLength, gapRatio, diagonalLength) : undefined
     return (
       <g
         stroke={element.strokeColor}
@@ -255,9 +281,14 @@ function ShapePrimitive({ element }: { element: Extract<StampElement, { type: 's
     )
   }
   if (element.shape === 'triangle') {
+    const w = Math.max(element.width - inset * 2, 0)
+    const h = Math.max(element.height - inset * 2, 0)
+    // Isosceles triangle (matches trianglePoints: apex at top, base at bottom).
+    const perimeter = w + 2 * Math.hypot(w / 2, h)
+    const strokeDasharray = actualDashLength ? evenDasharray(actualDashLength, gapRatio, perimeter) : undefined
     return (
       <polygon
-        points={trianglePoints(Math.max(element.width - inset * 2, 0), Math.max(element.height - inset * 2, 0))}
+        points={trianglePoints(w, h)}
         fill={fill}
         stroke={element.strokeColor}
         strokeWidth={element.strokeWidth}
@@ -267,9 +298,17 @@ function ShapePrimitive({ element }: { element: Extract<StampElement, { type: 's
     )
   }
   if (element.shape === 'star') {
+    const w = Math.max(element.width - inset * 2, 0)
+    const h = Math.max(element.height - inset * 2, 0)
+    // A regular star's exact perimeter isn't a closed form here; approximate
+    // via its bounding box (roughly proportional to circumference for a
+    // 5-point star) -- good enough to get the repeat count close, and
+    // evenDasharray always ends with a perfectly even result regardless.
+    const perimeter = 2.5 * Math.hypot(w, h)
+    const strokeDasharray = actualDashLength ? evenDasharray(actualDashLength, gapRatio, perimeter) : undefined
     return (
       <polygon
-        points={starPoints(Math.max(element.width - inset * 2, 0), Math.max(element.height - inset * 2, 0))}
+        points={starPoints(w, h)}
         fill={fill}
         stroke={element.strokeColor}
         strokeWidth={element.strokeWidth}
@@ -279,9 +318,16 @@ function ShapePrimitive({ element }: { element: Extract<StampElement, { type: 's
     )
   }
   if (element.shape === 'octagon') {
+    const w = Math.max(element.width - inset * 2, 0)
+    const h = Math.max(element.height - inset * 2, 0)
+    // A regular octagon's 8 equal sides sum to roughly this, for a bounding
+    // box of w x h with corners cut at ~29.3% (matches octagonPoints).
+    const cut = 0.293
+    const perimeter = 2 * w * (1 - cut) + 2 * h * (1 - cut) + 4 * Math.hypot(w * cut, h * cut)
+    const strokeDasharray = actualDashLength ? evenDasharray(actualDashLength, gapRatio, perimeter) : undefined
     return (
       <polygon
-        points={octagonPoints(Math.max(element.width - inset * 2, 0), Math.max(element.height - inset * 2, 0))}
+        points={octagonPoints(w, h)}
         fill={fill}
         stroke={element.strokeColor}
         strokeWidth={element.strokeWidth}
@@ -292,6 +338,8 @@ function ShapePrimitive({ element }: { element: Extract<StampElement, { type: 's
   }
   const rectWidth = Math.max(element.width - inset * 2, 0)
   const rectHeight = Math.max(element.height - inset * 2, 0)
+  const rectPerimeter = 2 * (rectWidth + rectHeight)
+  const strokeDasharray = actualDashLength ? evenDasharray(actualDashLength, gapRatio, rectPerimeter) : undefined
   return (
     <rect
       x={-rectWidth / 2}
