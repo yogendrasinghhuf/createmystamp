@@ -18,7 +18,7 @@ export default function Footer() {
             aria-hidden="true"
             className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-accent/40 text-[9px] font-bold text-accent/70"
           >
-            M
+            C
           </span>
           &copy; {new Date().getFullYear()} {BRAND.name}. All rights reserved. Online stamp maker
           and PDF stamping tool.

@@ -50,7 +50,7 @@ export default function Header() {
             aria-hidden="true"
             className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-accent text-[10px] font-bold text-accent"
           >
-            M
+            C
           </span>
           {BRAND.name}
         </Link>
