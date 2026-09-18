@@ -141,21 +141,6 @@ function RulerOverlay({
           background: '#FFFFFF',
         }}
       >
-        {ticksX.map(({ percent, major, label }) =>
-          major ? null : (
-            <div
-              key={`vgrid-${label}-${percent}`}
-              style={{
-                position: 'absolute',
-                left: `${percent}%`,
-                top: 0,
-                bottom: 0,
-                width: 1,
-                background: '#D8D0C0',
-              }}
-            />
-          ),
-        )}
         {ticksX.map(({ percent, major, label }) => (
           <div
             key={`vl-${label}-${percent}`}
@@ -175,7 +160,7 @@ function RulerOverlay({
                 {label}
               </span>
             ) : (
-              <div style={{ width: 1, height: RULER_GUTTER_PX * 0.35, background: '#B7AD98' }} />
+              <div style={{ width: 1, height: RULER_GUTTER_PX * 0.2, background: '#B7AD98' }} />
             )}
           </div>
         ))}
@@ -190,21 +175,6 @@ function RulerOverlay({
           background: '#FFFFFF',
         }}
       >
-        {ticksY.map(({ percent, major, label }) =>
-          major ? null : (
-            <div
-              key={`hgrid-${label}-${percent}`}
-              style={{
-                position: 'absolute',
-                top: `${percent}%`,
-                left: 0,
-                right: 0,
-                height: 1,
-                background: '#D8D0C0',
-              }}
-            />
-          ),
-        )}
         {ticksY.map(({ percent, major, label }) => (
           <div
             key={`hl-${label}-${percent}`}
@@ -224,7 +194,7 @@ function RulerOverlay({
                 {label}
               </span>
             ) : (
-              <div style={{ height: 1, width: RULER_GUTTER_PX * 0.35, background: '#B7AD98' }} />
+              <div style={{ height: 1, width: RULER_GUTTER_PX * 0.2, background: '#B7AD98' }} />
             )}
           </div>
         ))}

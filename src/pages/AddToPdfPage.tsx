@@ -131,7 +131,7 @@ export default function AddToPdfPage() {
                   disabled={isExporting || placedInstances.length === 0}
                   className="w-full rounded bg-ink px-3 py-2 text-sm font-medium text-paper disabled:opacity-40"
                 >
-                  {isExporting ? 'Preparing…' : 'Download stamped PDF'}
+                  {isExporting ? 'Preparing…' : `Download stamped PDF - ${BRAND.stampedPdfDownloadPrice}`}
                 </button>
                 {exportError && <p className="text-xs text-red-600">{exportError}</p>}
               </div>

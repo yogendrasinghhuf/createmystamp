@@ -1,3 +1,5 @@
+import { BRAND } from '../../config/brand'
+
 const steps = [
   {
     title: '1. Start from scratch or a template',
@@ -17,11 +19,11 @@ const steps = [
   },
   {
     title: '5. Download the stamp',
-    body: 'Export your finished stamp as a PNG at 1x, 2x or 3x resolution - with a transparent background if you like - or as a scalable SVG. One payment covers one download.',
+    body: `Export your finished stamp as a PNG at 1x, 2x or 3x resolution - with a transparent background if you like - or as a scalable SVG, for ${BRAND.stampDownloadPrice} per download.`,
   },
   {
     title: '6. Or stamp your PDF directly',
-    body: 'Open "Add to My PDF", upload a PDF, and drag your stamp onto any page - as many times and on as many pages as you need. Move and resize each one, then download the stamped PDF.',
+    body: `Open "Add to My PDF", upload a PDF, and drag your stamp onto any page - as many times and on as many pages as you need. Move and resize each one, then download the stamped PDF for ${BRAND.stampedPdfDownloadPrice}.`,
   },
 ]
 

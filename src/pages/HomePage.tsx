@@ -33,7 +33,22 @@ export default function HomePage() {
             'PNG and SVG download',
             'Add a stamp to any page of a PDF',
           ],
-          offers: { '@type': 'Offer', description: 'Design for free; one payment per download.' },
+          offers: [
+            {
+              '@type': 'Offer',
+              name: 'Stamp download',
+              price: '199',
+              priceCurrency: 'INR',
+              description: 'Download a finished stamp as PNG or SVG.',
+            },
+            {
+              '@type': 'Offer',
+              name: 'Stamped PDF download',
+              price: '249',
+              priceCurrency: 'INR',
+              description: 'Download a PDF with your stamp placed on it.',
+            },
+          ],
         },
         {
           '@type': 'FAQPage',

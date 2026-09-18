@@ -49,11 +49,12 @@ export default function TermsPage() {
             <h2 className="text-lg font-semibold text-ink">Downloads and payments</h2>
             <p className="mt-2">
               Designing, previewing and editing a stamp, browsing templates, and placing stamps
-              onto a PDF are free. Downloads are priced per file: one payment entitles you to one
-              download of a single finished stamp file (PNG or SVG) or one stamped PDF. Each
-              additional file you download is a separate payment. Because a download is delivered
-              instantly and generated from your own design, payments are non-refundable once the
-              file has been produced, except where required by law. If a download fails after
+              onto a PDF are free. Downloads are priced per file: a finished stamp file (PNG or
+              SVG) costs {BRAND.stampDownloadPrice}, and a stamped PDF costs{' '}
+              {BRAND.stampedPdfDownloadPrice}. Each additional file you download is a separate
+              payment. Because a download is delivered instantly and generated from your own
+              design, payments are non-refundable once the file has been produced, except where
+              required by law. If a download fails after
               payment, <Link to="/contact" className="text-accent hover:underline">contact us</Link> and
               we will make it right.
             </p>

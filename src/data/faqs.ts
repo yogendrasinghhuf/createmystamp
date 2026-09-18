@@ -35,7 +35,7 @@ export const FAQS: Faq[] = [
   },
   {
     q: 'What does a download cost?',
-    a: 'Downloads are priced per file: one payment covers one download of a finished stamp (PNG or SVG) or one stamped PDF. Designing, previewing, editing and placing stamps is free - you only pay when you download the final file.',
+    a: `Downloads are priced per file: a finished stamp (PNG or SVG) costs ${BRAND.stampDownloadPrice}, and a stamped PDF costs ${BRAND.stampedPdfDownloadPrice}. Designing, previewing, editing and placing stamps is free - you only pay when you download the final file.`,
   },
   {
     q: 'Can I make a dashed or dotted stamp border?',
