@@ -61,7 +61,7 @@ export default function TemplateCard({
 
   return (
     <div className="flex flex-col gap-2 rounded-xl2 border border-line bg-paper p-3 shadow-sm">
-      <div className="flex aspect-square items-center justify-center rounded-lg bg-line/20">
+      <div className="flex aspect-square items-center justify-center rounded-lg bg-paper">
         <svg viewBox={`${-viewWidth / 2} ${-viewHeight / 2} ${viewWidth} ${viewHeight}`} width="85%" height="85%">
           {!outlineSuppressed && (
             <MiniOutline shape={shape} width={dimensions.width} height={dimensions.height} />

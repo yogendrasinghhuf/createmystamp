@@ -94,7 +94,7 @@ export default function StampStudioSection() {
             <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
               <div
                 ref={canvasWrapRef}
-                className="flex min-h-0 flex-1 items-center justify-center overflow-hidden bg-line/20"
+                className="flex min-h-0 flex-1 items-center justify-center overflow-hidden bg-paper"
               >
                 <div style={{ width: canvasBoxSize || '100%', height: canvasBoxSize || '100%' }}>
                   <StampCanvas />

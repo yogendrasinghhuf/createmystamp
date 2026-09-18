@@ -138,7 +138,7 @@ function RulerOverlay({
           left: RULER_GUTTER_PX,
           width: renderedWidth,
           height: RULER_GUTTER_PX,
-          background: '#EFEAE0',
+          background: '#FFFFFF',
         }}
       >
         {ticksX.map(({ percent, label }) => (
@@ -185,7 +185,7 @@ function RulerOverlay({
           left: 0,
           height: renderedHeight,
           width: RULER_GUTTER_PX,
-          background: '#EFEAE0',
+          background: '#FFFFFF',
         }}
       >
         {ticksY.map(({ percent, label }) => (
