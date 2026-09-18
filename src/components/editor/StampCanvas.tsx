@@ -11,8 +11,8 @@ import { clamp } from '../../lib/geometry'
 // the viewBox's total span changes with stamp diameter or zoom -- that's
 // inherent to how SVG viewBox scaling works, not something fixable by
 // picking a different mm constant.
-const RULER_GUTTER_PX = 10
-const RULER_FONT_SIZE_PX = 8
+const RULER_GUTTER_PX = 12
+const RULER_FONT_SIZE_PX = 6
 
 interface RulerTick {
   label: number
@@ -169,7 +169,7 @@ function RulerOverlay({
             }}
           >
             {major ? (
-              <span style={{ fontSize: RULER_FONT_SIZE_PX, color: '#9A8F78', lineHeight: 1, paddingBottom: 3 }}>
+              <span style={{ fontSize: RULER_FONT_SIZE_PX, color: '#B0361E', lineHeight: 1, paddingBottom: 3 }}>
                 {label}
               </span>
             ) : (
@@ -216,7 +216,7 @@ function RulerOverlay({
             }}
           >
             {major ? (
-              <span style={{ fontSize: RULER_FONT_SIZE_PX, color: '#9A8F78', lineHeight: 1, paddingRight: 3 }}>
+              <span style={{ fontSize: RULER_FONT_SIZE_PX, color: '#B0361E', lineHeight: 1, paddingRight: 3 }}>
                 {label}
               </span>
             ) : (
