@@ -1,7 +1,7 @@
 const steps = [
   {
     title: '1. Start from scratch or a template',
-    body: 'Open Stamp Studio with a blank round stamp, or pick a ready-made template — business seal, address stamp, "Received", "Paid", teacher mark, monogram and more — then set the diameter.',
+    body: 'Open Stamp Studio with a blank round stamp, or pick a ready-made template - business seal, address stamp, "Received", "Paid", teacher mark, monogram and more - then set the diameter.',
   },
   {
     title: '2. Add straight and curved text',
@@ -17,11 +17,11 @@ const steps = [
   },
   {
     title: '5. Download the stamp',
-    body: 'Export your finished stamp as a PNG at 1x, 2x or 3x resolution — with a transparent background if you like — or as a scalable SVG. One payment covers one download.',
+    body: 'Export your finished stamp as a PNG at 1x, 2x or 3x resolution - with a transparent background if you like - or as a scalable SVG. One payment covers one download.',
   },
   {
     title: '6. Or stamp your PDF directly',
-    body: 'Open "Add to My PDF", upload a PDF, and drag your stamp onto any page — as many times and on as many pages as you need. Move and resize each one, then download the stamped PDF.',
+    body: 'Open "Add to My PDF", upload a PDF, and drag your stamp onto any page - as many times and on as many pages as you need. Move and resize each one, then download the stamped PDF.',
   },
 ]
 
@@ -31,7 +31,7 @@ export default function HowItWorksSection() {
       <div className="mx-auto max-w-6xl px-6">
         <h2 className="text-2xl font-semibold">How to make a stamp online</h2>
         <p className="mt-2 max-w-2xl text-sm text-ink/60">
-          Design a custom stamp in your browser in a few minutes — no software to install and no
+          Design a custom stamp in your browser in a few minutes - no software to install and no
           account to create. Then download it, or place it straight onto your PDF.
         </p>
         <div className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">

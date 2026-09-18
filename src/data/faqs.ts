@@ -11,7 +11,7 @@ export interface Faq {
 export const FAQS: Faq[] = [
   {
     q: 'What is MarkForge?',
-    a: `${BRAND.name} is a free online stamp maker. Design a custom rubber-stamp style mark in your browser — round, oval, rectangular or badge shaped — with straight and curved text, icons and shapes, then download it as a PNG or SVG, or stamp it straight onto the pages of your own PDF.`,
+    a: `${BRAND.name} is a free online stamp maker. Design a custom rubber-stamp style mark in your browser - round, oval, rectangular or badge shaped - with straight and curved text, icons and shapes, then download it as a PNG or SVG, or stamp it straight onto the pages of your own PDF.`,
   },
   {
     q: 'Do I need to create an account?',
@@ -19,7 +19,7 @@ export const FAQS: Faq[] = [
   },
   {
     q: 'Is my stamp design or my PDF uploaded anywhere?',
-    a: `No. ${BRAND.name} runs entirely in your browser. Your stamp design, any images you add, and any PDF you open in "Add to My PDF" stay on your device — nothing is sent to a server.`,
+    a: `No. ${BRAND.name} runs entirely in your browser. Your stamp design, any images you add, and any PDF you open in "Add to My PDF" stay on your device - nothing is sent to a server.`,
   },
   {
     q: 'Can I start from a ready-made stamp template?',
@@ -31,11 +31,11 @@ export const FAQS: Faq[] = [
   },
   {
     q: 'Can I stamp more than one page, or use more than one stamp on a document?',
-    a: 'Yes. Place as many stamps as you need across every page of the PDF, and switch between your own design and any template while you work — each placed stamp keeps the design it had when you dropped it.',
+    a: 'Yes. Place as many stamps as you need across every page of the PDF, and switch between your own design and any template while you work - each placed stamp keeps the design it had when you dropped it.',
   },
   {
     q: 'What does a download cost?',
-    a: 'Downloads are priced per file: one payment covers one download of a finished stamp (PNG or SVG) or one stamped PDF. Designing, previewing, editing and placing stamps is free — you only pay when you download the final file.',
+    a: 'Downloads are priced per file: one payment covers one download of a finished stamp (PNG or SVG) or one stamped PDF. Designing, previewing, editing and placing stamps is free - you only pay when you download the final file.',
   },
   {
     q: 'Can I make a dashed or dotted stamp border?',
@@ -59,6 +59,6 @@ export const FAQS: Faq[] = [
   },
   {
     q: 'Can I use this to make official government, court or bank seals?',
-    a: 'No. See our Responsible Use page — this tool is intended for legitimate business, creative, educational and personal document workflows only.',
+    a: 'No. See our Responsible Use page - this tool is intended for legitimate business, creative, educational and personal document workflows only.',
   },
 ]

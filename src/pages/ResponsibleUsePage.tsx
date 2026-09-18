@@ -9,7 +9,7 @@ const legitimate = [
   'Return-address, packaging and shipping stamps',
   'Teacher feedback and classroom encouragement stamps',
   'Personal monograms, stationery and creative branding',
-  'Stamping your own PDFs — quotations, statements, contracts you are party to',
+  'Stamping your own PDFs - quotations, statements, contracts you are party to',
 ]
 
 const prohibited = [
@@ -25,7 +25,7 @@ const prohibited = [
 export default function ResponsibleUsePage() {
   return (
     <PageShell
-      title={`Responsible Use — ${BRAND.name}`}
+      title={`Responsible Use - ${BRAND.name}`}
       description={`How to use ${BRAND.name}'s online stamp maker and PDF stamping tool responsibly: what it is for, and the official seals and documents it must never be used to imitate.`}
     >
       <div className="mx-auto max-w-3xl px-6 py-16">

@@ -1,7 +1,7 @@
 const useCases = [
   '"Received", "Paid" and "Approved" stamps for invoices and receipts',
   'Company seals and "Authorised Signatory" marks on business documents',
-  'Stamping contracts, quotations and statements as PDFs — no printing',
+  'Stamping contracts, quotations and statements as PDFs - no printing',
   'Return-address and packaging stamps for shipping and small business',
   'Classroom feedback and encouragement stamps for teachers',
   'Monogrammed personal stationery and creative project branding',

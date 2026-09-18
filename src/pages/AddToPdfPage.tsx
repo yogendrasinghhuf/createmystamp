@@ -33,7 +33,7 @@ export default function AddToPdfPage() {
   function handleChooseFile(file: File | undefined) {
     if (!file) return
     if (file.type !== 'application/pdf') {
-      setFileTypeError('Word documents (.doc/.docx) aren’t supported yet — please upload a PDF.')
+      setFileTypeError('Word documents (.doc/.docx) aren’t supported yet - please upload a PDF.')
       return
     }
     setFileTypeError(null)
@@ -58,7 +58,7 @@ export default function AddToPdfPage() {
 
   return (
     <PageShell
-      title={`Add a Stamp to a PDF Online — ${BRAND.name}`}
+      title={`Add a Stamp to a PDF Online - ${BRAND.name}`}
       description={`Stamp a PDF online for free: upload your PDF, drag your custom ${BRAND.name} stamp or a template onto any page, place as many stamps as you need, resize them, and download the stamped PDF. Your file never leaves your browser.`}
     >
       <div className="mx-auto max-w-7xl px-6 py-10">

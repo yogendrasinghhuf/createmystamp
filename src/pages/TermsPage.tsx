@@ -6,7 +6,7 @@ import { BRAND } from '../config/brand'
 export default function TermsPage() {
   return (
     <PageShell
-      title={`Terms of Use — ${BRAND.name}`}
+      title={`Terms of Use - ${BRAND.name}`}
       description={`Terms of use for ${BRAND.name}, the online stamp maker and PDF stamping tool: acceptable use, downloads and payments, your content, intellectual property and copyright.`}
     >
       <div className="mx-auto max-w-3xl px-6 py-16">
@@ -20,7 +20,7 @@ export default function TermsPage() {
             <h2 className="text-lg font-semibold text-ink">What {BRAND.name} is</h2>
             <p className="mt-2">
               {BRAND.name} is an online stamp maker. It lets you design custom stamp artwork in
-              your browser &mdash; from a blank canvas or a ready-made template &mdash; download
+              your browser - from a blank canvas or a ready-made template - download
               it as a PNG or SVG image, and place that stamp onto the pages of a PDF you upload.
               By using {BRAND.name} you agree to these terms.
             </p>

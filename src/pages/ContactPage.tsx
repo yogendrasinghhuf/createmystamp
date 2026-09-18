@@ -18,7 +18,7 @@ export default function ContactPage() {
 
   return (
     <PageShell
-      title={`Contact Us — ${BRAND.name}`}
+      title={`Contact Us - ${BRAND.name}`}
       description={`Get in touch with the ${BRAND.name} team for support with the online stamp maker or adding a stamp to your PDF. Support hours ${BRAND.supportHours}.`}
     >
       <div className="mx-auto max-w-3xl px-6 py-16">

@@ -50,7 +50,7 @@ export default function HomePage() {
 
   return (
     <PageShell
-      title={`${BRAND.name} — Free Online Stamp Maker | Design a Stamp & Add It to Your PDF`}
+      title={`${BRAND.name} - Free Online Stamp Maker | Design a Stamp & Add It to Your PDF`}
       description="Make a custom stamp online in minutes: choose a shape, add curved text, icons and colors, start from a template, then download as PNG/SVG or stamp it directly onto your PDF. No login, runs in your browser."
       structuredData={structuredData}
     >

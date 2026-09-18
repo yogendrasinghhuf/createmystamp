@@ -1,7 +1,7 @@
 const features = [
   {
     title: 'Ready-made stamp templates',
-    body: 'Business seals, address stamps, "Received" and "Paid" marks, teacher stamps, monograms and packaging labels — load one and make it your own.',
+    body: 'Business seals, address stamps, "Received" and "Paid" marks, teacher stamps, monograms and packaging labels - load one and make it your own.',
   },
   {
     title: 'True curved text',
@@ -13,7 +13,7 @@ const features = [
   },
   {
     title: 'Stamp your PDF directly',
-    body: 'Drag your finished stamp onto any page of a PDF — multiple stamps, multiple pages, any mix of designs — and download the stamped document.',
+    body: 'Drag your finished stamp onto any page of a PDF - multiple stamps, multiple pages, any mix of designs - and download the stamped document.',
   },
   {
     title: 'Layered composition',
@@ -21,7 +21,7 @@ const features = [
   },
   {
     title: 'Private by design',
-    body: 'Everything runs in your browser. Your stamp design and your PDF never leave your device — no upload, no account, no tracking.',
+    body: 'Everything runs in your browser. Your stamp design and your PDF never leave your device - no upload, no account, no tracking.',
   },
 ]
 

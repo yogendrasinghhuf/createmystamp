@@ -1,7 +1,7 @@
 const formats = [
   {
     title: 'PNG stamp image',
-    body: 'Raster export at 1x, 2x or 3x resolution with an optional transparent background — ready for documents, websites and print.',
+    body: 'Raster export at 1x, 2x or 3x resolution with an optional transparent background - ready for documents, websites and print.',
   },
   {
     title: 'SVG vector stamp',
@@ -9,7 +9,7 @@ const formats = [
   },
   {
     title: 'Stamped PDF',
-    body: 'Your original PDF with every placed stamp embedded at its exact position, size and page — a standard PDF that opens anywhere.',
+    body: 'Your original PDF with every placed stamp embedded at its exact position, size and page - a standard PDF that opens anywhere.',
   },
 ]
 
@@ -19,7 +19,7 @@ export default function ExportSection() {
       <div className="mx-auto max-w-6xl px-6">
         <h2 className="text-2xl font-semibold">Download options</h2>
         <p className="mt-2 max-w-2xl text-sm text-ink/60">
-          Design and preview for free. Each download — one stamp file or one stamped PDF — is a
+          Design and preview for free. Each download - one stamp file or one stamped PDF - is a
           single one-time payment.
         </p>
         <div className="mt-10 grid gap-6 sm:grid-cols-3">

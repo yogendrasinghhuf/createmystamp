@@ -6,8 +6,8 @@ import { BRAND } from '../config/brand'
 export default function PrivacyPage() {
   return (
     <PageShell
-      title={`Privacy Policy — ${BRAND.name}`}
-      description={`Privacy policy for ${BRAND.name}. Your stamp designs and PDFs never leave your browser — no uploads, no account, no tracking. Learn what is stored locally and how payments are handled.`}
+      title={`Privacy Policy - ${BRAND.name}`}
+      description={`Privacy policy for ${BRAND.name}. Your stamp designs and PDFs never leave your browser - no uploads, no account, no tracking. Learn what is stored locally and how payments are handled.`}
     >
       <div className="mx-auto max-w-3xl px-6 py-16">
         <h1 className="text-3xl font-semibold">Privacy Policy</h1>

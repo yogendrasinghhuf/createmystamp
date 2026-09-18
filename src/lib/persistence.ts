@@ -6,7 +6,7 @@ export function saveProject(project: StampProject): void {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(project))
   } catch {
-    // localStorage unavailable (private mode, quota) — fail silently, autosave is best-effort
+    // localStorage unavailable (private mode, quota) - fail silently, autosave is best-effort
   }
 }
 
