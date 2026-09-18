@@ -6,6 +6,7 @@ import { getCleanSvgString } from '../../lib/svgSerialize'
 import { downloadSvg } from '../../lib/exportSvg'
 import { exportSvgToPngBlob, downloadBlob } from '../../lib/exportPng'
 import { BRAND } from '../../config/brand'
+import { payForProduct } from '../../lib/razorpay'
 import Button from '../ui/Button'
 import Select from '../ui/Select'
 
@@ -21,25 +22,36 @@ export default function ExportPanel({ layout = 'stacked' }: ExportPanelProps) {
   const [scale, setScale] = useState<'1' | '2' | '3'>('2')
   const [transparent, setTransparent] = useState(true)
   const [busy, setBusy] = useState(false)
+  const [paymentError, setPaymentError] = useState<string | null>(null)
+
+  function runExport() {
+    const svgString = getCleanSvgString(project.dimensions)
+    const filenameBase = `${BRAND.name.toLowerCase().replace(/\s+/g, '-')}-stamp-${project.id.slice(0, 6)}`
+
+    if (format === 'svg') {
+      downloadSvg(svgString, `${filenameBase}.svg`)
+      return Promise.resolve()
+    }
+    const padding = 10
+    const widthMm = project.dimensions.width + padding * 2
+    const heightMm = project.dimensions.height + padding * 2
+    const multiplier = Number(scale)
+    const widthPx = Math.round(widthMm * PX_PER_MM * multiplier)
+    const heightPx = Math.round(heightMm * PX_PER_MM * multiplier)
+    return exportSvgToPngBlob(svgString, widthPx, heightPx, transparent).then((blob) =>
+      downloadBlob(blob, `${filenameBase}@${scale}x.png`),
+    )
+  }
 
   async function handleExport() {
     setBusy(true)
+    setPaymentError(null)
     try {
-      const svgString = getCleanSvgString(project.dimensions)
-      const filenameBase = `${BRAND.name.toLowerCase()}-stamp-${project.id.slice(0, 6)}`
-
-      if (format === 'svg') {
-        downloadSvg(svgString, `${filenameBase}.svg`)
-      } else {
-        const padding = 10
-        const widthMm = project.dimensions.width + padding * 2
-        const heightMm = project.dimensions.height + padding * 2
-        const multiplier = Number(scale)
-        const widthPx = Math.round(widthMm * PX_PER_MM * multiplier)
-        const heightPx = Math.round(heightMm * PX_PER_MM * multiplier)
-        const blob = await exportSvgToPngBlob(svgString, widthPx, heightPx, transparent)
-        downloadBlob(blob, `${filenameBase}@${scale}x.png`)
-      }
+      const paid = await payForProduct('stamp_download', 'Stamp download (PNG/SVG)')
+      if (!paid) return
+      await runExport()
+    } catch (err) {
+      setPaymentError(err instanceof Error ? err.message : 'Payment failed. Please try again.')
     } finally {
       setBusy(false)
     }
@@ -84,8 +96,9 @@ export default function ExportPanel({ layout = 'stacked' }: ExportPanelProps) {
           Add to my PDF - {BRAND.stampedPdfDownloadPrice}
         </Link>
         <Button variant="accent" onClick={handleExport} disabled={busy}>
-          {busy ? 'Exporting…' : `Download - ${BRAND.stampDownloadPrice}`}
+          {busy ? 'Processing…' : `Download - ${BRAND.stampDownloadPrice}`}
         </Button>
+        {paymentError && <p className="w-full text-right text-xs text-red-600">{paymentError}</p>}
       </div>
     )
   }
@@ -120,8 +133,9 @@ export default function ExportPanel({ layout = 'stacked' }: ExportPanelProps) {
         </>
       )}
       <Button variant="accent" onClick={handleExport} disabled={busy}>
-        {busy ? 'Exporting…' : `Download - ${BRAND.stampDownloadPrice}`}
+        {busy ? 'Processing…' : `Download - ${BRAND.stampDownloadPrice}`}
       </Button>
+      {paymentError && <p className="text-xs text-red-600">{paymentError}</p>}
     </div>
   )
 }

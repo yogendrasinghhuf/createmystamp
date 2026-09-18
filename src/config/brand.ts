@@ -6,8 +6,10 @@ export const BRAND = {
   accent: '#C4571F',
   contactEmail: 'support@createmystamp.com',
   supportHours: 'Monday – Friday, 9 AM to 6 PM IST',
-  // Per-download pricing. Payment processing is not wired up yet -- these
-  // are the prices to be charged once it is.
+  // Per-download pricing. Product IDs match the server's src/products.js,
+  // which is the actual source of truth for the amount charged.
   stampDownloadPrice: '₹199',
   stampedPdfDownloadPrice: '₹249',
 } as const
+
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? ''

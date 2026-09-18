@@ -10,6 +10,7 @@ import TemplatePickerPanel from '../components/addToPdf/TemplatePickerPanel'
 import DragGhostOverlay from '../components/addToPdf/DragGhostOverlay'
 import { buildStampedPdf } from '../lib/pdfExport'
 import { downloadBlob } from '../lib/exportPng'
+import { payForProduct } from '../lib/razorpay'
 
 export default function AddToPdfPage() {
   const navigate = useNavigate()
@@ -45,6 +46,8 @@ export default function AddToPdfPage() {
     setIsExporting(true)
     setExportError(null)
     try {
+      const paid = await payForProduct('stamped_pdf_download', 'Stamped PDF download')
+      if (!paid) return
       const stampedBytes = await buildStampedPdf(pdfBytes, placedInstances)
       const blob = new Blob([stampedBytes], { type: 'application/pdf' })
       const name = pdfFile.name.replace(/\.pdf$/i, '')
