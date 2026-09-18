@@ -59,7 +59,7 @@ export default function ExportPanel({ layout = 'stacked' }: ExportPanelProps) {
 
   if (layout === 'row') {
     return (
-      <div className="flex flex-wrap items-center gap-3">
+      <div className="relative flex flex-wrap items-center gap-3">
         <Select
           label="Format"
           value={format}
@@ -98,7 +98,9 @@ export default function ExportPanel({ layout = 'stacked' }: ExportPanelProps) {
         <Button variant="accent" onClick={handleExport} disabled={busy}>
           {busy ? 'Processing…' : `Download - ${BRAND.stampDownloadPrice}`}
         </Button>
-        {paymentError && <p className="w-full text-right text-xs text-red-600">{paymentError}</p>}
+        {paymentError && (
+          <p className="absolute right-0 top-full mt-1 whitespace-nowrap text-xs text-red-600">{paymentError}</p>
+        )}
       </div>
     )
   }
