@@ -81,10 +81,10 @@ export default function ExportPanel({ layout = 'stacked' }: ExportPanelProps) {
           to="/add-to-pdf"
           className="ml-auto whitespace-nowrap rounded-lg bg-stamp-blue px-3 py-2 text-sm font-medium text-white shadow-soft transition-colors hover:bg-stamp-blue-dark"
         >
-          Add to My PDF
+          Add to My PDF - {BRAND.stampedPdfDownloadPrice}
         </Link>
-        <Button onClick={handleExport} disabled={busy}>
-          {busy ? 'Exporting…' : 'Download'}
+        <Button variant="accent" onClick={handleExport} disabled={busy}>
+          {busy ? 'Exporting…' : `Download - ${BRAND.stampDownloadPrice}`}
         </Button>
       </div>
     )
@@ -119,8 +119,8 @@ export default function ExportPanel({ layout = 'stacked' }: ExportPanelProps) {
           </label>
         </>
       )}
-      <Button onClick={handleExport} disabled={busy}>
-        {busy ? 'Exporting…' : 'Download'}
+      <Button variant="accent" onClick={handleExport} disabled={busy}>
+        {busy ? 'Exporting…' : `Download - ${BRAND.stampDownloadPrice}`}
       </Button>
     </div>
   )
