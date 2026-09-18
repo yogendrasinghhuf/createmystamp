@@ -58,37 +58,65 @@ function PlacedStamp({
     window.addEventListener('pointerup', handleUp)
   }
 
-  function handleResizePointerDown(e: React.PointerEvent) {
-    e.preventDefault()
-    e.stopPropagation()
-    const startClientX = e.clientX
-    const startWidthPx = px.width
-    const aspectRatio = px.width / px.height
-    const startXPx = px.x
-    const startYPx = px.y
+  type Corner = 'nw' | 'ne' | 'sw' | 'se'
 
-    function handleMove(moveEvent: PointerEvent) {
-      const dx = moveEvent.clientX - startClientX
-      const maxWidthPxForPageWidth = (pageWidthPt - instance.xPt) * renderScale
-      const maxWidthPxForPageHeight = (pageHeightPt - instance.yPt) * renderScale * aspectRatio
-      const maxWidthPx = Math.min(maxWidthPxForPageWidth, maxWidthPxForPageHeight)
-      const newWidthPx = Math.min(maxWidthPx, Math.max(16, startWidthPx + dx))
-      const newHeightPx = newWidthPx / aspectRatio
-      const { xPt, yPt, widthPt, heightPt } = pixelsToPoints(
-        { x: startXPx, y: startYPx, width: newWidthPx, height: newHeightPx },
-        renderScale,
-        pageHeightPt,
-      )
-      updatePlacedInstance(instance.id, { xPt, yPt, widthPt, heightPt })
+  function handleResizePointerDown(corner: Corner) {
+    return (e: React.PointerEvent) => {
+      e.preventDefault()
+      e.stopPropagation()
+      const startClientX = e.clientX
+      const startClientY = e.clientY
+      const aspectRatio = px.width / px.height
+      const isLeft = corner === 'nw' || corner === 'sw'
+      const isTop = corner === 'nw' || corner === 'ne'
+      // The corner diagonally opposite the one being dragged stays fixed in
+      // screen space -- compute it once (in both pixel and point space) and
+      // resize around it.
+      const anchorXPx = isLeft ? px.x + px.width : px.x
+      const anchorYPx = isTop ? px.y + px.height : px.y
+      const anchorPt = pixelsToPoints({ x: anchorXPx, y: anchorYPx, width: 0, height: 0 }, renderScale, pageHeightPt)
+      const startWidthPx = px.width
+
+      // How far the dragged corner can move away from the anchor before
+      // hitting the page edge, converted to a max width in pixels.
+      const maxWidthByPageX = (isLeft ? anchorPt.xPt : pageWidthPt - anchorPt.xPt) * renderScale
+      const maxHeightByPageY = (isTop ? anchorPt.yPt : pageHeightPt - anchorPt.yPt) * renderScale
+      const maxWidthPx = Math.max(16, Math.min(maxWidthByPageX, maxHeightByPageY * aspectRatio))
+
+      function handleMove(moveEvent: PointerEvent) {
+        const dx = moveEvent.clientX - startClientX
+        const dy = moveEvent.clientY - startClientY
+        // Signed so dragging away from the anchor always grows the stamp,
+        // regardless of which corner is being dragged.
+        const signedDx = isLeft ? -dx : dx
+        const signedDy = isTop ? -dy : dy
+        // Use whichever axis moved more to drive the resize, deriving the
+        // other from the fixed aspect ratio.
+        const widthFromDx = startWidthPx + signedDx
+        const widthFromDy = (startWidthPx / aspectRatio + signedDy) * aspectRatio
+        const desiredWidthPx = Math.abs(signedDx) >= Math.abs(signedDy) ? widthFromDx : widthFromDy
+
+        const newWidthPx = Math.min(maxWidthPx, Math.max(16, desiredWidthPx))
+        const newHeightPx = newWidthPx / aspectRatio
+        const finalXPx = isLeft ? anchorXPx - newWidthPx : anchorXPx
+        const finalYPx = isTop ? anchorYPx - newHeightPx : anchorYPx
+
+        const { xPt, yPt, widthPt, heightPt } = pixelsToPoints(
+          { x: finalXPx, y: finalYPx, width: newWidthPx, height: newHeightPx },
+          renderScale,
+          pageHeightPt,
+        )
+        updatePlacedInstance(instance.id, { xPt, yPt, widthPt, heightPt })
+      }
+
+      function handleUp() {
+        window.removeEventListener('pointermove', handleMove)
+        window.removeEventListener('pointerup', handleUp)
+      }
+
+      window.addEventListener('pointermove', handleMove)
+      window.addEventListener('pointerup', handleUp)
     }
-
-    function handleUp() {
-      window.removeEventListener('pointermove', handleMove)
-      window.removeEventListener('pointerup', handleUp)
-    }
-
-    window.addEventListener('pointermove', handleMove)
-    window.addEventListener('pointerup', handleUp)
   }
 
   return (
@@ -114,7 +142,19 @@ function PlacedStamp({
             ×
           </button>
           <div
-            onPointerDown={handleResizePointerDown}
+            onPointerDown={handleResizePointerDown('nw')}
+            className="absolute -left-1.5 -top-1.5 h-3 w-3 cursor-nwse-resize rounded-full border border-paper bg-accent"
+          />
+          <div
+            onPointerDown={handleResizePointerDown('ne')}
+            className="absolute -right-1.5 -top-1.5 h-3 w-3 cursor-nesw-resize rounded-full border border-paper bg-accent"
+          />
+          <div
+            onPointerDown={handleResizePointerDown('sw')}
+            className="absolute -bottom-1.5 -left-1.5 h-3 w-3 cursor-nesw-resize rounded-full border border-paper bg-accent"
+          />
+          <div
+            onPointerDown={handleResizePointerDown('se')}
             className="absolute -bottom-1.5 -right-1.5 h-3 w-3 cursor-nwse-resize rounded-full border border-paper bg-accent"
           />
         </>
