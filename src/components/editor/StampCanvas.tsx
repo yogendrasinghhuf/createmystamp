@@ -141,19 +141,21 @@ function RulerOverlay({
           background: '#FFFFFF',
         }}
       >
-        {ticksX.map(({ percent, label }) => (
-          <div
-            key={`vgrid-${label}-${percent}`}
-            style={{
-              position: 'absolute',
-              left: `${percent}%`,
-              top: 0,
-              bottom: 0,
-              width: 1,
-              background: '#D8D0C0',
-            }}
-          />
-        ))}
+        {ticksX.map(({ percent, major, label }) =>
+          major ? null : (
+            <div
+              key={`vgrid-${label}-${percent}`}
+              style={{
+                position: 'absolute',
+                left: `${percent}%`,
+                top: 0,
+                bottom: 0,
+                width: 1,
+                background: '#D8D0C0',
+              }}
+            />
+          ),
+        )}
         {ticksX.map(({ percent, major, label }) => (
           <div
             key={`vl-${label}-${percent}`}
@@ -188,19 +190,21 @@ function RulerOverlay({
           background: '#FFFFFF',
         }}
       >
-        {ticksY.map(({ percent, label }) => (
-          <div
-            key={`hgrid-${label}-${percent}`}
-            style={{
-              position: 'absolute',
-              top: `${percent}%`,
-              left: 0,
-              right: 0,
-              height: 1,
-              background: '#D8D0C0',
-            }}
-          />
-        ))}
+        {ticksY.map(({ percent, major, label }) =>
+          major ? null : (
+            <div
+              key={`hgrid-${label}-${percent}`}
+              style={{
+                position: 'absolute',
+                top: `${percent}%`,
+                left: 0,
+                right: 0,
+                height: 1,
+                background: '#D8D0C0',
+              }}
+            />
+          ),
+        )}
         {ticksY.map(({ percent, major, label }) => (
           <div
             key={`hl-${label}-${percent}`}
