@@ -146,10 +146,6 @@ function PlacedStamp({
             className="absolute -left-1.5 -top-1.5 h-3 w-3 cursor-nwse-resize rounded-full border border-paper bg-accent"
           />
           <div
-            onPointerDown={handleResizePointerDown('ne')}
-            className="absolute -right-1.5 -top-1.5 h-3 w-3 cursor-nesw-resize rounded-full border border-paper bg-accent"
-          />
-          <div
             onPointerDown={handleResizePointerDown('sw')}
             className="absolute -bottom-1.5 -left-1.5 h-3 w-3 cursor-nesw-resize rounded-full border border-paper bg-accent"
           />
