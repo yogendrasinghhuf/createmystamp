@@ -5,6 +5,9 @@ interface SliderProps {
   max: number
   step?: number
   onChange: (value: number) => void
+  // Overrides the numeric readout (e.g. "Yes"/"No" for a two-position
+  // on/off slider) without changing the underlying numeric value/behavior.
+  displayLabel?: string
 }
 
 function roundToStep(value: number, step: number): number {
@@ -12,8 +15,8 @@ function roundToStep(value: number, step: number): number {
   return Math.round(rounded * 1000) / 1000
 }
 
-export default function Slider({ label, value, min, max, step = 1, onChange }: SliderProps) {
-  const displayValue = roundToStep(value, step)
+export default function Slider({ label, value, min, max, step = 1, onChange, displayLabel }: SliderProps) {
+  const displayValue = displayLabel ?? roundToStep(value, step)
 
   function nudge(direction: 1 | -1) {
     const next = Math.min(max, Math.max(min, roundToStep(value, step) + direction * step))

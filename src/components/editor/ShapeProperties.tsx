@@ -45,24 +45,15 @@ export default function ShapeProperties({ element }: { element: ShapeElement }) 
         step={0.2}
         onChange={(strokeWidth) => patch({ strokeWidth })}
       />
-      <label className="flex items-center gap-2 text-sm text-ink/70">
-        <input
-          type="checkbox"
-          checked={element.strokeStyle === 'dashed'}
-          onChange={(e) => patch({ strokeStyle: e.target.checked ? 'dashed' : 'solid' })}
-        />
-        Dashed stroke
-      </label>
-      {element.strokeStyle === 'dashed' && (
-        <Slider
-          label="Dash gap"
-          value={element.dashGap ?? 1.5}
-          min={0.5}
-          max={8}
-          step={0.5}
-          onChange={(dashGap) => patch({ dashGap })}
-        />
-      )}
+      <Slider
+        label="Dashed stroke"
+        value={element.strokeStyle === 'dashed' ? 1 : 0}
+        min={0}
+        max={1}
+        step={1}
+        displayLabel={element.strokeStyle === 'dashed' ? 'Yes' : 'No'}
+        onChange={(value) => patch({ strokeStyle: value === 1 ? 'dashed' : 'solid' })}
+      />
       <ColorSwatch
         label="Element color"
         value={element.strokeColor}
