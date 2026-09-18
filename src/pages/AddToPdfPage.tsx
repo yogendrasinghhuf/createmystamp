@@ -58,8 +58,8 @@ export default function AddToPdfPage() {
 
   return (
     <PageShell
-      title={`Stamp a PDF — ${BRAND.name}`}
-      description={`Upload a PDF and place your ${BRAND.name} stamp directly onto its pages.`}
+      title={`Add a Stamp to a PDF Online — ${BRAND.name}`}
+      description={`Stamp a PDF online for free: upload your PDF, drag your custom ${BRAND.name} stamp or a template onto any page, place as many stamps as you need, resize them, and download the stamped PDF. Your file never leaves your browser.`}
     >
       <div className="mx-auto max-w-7xl px-6 py-10">
         <div className="flex items-center justify-between">

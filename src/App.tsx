@@ -5,6 +5,7 @@ import PrivacyPage from './pages/PrivacyPage'
 import TermsPage from './pages/TermsPage'
 import ResponsibleUsePage from './pages/ResponsibleUsePage'
 import NotFoundPage from './pages/NotFoundPage'
+import ContactPage from './pages/ContactPage'
 
 const AddToPdfPage = lazy(() => import('./pages/AddToPdfPage'))
 
@@ -16,6 +17,7 @@ export default function App() {
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/responsible-use" element={<ResponsibleUsePage />} />
+        <Route path="/contact" element={<ContactPage />} />
         <Route
           path="/add-to-pdf"
           element={
