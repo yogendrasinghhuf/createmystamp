@@ -109,7 +109,7 @@ export default function StampThumbnail() {
 
   return (
     <div className="flex flex-col items-center gap-2 rounded-xl2 border border-line bg-paper p-3 shadow-sm">
-      <p className="self-start text-xs font-semibold uppercase tracking-wide text-ink/50">Your stamp (Drag and Drop to PDF)</p>
+      <p className="self-start text-[11px] font-semibold uppercase tracking-wide text-ink/50">Your stamp (Drag and Drop to PDF)</p>
       <div
         onPointerDown={handlePointerDown}
         className="flex aspect-square w-full cursor-grab items-center justify-center rounded-lg bg-line/20 p-2 active:cursor-grabbing"
@@ -125,7 +125,6 @@ export default function StampThumbnail() {
           ))}
         </svg>
       </div>
-      <p className="text-center text-xs text-ink/50">Drag onto the PDF to place a copy</p>
       <button
         type="button"
         onClick={() => {
