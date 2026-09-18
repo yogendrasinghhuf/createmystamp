@@ -47,11 +47,11 @@ export default function ShapeProperties({ element }: { element: ShapeElement }) 
       />
       <Slider
         label="Dashed stroke"
-        value={element.dashGap ?? 0}
+        value={element.dashLength ?? 0}
         min={0}
         max={10}
         step={0.5}
-        onChange={(dashGap) => patch({ dashGap })}
+        onChange={(dashLength) => patch({ dashLength })}
       />
       <ColorSwatch
         label="Element color"
