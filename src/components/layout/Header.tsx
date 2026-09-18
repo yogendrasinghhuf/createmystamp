@@ -45,7 +45,13 @@ export default function Header() {
   return (
     <header className="border-b border-line bg-paper/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <Link to="/" className="text-lg font-semibold tracking-tight text-ink">
+        <Link to="/" className="flex items-center gap-2 font-display text-lg font-semibold tracking-tight text-ink">
+          <span
+            aria-hidden="true"
+            className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-accent text-[10px] font-bold text-accent"
+          >
+            M
+          </span>
           {BRAND.name}
         </Link>
         <nav className="hidden items-center gap-6 md:flex">
@@ -61,7 +67,7 @@ export default function Header() {
           ))}
           <Link
             to="/add-to-pdf"
-            className="rounded-lg bg-blue-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-700"
+            className="rounded-lg bg-stamp-blue px-3 py-1.5 text-sm font-medium text-white shadow-soft transition-colors hover:bg-stamp-blue-dark"
           >
             Add to My PDF
           </Link>

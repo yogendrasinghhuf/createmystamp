@@ -17,16 +17,20 @@ export default function ExportSection() {
   return (
     <section className="border-t border-line bg-paper py-20">
       <div className="mx-auto max-w-6xl px-6">
-        <h2 className="text-2xl font-semibold">Download options</h2>
+        <span className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Downloads</span>
+        <h2 className="mt-2 text-2xl font-semibold sm:text-3xl">Download options</h2>
         <p className="mt-2 max-w-2xl text-sm text-ink/60">
           Design and preview for free. Each download - one stamp file or one stamped PDF - is a
           single one-time payment.
         </p>
         <div className="mt-10 grid gap-6 sm:grid-cols-3">
           {formats.map((format) => (
-            <div key={format.title} className="rounded-xl2 border border-line bg-paper p-6 shadow-card transition-shadow hover:shadow-soft">
-              <h3 className="text-lg font-semibold">{format.title}</h3>
-              <p className="mt-2 text-sm text-ink/60">{format.body}</p>
+            <div
+              key={format.title}
+              className="rounded-xl2 border border-line bg-paper p-6 shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:border-stamp-blue/30 hover:shadow-soft"
+            >
+              <h3 className="font-display text-lg font-semibold text-ink">{format.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-ink/60">{format.body}</p>
             </div>
           ))}
         </div>

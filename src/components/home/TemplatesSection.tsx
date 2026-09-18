@@ -27,7 +27,8 @@ export default function TemplatesSection() {
   return (
     <section id="templates" className="scroll-mt-20 border-t border-line bg-paper py-16">
       <div className="mx-auto max-w-6xl px-6">
-        <h2 className="text-2xl font-semibold">Templates</h2>
+        <span className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Templates</span>
+        <h2 className="mt-2 text-2xl font-semibold sm:text-3xl">Templates</h2>
         <p className="mt-2 text-ink/60">
           Start from an original layout and make it your own in the studio above.
         </p>

@@ -9,12 +9,17 @@ const useCases = [
 
 export default function UseCasesSection() {
   return (
-    <section className="border-t border-line bg-paper py-20">
+    <section className="border-t border-line bg-ink py-20 text-paper">
       <div className="mx-auto max-w-6xl px-6">
-        <h2 className="text-2xl font-semibold">What people make with it</h2>
+        <span className="text-xs font-semibold uppercase tracking-[0.2em] text-accent-light">Use cases</span>
+        <h2 className="mt-2 text-2xl font-semibold text-paper sm:text-3xl">What people make with it</h2>
         <ul className="mt-8 grid gap-3 sm:grid-cols-2">
           {useCases.map((useCase) => (
-            <li key={useCase} className="rounded-xl2 border border-line bg-paper px-4 py-3 text-sm text-ink/70 shadow-card transition-shadow hover:shadow-soft">
+            <li
+              key={useCase}
+              className="flex items-start gap-3 rounded-xl2 border border-paper/15 bg-paper/[0.04] px-4 py-3.5 text-sm leading-relaxed text-paper/80 transition-colors hover:border-accent-light/40 hover:bg-paper/[0.07]"
+            >
+              <span aria-hidden="true" className="mt-0.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent-light" />
               {useCase}
             </li>
           ))}

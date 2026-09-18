@@ -79,7 +79,7 @@ export default function ExportPanel({ layout = 'stacked' }: ExportPanelProps) {
         )}
         <Link
           to="/add-to-pdf"
-          className="ml-auto whitespace-nowrap rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700"
+          className="ml-auto whitespace-nowrap rounded-lg bg-stamp-blue px-3 py-2 text-sm font-medium text-white shadow-soft transition-colors hover:bg-stamp-blue-dark"
         >
           Add to My PDF
         </Link>

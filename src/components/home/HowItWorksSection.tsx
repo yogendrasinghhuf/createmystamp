@@ -29,17 +29,21 @@ export default function HowItWorksSection() {
   return (
     <section id="how-it-works" className="scroll-mt-20 border-t border-line bg-paper py-20">
       <div className="mx-auto max-w-6xl px-6">
-        <h2 className="text-2xl font-semibold">How to make a stamp online</h2>
+        <span className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Process</span>
+        <h2 className="mt-2 text-2xl font-semibold sm:text-3xl">How to make a stamp online</h2>
         <p className="mt-2 max-w-2xl text-sm text-ink/60">
           Design a custom stamp in your browser in a few minutes - no software to install and no
           account to create. Then download it, or place it straight onto your PDF.
         </p>
         <div className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {steps.map((step, i) => (
-            <div key={step.title} className="rounded-xl2 border border-line p-6">
-              <span className="text-sm font-semibold text-accent">0{i + 1}</span>
-              <h3 className="mt-2 text-lg font-semibold">{step.title}</h3>
-              <p className="mt-2 text-sm text-ink/60">{step.body}</p>
+          {steps.map((step) => (
+            <div key={step.title} className="relative rounded-xl2 border border-line bg-paper p-6">
+              <div
+                aria-hidden="true"
+                className="absolute right-5 top-5 h-2.5 w-2.5 rounded-full bg-accent/25"
+              />
+              <h3 className="font-display text-lg font-semibold text-ink">{step.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-ink/60">{step.body}</p>
             </div>
           ))}
         </div>
