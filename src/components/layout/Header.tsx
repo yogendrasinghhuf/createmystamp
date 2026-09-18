@@ -48,9 +48,9 @@ export default function Header() {
         <Link to="/" className="flex items-center gap-2 font-display text-lg font-semibold tracking-tight text-ink">
           <span
             aria-hidden="true"
-            className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-accent text-[10px] font-bold text-accent"
+            className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-accent text-[8px] font-bold text-accent"
           >
-            C
+            CMS
           </span>
           {BRAND.name}
         </Link>
