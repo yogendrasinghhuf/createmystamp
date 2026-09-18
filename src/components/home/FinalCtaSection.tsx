@@ -22,9 +22,7 @@ export default function FinalCtaSection() {
             <Button variant="secondary">Open Stamp Studio</Button>
           </a>
           <Link to="/add-to-pdf" className="inline-block">
-            <Button className="border-stamp-blue bg-stamp-blue text-white hover:border-stamp-blue-dark hover:bg-stamp-blue-dark hover:text-white">
-              Add a stamp to my PDF
-            </Button>
+            <Button variant="green">Add a stamp to my PDF</Button>
           </Link>
         </div>
       </div>
