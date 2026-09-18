@@ -63,13 +63,20 @@ async function verifyPayment(response: RazorpayHandlerResponse) {
   return data.verified
 }
 
+export type PaymentResult = 'paid' | 'cancelled' | 'verification_failed'
+
 /**
  * Opens Razorpay Checkout for the given product and resolves once payment
- * is verified server-side. Resolves to false if the user closes the
- * checkout without paying; rejects if the order couldn't be created or
- * verification failed after a successful-looking payment.
+ * is verified server-side.
+ *  - 'paid': the server confirmed the signature -- safe to run the export.
+ *  - 'cancelled': the user closed the checkout without paying.
+ *  - 'verification_failed': Razorpay reported success but the backend
+ *    could not verify the signature -- never export in this case, and
+ *    surface it distinctly from a plain cancel so the user isn't left
+ *    thinking a real payment silently vanished.
+ * Rejects if the order couldn't even be created (network/API error).
  */
-export async function payForProduct(productId: ProductId, description: string): Promise<boolean> {
+export async function payForProduct(productId: ProductId, description: string): Promise<PaymentResult> {
   await loadCheckoutScript()
   const order = await createOrder(productId)
 
@@ -82,10 +89,12 @@ export async function payForProduct(productId: ProductId, description: string): 
       name: 'Create My Stamp',
       description,
       handler: (response) => {
-        verifyPayment(response).then(resolve).catch(reject)
+        verifyPayment(response)
+          .then((verified) => resolve(verified ? 'paid' : 'verification_failed'))
+          .catch(reject)
       },
       modal: {
-        ondismiss: () => resolve(false),
+        ondismiss: () => resolve('cancelled'),
       },
       theme: { color: '#C4571F' },
     })

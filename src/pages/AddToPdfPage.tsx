@@ -46,8 +46,12 @@ export default function AddToPdfPage() {
     setIsExporting(true)
     setExportError(null)
     try {
-      const paid = await payForProduct('stamped_pdf_download', 'Stamped PDF download')
-      if (!paid) return
+      const result = await payForProduct('stamped_pdf_download', 'Stamped PDF download')
+      if (result === 'cancelled') return
+      if (result === 'verification_failed') {
+        setExportError('We could not confirm your payment. If money was deducted, contact support before trying again.')
+        return
+      }
       const stampedBytes = await buildStampedPdf(pdfBytes, placedInstances)
       const blob = new Blob([stampedBytes], { type: 'application/pdf' })
       const name = pdfFile.name.replace(/\.pdf$/i, '')

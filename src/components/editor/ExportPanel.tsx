@@ -47,8 +47,12 @@ export default function ExportPanel({ layout = 'stacked' }: ExportPanelProps) {
     setBusy(true)
     setPaymentError(null)
     try {
-      const paid = await payForProduct('stamp_download', 'Stamp download (PNG/SVG)')
-      if (!paid) return
+      const result = await payForProduct('stamp_download', 'Stamp download (PNG/SVG)')
+      if (result === 'cancelled') return
+      if (result === 'verification_failed') {
+        setPaymentError('We could not confirm your payment. If money was deducted, contact support before trying again.')
+        return
+      }
       await runExport()
     } catch (err) {
       setPaymentError(err instanceof Error ? err.message : 'Payment failed. Please try again.')
