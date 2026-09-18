@@ -155,12 +155,10 @@ function RulerOverlay({
               justifyContent: 'center',
             }}
           >
-            {major ? (
+            {major && (
               <span style={{ fontSize: RULER_FONT_SIZE_PX, color: '#B0361E', lineHeight: 1, paddingBottom: 3 }}>
                 {label}
               </span>
-            ) : (
-              <div style={{ width: 1, height: RULER_GUTTER_PX * 0.2, background: '#B7AD98' }} />
             )}
           </div>
         ))}
@@ -189,12 +187,10 @@ function RulerOverlay({
               justifyContent: 'flex-end',
             }}
           >
-            {major ? (
+            {major && (
               <span style={{ fontSize: RULER_FONT_SIZE_PX, color: '#B0361E', lineHeight: 1, paddingRight: 3 }}>
                 {label}
               </span>
-            ) : (
-              <div style={{ height: 1, width: RULER_GUTTER_PX * 0.2, background: '#B7AD98' }} />
             )}
           </div>
         ))}
