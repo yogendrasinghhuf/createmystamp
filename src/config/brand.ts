@@ -8,8 +8,11 @@ export const BRAND = {
   supportHours: 'Monday – Friday, 9 AM to 6 PM IST',
   // Per-download pricing. Product IDs match the server's src/products.js,
   // which is the actual source of truth for the amount charged.
-  stampDownloadPrice: '₹199',
-  stampedPdfDownloadPrice: '₹249',
+  // TEMP: matches server/src/products.js test amounts. Revert both back
+  // to ₹199 / ₹249 together with the server change before real customers
+  // use this.
+  stampDownloadPrice: '₹1',
+  stampedPdfDownloadPrice: '₹2',
 } as const
 
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? ''
