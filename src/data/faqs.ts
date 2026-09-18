@@ -10,7 +10,7 @@ export interface Faq {
 // these as rich results.
 export const FAQS: Faq[] = [
   {
-    q: 'What is MarkForge?',
+    q: `What is ${BRAND.name}?`,
     a: `${BRAND.name} is a free online stamp maker. Design a custom rubber-stamp style mark in your browser - round, oval, rectangular or badge shaped - with straight and curved text, icons and shapes, then download it as a PNG or SVG, or stamp it straight onto the pages of your own PDF.`,
   },
   {
