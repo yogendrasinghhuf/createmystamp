@@ -20,7 +20,7 @@ export default function PrivacyPage() {
             <h2 className="text-lg font-semibold text-ink">The short version</h2>
             <p className="mt-2">
               {BRAND.name} runs entirely in your browser. Your stamp designs, the images you add
-              to them, and any PDF you open in &ldquo;Add to My PDF&rdquo; are processed on your
+              to them, and any PDF you open in &ldquo;Add to my PDF&rdquo; are processed on your
               own device and are never uploaded to, or stored on, our servers.
             </p>
           </section>
@@ -37,7 +37,7 @@ export default function PrivacyPage() {
             <p className="mt-2">
               Your current Stamp Studio design is saved in your browser&rsquo;s local storage so it
               survives a page refresh. This stays on your device and is never sent anywhere;
-              clearing your browser data removes it. PDFs you open in &ldquo;Add to My PDF&rdquo;
+              clearing your browser data removes it. PDFs you open in &ldquo;Add to my PDF&rdquo;
               and the stamps you place on them are kept only in memory for the current session and
               are discarded when you close or reload the page.
             </p>

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { BRAND } from '../../config/brand'
 
 const footerLinks = [
-  { to: '/add-to-pdf', label: 'Add to My PDF' },
+  { to: '/add-to-pdf', label: 'Add to my PDF' },
   { to: '/contact', label: 'Contact' },
   { to: '/privacy', label: 'Privacy' },
   { to: '/terms', label: 'Terms' },

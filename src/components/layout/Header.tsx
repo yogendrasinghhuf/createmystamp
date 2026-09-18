@@ -69,7 +69,7 @@ export default function Header() {
             to="/add-to-pdf"
             className="rounded-lg border border-[#1F5C3D] px-3 py-1.5 text-sm font-medium text-[#1F5C3D] transition-colors hover:bg-[#1F5C3D]/10"
           >
-            Add to My PDF
+            Add to my PDF
           </Link>
           {navLinksAfterAddToPdf.map((link) => (
             <button

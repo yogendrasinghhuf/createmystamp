@@ -23,7 +23,7 @@ const steps = [
   },
   {
     title: '6. Or stamp your PDF directly',
-    body: `Open "Add to My PDF", upload a PDF, and drag your stamp onto any page - as many times and on as many pages as you need. Move and resize each one, then download the stamped PDF for ${BRAND.stampedPdfDownloadPrice}.`,
+    body: `Open "Add to my PDF", upload a PDF, and drag your stamp onto any page - as many times and on as many pages as you need. Move and resize each one, then download the stamped PDF for ${BRAND.stampedPdfDownloadPrice}.`,
   },
 ]
 

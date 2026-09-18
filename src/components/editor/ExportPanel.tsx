@@ -81,7 +81,7 @@ export default function ExportPanel({ layout = 'stacked' }: ExportPanelProps) {
           to="/add-to-pdf"
           className="ml-auto whitespace-nowrap rounded-lg bg-[#1F5C3D] px-3 py-2 text-sm font-medium text-white shadow-soft transition-colors hover:bg-[#1A4E34]"
         >
-          Add to My PDF - {BRAND.stampedPdfDownloadPrice}
+          Add to my PDF - {BRAND.stampedPdfDownloadPrice}
         </Link>
         <Button variant="accent" onClick={handleExport} disabled={busy}>
           {busy ? 'Exporting…' : `Download - ${BRAND.stampDownloadPrice}`}

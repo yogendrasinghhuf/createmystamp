@@ -19,7 +19,7 @@ export const FAQS: Faq[] = [
   },
   {
     q: 'Is my stamp design or my PDF uploaded anywhere?',
-    a: `No. ${BRAND.name} runs entirely in your browser. Your stamp design, any images you add, and any PDF you open in "Add to My PDF" stay on your device - nothing is sent to a server.`,
+    a: `No. ${BRAND.name} runs entirely in your browser. Your stamp design, any images you add, and any PDF you open in "Add to my PDF" stay on your device - nothing is sent to a server.`,
   },
   {
     q: 'Can I start from a ready-made stamp template?',
@@ -27,7 +27,7 @@ export const FAQS: Faq[] = [
   },
   {
     q: 'How do I add a stamp to a PDF?',
-    a: 'Open "Add to My PDF", upload your PDF, and drag your stamp from the sidebar onto any page. You can place the same stamp as many times as you like, mix different stamp designs on one document, move and resize each one, and then download the stamped PDF.',
+    a: 'Open "Add to my PDF", upload your PDF, and drag your stamp from the sidebar onto any page. You can place the same stamp as many times as you like, mix different stamp designs on one document, move and resize each one, and then download the stamped PDF.',
   },
   {
     q: 'Can I stamp more than one page, or use more than one stamp on a document?',
@@ -55,7 +55,7 @@ export const FAQS: Faq[] = [
   },
   {
     q: 'Will my work survive a page refresh?',
-    a: 'Your Stamp Studio design autosaves to your browser and reloads automatically. PDFs you open in "Add to My PDF" stay only for the current session and are not stored.',
+    a: 'Your Stamp Studio design autosaves to your browser and reloads automatically. PDFs you open in "Add to my PDF" stay only for the current session and are not stored.',
   },
   {
     q: 'Can I use this to make official government, court or bank seals?',
