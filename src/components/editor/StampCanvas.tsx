@@ -156,7 +156,7 @@ function RulerOverlay({
             }}
           >
             {major && (
-              <span style={{ fontSize: RULER_FONT_SIZE_PX, color: '#B0361E', lineHeight: 1, paddingBottom: 3 }}>
+              <span style={{ fontSize: RULER_FONT_SIZE_PX, fontWeight: 700, color: '#B0361E', lineHeight: 1, paddingBottom: 3 }}>
                 {label}
               </span>
             )}
@@ -188,7 +188,7 @@ function RulerOverlay({
             }}
           >
             {major && (
-              <span style={{ fontSize: RULER_FONT_SIZE_PX, color: '#B0361E', lineHeight: 1, paddingRight: 3 }}>
+              <span style={{ fontSize: RULER_FONT_SIZE_PX, fontWeight: 700, color: '#B0361E', lineHeight: 1, paddingRight: 3 }}>
                 {label}
               </span>
             )}
