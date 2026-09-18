@@ -129,6 +129,7 @@ function PlacedStamp({
         alt="Placed stamp"
         draggable={false}
         onPointerDown={handleMovePointerDown}
+        style={{ touchAction: 'none' }}
         className="h-full w-full cursor-move select-none"
       />
       {isSelected && (
@@ -143,14 +144,17 @@ function PlacedStamp({
           </button>
           <div
             onPointerDown={handleResizePointerDown('nw')}
+            style={{ touchAction: 'none' }}
             className="absolute -left-1.5 -top-1.5 h-3 w-3 cursor-nwse-resize rounded-full border border-paper bg-accent"
           />
           <div
             onPointerDown={handleResizePointerDown('sw')}
+            style={{ touchAction: 'none' }}
             className="absolute -bottom-1.5 -left-1.5 h-3 w-3 cursor-nesw-resize rounded-full border border-paper bg-accent"
           />
           <div
             onPointerDown={handleResizePointerDown('se')}
+            style={{ touchAction: 'none' }}
             className="absolute -bottom-1.5 -right-1.5 h-3 w-3 cursor-nwse-resize rounded-full border border-paper bg-accent"
           />
         </>

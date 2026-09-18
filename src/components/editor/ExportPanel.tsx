@@ -137,6 +137,12 @@ export default function ExportPanel({ layout = 'stacked' }: ExportPanelProps) {
       <Button variant="accent" onClick={handleExport} disabled={busy}>
         {busy ? 'Processing…' : `Download - ${BRAND.stampDownloadPrice}`}
       </Button>
+      <Link
+        to="/add-to-pdf"
+        className="rounded-full bg-[#1F5C3D] px-5 py-2.5 text-center text-sm font-semibold text-white shadow-soft transition-colors hover:bg-[#1A4E34]"
+      >
+        Add to my PDF - {BRAND.stampedPdfDownloadPrice}
+      </Link>
       {paymentError && <p className="text-xs text-red-600">{paymentError}</p>}
     </div>
   )

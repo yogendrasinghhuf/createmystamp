@@ -112,6 +112,7 @@ export default function StampThumbnail() {
       <p className="self-start text-[11px] font-semibold uppercase tracking-wide text-ink/50">Your stamp (Drag and Drop to PDF)</p>
       <div
         onPointerDown={handlePointerDown}
+        style={{ touchAction: 'none' }}
         className="flex aspect-square w-full cursor-grab items-center justify-center rounded-lg bg-white p-2 active:cursor-grabbing"
       >
         <svg
