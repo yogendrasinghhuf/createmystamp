@@ -5,7 +5,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        paper: '#FBF8F3',
+        paper: '#FFFFFF',
         ink: '#221F1C',
         // Sealing-wax red: the color of a real stamp pad, not a decorative
         // terracotta -- this is the site's one bold accent.
